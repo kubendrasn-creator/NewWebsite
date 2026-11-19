@@ -123,14 +123,17 @@ const organizationSchema = {
     <!-- Footer -->
     <Footer />
 
-    <!-- Motion Controller Script -->
+    <!-- Motion Controller Script: dynamic import splits desktop motion from mobile -->
     <script>
-      import { initMotion } from '../scripts/motion';
-      // Initialize motion when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => initMotion());
+      const isDesktop = window.innerWidth >= 1024;
+      if (isDesktop) {
+        import('../scripts/motion').then(({ initMotion }) => {
+          initMotion();
+        });
       } else {
-        initMotion();
+        import('../scripts/mobile-nav').then(({ initMobileNav }) => {
+          initMobileNav();
+        });
       }
     </script>
   </body>

@@ -12,7 +12,6 @@ export default function ServiceDetailModal({ services }: ServiceDetailModalProps
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const openService = (service: ServiceDetail) => {
-    // If View Transitions API supported on document, transition smoothly
     if (typeof document !== 'undefined' && 'startViewTransition' in document) {
       (document as any).startViewTransition(() => {
         setSelectedService(service);
@@ -31,6 +30,19 @@ export default function ServiceDetailModal({ services }: ServiceDetailModalProps
       setSelectedService(null);
     }
   };
+
+  // Listen to custom event from desktop stacked card deck
+  useEffect(() => {
+    const handleDesktopOpen = (e: CustomEvent<{ id: string }>) => {
+      const found = services.find((s) => s.id === e.detail.id);
+      if (found) {
+        openService(found);
+      }
+    };
+
+    window.addEventListener('open-service-modal' as any, handleDesktopOpen);
+    return () => window.removeEventListener('open-service-modal' as any, handleDesktopOpen);
+  }, [services]);
 
   // Keyboard navigation: Escape key closes modal & focus trapping
   useEffect(() => {
@@ -58,17 +70,17 @@ export default function ServiceDetailModal({ services }: ServiceDetailModalProps
 
   return (
     <>
-      {/* 6 Bento Grid Cards */}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {/* Mobile / Tablet cards */}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {services.map((svc) => (
           <div
             key={svc.id}
+            data-cursor="view"
             onClick={() => openService(svc)}
             class="bento-conic-border group p-8 rounded-2xl flex flex-col justify-between cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/5 focus-within:ring-2 focus-within:ring-[#0070a8]"
           >
             <div>
-              {/* Header with Number and Icon Tag */}
-              <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center justify-between mb-4">
                 <span class="text-xs font-black tracking-widest text-[#0070a8] uppercase">
                   {svc.number}
                 </span>
@@ -79,7 +91,7 @@ export default function ServiceDetailModal({ services }: ServiceDetailModalProps
 
               <h3
                 id={`service-card-title-${svc.id}`}
-                class="text-xl sm:text-2xl font-black text-[#003074] mb-3 group-hover:text-[#0088cc] transition-colors"
+                class="text-xl sm:text-2xl font-black text-[#003074] mb-2 group-hover:text-[#0088cc] transition-colors"
               >
                 {svc.title}
               </h3>
@@ -114,7 +126,7 @@ export default function ServiceDetailModal({ services }: ServiceDetailModalProps
         ))}
       </div>
 
-      {/* Accessible Detail Modal with View Transition styling */}
+      {/* Accessible Detail Modal */}
       {selectedService && (
         <div
           class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#003074]/50 backdrop-blur-sm animate-in fade-in duration-200"
@@ -164,7 +176,7 @@ export default function ServiceDetailModal({ services }: ServiceDetailModalProps
               {selectedService.bulletPoints && selectedService.bulletPoints.length > 0 && (
                 <div class="p-6 rounded-2xl bg-[#eef7fd] border border-[#d4e8f7] space-y-3">
                   <span class="text-xs font-bold uppercase tracking-wider text-[#0070a8]">
-                    Key Capabilities & Advantages
+                    Key Capabilities &amp; Advantages
                   </span>
                   <ul class="space-y-2">
                     {selectedService.bulletPoints.map((pt, i) => (

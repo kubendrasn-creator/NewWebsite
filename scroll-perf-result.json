@@ -1,0 +1,12 @@
+{
+  "totalFrames": 848,
+  "p50": 16.7,
+  "p95": 16.8,
+  "p99": 33.4,
+  "pctOver16": 43.3,
+  "pctOver33": 2.6,
+  "longFramesCount": 22,
+  "sectionsWithLongFrames": {
+    "services": 22
+  }
+}

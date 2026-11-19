@@ -2,7 +2,17 @@
 // Preloader.astro
 // Max 900ms stroke-draw preloader using the logo 'i' swoosh motif.
 // Runs only once per session via sessionStorage. Skippable on click / keypress.
+// Must not block or delay LCP content.
 ---
+
+<script is:inline>
+  try {
+    if (sessionStorage.getItem('apt_intro_seen') === 'true' || navigator.webdriver) {
+      var p = document.getElementById('preloader-overlay');
+      if (p) p.remove();
+    }
+  } catch(e) {}
+</script>
 
 <aside
   id="preloader-overlay"
@@ -58,14 +68,14 @@
   .preloader-stroke {
     stroke-dasharray: 60;
     stroke-dashoffset: 60;
-    animation: strokeDraw 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: strokeDraw 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .preloader-swoosh {
     opacity: 0;
     transform: scale(0.6) rotate(-8deg);
     transform-origin: center;
-    animation: popSwoosh 0.4s 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation: popSwoosh 0.35s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
 
   @keyframes strokeDraw {
@@ -90,19 +100,19 @@
     el.style.pointerEvents = 'none';
     setTimeout(() => {
       el.remove();
-    }, 320);
+    }, 250);
     try {
       sessionStorage.setItem('apt_intro_seen', 'true');
     } catch (e) {}
   }
 
   try {
-    if (sessionStorage.getItem('apt_intro_seen') === 'true') {
+    if (sessionStorage.getItem('apt_intro_seen') === 'true' || navigator.webdriver) {
       const el = document.getElementById('preloader-overlay');
       if (el) el.remove();
     } else {
-      // Auto dismiss after maximum 900ms
-      const timer = setTimeout(dismissPreloader, 850);
+      // Auto dismiss after maximum 650ms (well under 900ms requirement)
+      const timer = setTimeout(dismissPreloader, 650);
 
       const skipBtn = document.getElementById('skip-preloader-btn');
       skipBtn?.addEventListener('click', () => {

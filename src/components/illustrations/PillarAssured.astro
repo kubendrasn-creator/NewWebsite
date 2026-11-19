@@ -1,0 +1,62 @@
+---
+// PillarAssured.astro — "Quality without compromise."
+// Concentric rings + shield + stamp-in check mark that resets and loops.
+---
+
+<svg
+  viewBox="0 0 200 200"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  class="w-full h-full"
+  style="max-height: 320px;"
+>
+  <!-- Outer pulsing ring -->
+  <circle class="assured-ring" cx="100" cy="100" r="38" fill="none" stroke="#d4e8f7" stroke-width="2" />
+
+  <!-- Mid ring -->
+  <circle cx="100" cy="100" r="52" fill="none" stroke="#eef7fd" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Inner filled shield shape -->
+  <path
+    d="M 100 60 L 128 72 L 128 102 Q 128 128 100 142 Q 72 128 72 102 L 72 72 Z"
+    fill="#003074"
+    opacity="0.95"
+  />
+  <!-- Shield highlight -->
+  <path
+    d="M 100 65 L 124 76 L 124 102 Q 124 124 100 136 Q 76 124 76 102 L 76 76 Z"
+    fill="#0070a8"
+    opacity="0.6"
+  />
+
+  <!-- Animated stamp-in checkmark -->
+  <g class="assured-stamp">
+    <path
+      d="M 86 100 L 97 112 L 118 86"
+      fill="none"
+      stroke="white"
+      stroke-width="6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- Decorative tick marks on outer ring -->
+  {[0, 60, 120, 180, 240, 300].map((deg) => {
+    const r = 65;
+    const x1 = 100 + r * Math.cos((deg * Math.PI) / 180);
+    const y1 = 100 + r * Math.sin((deg * Math.PI) / 180);
+    const x2 = 100 + (r + 7) * Math.cos((deg * Math.PI) / 180);
+    const y2 = 100 + (r + 7) * Math.sin((deg * Math.PI) / 180);
+    return (
+      <line
+        x1={x1} y1={y1} x2={x2} y2={y2}
+        stroke="#0088cc" stroke-width="2.5"
+        stroke-linecap="round" opacity="0.5"
+      />
+    );
+  })}
+
+  <!-- Label below -->
+  <text x="100" y="175" text-anchor="middle" font-size="9" fill="#003074" font-weight="800" opacity="0.6" letter-spacing="2">ASSURED</text>
+</svg>

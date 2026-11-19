@@ -1,59 +1,66 @@
 ---
-// Header.astro
-// Glass blur sticky header with sliding active-section indicator pill and unaltered logo.
-import { siteContent } from '../content/site';
-
+// Header.astro — Sticky header, solid translucent bg (no backdrop-filter), sliding active pill
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const logoSrc = `${baseUrl}/logo.png`;
+
+const navItems = [
+  { name: 'Services',  href: '#services' },
+  { name: 'Why Apt',   href: '#pillars'  },
+  { name: 'About',     href: '#about'    },
+  { name: 'Careers',   href: '#careers'  },
+  { name: 'Contact',   href: '#contact'  },
+];
 ---
 
 <header
   id="site-header"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5 bg-white/80 backdrop-blur-md border-b border-[#d4e8f7]/60"
+  class="fixed top-0 left-0 right-0 z-50 header-top border-b border-[#d4e8f7]/50"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between">
-      
-      <!-- Brand Logo (Unaltered, crisp, clear space equal to 'i' height) -->
+
+      <!-- Brand Logo -->
       <a
-        href="#top"
+        href={`${baseUrl}/`}
         class="inline-flex items-center shrink-0 focus-visible:outline-2 focus-visible:outline-[#0070a8] rounded-xl"
-        aria-label="Apt Infosoft Home"
+        aria-label="Apt Infosoft – Home"
       >
         <img
           src={logoSrc}
           alt="Apt Infosoft"
           width="210"
           height="48"
-          class="h-8 sm:h-9 w-auto object-contain max-w-[220px]"
+          class="h-8 sm:h-9 w-auto object-contain max-w-[200px]"
           loading="eager"
           decoding="async"
         />
       </a>
 
-      <!-- Desktop Anchor Navigation with Sliding Active Indicator -->
+      <!-- Desktop Nav -->
       <nav
         class="hidden md:flex relative items-center p-1.5 rounded-2xl bg-[#eef7fd]/80 border border-[#d4e8f7]"
-        aria-label="Main Page Navigation"
+        aria-label="Main page navigation"
       >
-        <!-- Sliding active pill -->
+        <!-- Sliding active pill (positioned by GSAP) -->
         <span
           id="nav-sliding-pill"
-          class="absolute top-1.5 bottom-1.5 rounded-xl bg-white shadow-sm border border-[#d4e8f7] pointer-events-none transition-all duration-200"
-          style="width: 0px; left: 0px;"
+          class="absolute top-1.5 bottom-1.5 rounded-xl bg-white shadow-sm border border-[#d4e8f7] pointer-events-none"
+          style="width:0;left:0;"
+          aria-hidden="true"
         />
 
-        {siteContent.nav.map((item) => (
+        {navItems.map((item) => (
           <a
             href={item.href}
             class="nav-anchor-link relative z-10 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-[#003074] hover:text-[#0088cc] transition-colors"
+            data-section={item.href.slice(1)}
           >
             {item.name}
           </a>
         ))}
       </nav>
 
-      <!-- Magnetic Header CTA -->
+      <!-- Desktop CTA -->
       <div class="hidden sm:flex items-center gap-3">
         <a
           href="#contact"
@@ -63,7 +70,7 @@ const logoSrc = `${baseUrl}/logo.png`;
         </a>
       </div>
 
-      <!-- Mobile Menu Toggle Button -->
+      <!-- Mobile: compact CTA -->
       <a
         href="#contact"
         class="md:hidden inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#0070a8]"

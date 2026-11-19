@@ -1,0 +1,73 @@
+---
+// HeroSwoosh.astro — Giant forward-slanted "i" swoosh signature graphic from the Apt logo
+// Traced SVG vector in layered parallax behind hero typography.
+---
+
+<div class="relative w-full h-full flex items-center justify-center select-none pointer-events-none" aria-hidden="true">
+  <svg
+    viewBox="0 0 400 400"
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-full h-full max-w-[550px] max-h-[550px] overflow-visible"
+  >
+    <defs>
+      <!-- Brand Royal Blue Gradient -->
+      <linearGradient id="hero-swoosh-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0088cc" stop-opacity="0.14" />
+        <stop offset="60%" stop-color="#0070a8" stop-opacity="0.08" />
+        <stop offset="100%" stop-color="#003074" stop-opacity="0.03" />
+      </linearGradient>
+      <!-- Crisp stroke accent gradient -->
+      <linearGradient id="hero-stroke-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0088cc" stop-opacity="0.35" />
+        <stop offset="100%" stop-color="#003074" stop-opacity="0.10" />
+      </linearGradient>
+    </defs>
+
+    <!-- Layer 1: Background Subtle Concentric Arc (slanted ~8 deg) -->
+    <g transform="rotate(-8 200 200)">
+      <ellipse cx="200" cy="200" rx="170" ry="155" fill="none" stroke="#d4e8f7" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.6" />
+      <ellipse cx="200" cy="200" rx="130" ry="120" fill="none" stroke="#eef7fd" stroke-width="2" opacity="0.8" />
+    </g>
+
+    <!-- Layer 2: Main Dynamic Traced Swoosh "i" Dot -->
+    <g transform="translate(185, 80) rotate(-8)">
+      <ellipse
+        cx="0"
+        cy="0"
+        rx="36"
+        ry="24"
+        fill="url(#hero-swoosh-grad)"
+        stroke="url(#hero-stroke-grad)"
+        stroke-width="2"
+      />
+      <!-- Inner core highlight -->
+      <ellipse cx="0" cy="0" rx="16" ry="10" fill="#0088cc" opacity="0.15" />
+    </g>
+
+    <!-- Layer 3: Main Dynamic Traced Swoosh Stem & Base Wing -->
+    <g transform="rotate(-8 200 200)">
+      <!-- Sweeping stem curve -->
+      <path
+        d="M 180 135
+           C 165 210, 150 280, 165 315
+           C 175 335, 215 340, 260 325
+           C 285 315, 295 295, 275 295
+           C 230 295, 195 285, 192 235
+           C 190 185, 202 145, 202 135
+           Z"
+        fill="url(#hero-swoosh-grad)"
+        stroke="url(#hero-stroke-grad)"
+        stroke-width="2"
+        stroke-linejoin="round"
+      />
+    </g>
+
+    <!-- Layer 4: Mathematical forward slant tick markers (8 degree motif) -->
+    <g opacity="0.4">
+      <line x1="50" y1="180" x2="68" y2="175" stroke="#0070a8" stroke-width="2" stroke-linecap="round" />
+      <line x1="55" y1="195" x2="80" y2="188" stroke="#0088cc" stroke-width="2" stroke-linecap="round" />
+      <line x1="330" y1="220" x2="355" y2="213" stroke="#0088cc" stroke-width="2" stroke-linecap="round" />
+      <line x1="340" y1="235" x2="360" y2="230" stroke="#0070a8" stroke-width="2" stroke-linecap="round" />
+    </g>
+  </svg>
+</div>

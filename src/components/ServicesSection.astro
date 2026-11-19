@@ -1,29 +1,122 @@
 ---
 // ServicesSection.astro
-// Bento grid of 6 cards with animated conic-gradient border and interactive detail panel island
+// P1 Art Direction: Sticky stacked card deck on desktop + bespoke SVGs + interactive modal island.
+// Each service card pins with GSAP; previous scales to 0.94 and fades; next slides over.
 import { siteContent } from '../content/site';
+import ServiceEngineering from './illustrations/ServiceEngineering.astro';
+import ServiceCustomApp from './illustrations/ServiceCustomApp.astro';
+import ServiceSaaS from './illustrations/ServiceSaaS.astro';
+import ServiceModernization from './illustrations/ServiceModernization.astro';
+import ServiceTesting from './illustrations/ServiceTesting.astro';
+import ServiceAnalytics from './illustrations/ServiceAnalytics.astro';
 import ServiceDetailModal from './islands/ServiceDetailModal';
 
 const services = siteContent.services;
 ---
 
-<section id="services" class="py-24 sm:py-32 bg-white relative">
+<section id="services" class="py-24 sm:py-32 bg-white relative border-b border-[#d4e8f7]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
+    <!-- Section Header with Focus Target -->
     <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
       <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7]">
         <span>Core Competencies</span>
       </span>
-      <h2 class="text-3xl sm:text-5xl font-black text-[#003074] tracking-tight">
-        Practice Areas & Services
+      <h2
+        tabindex="-1"
+        class="section-title text-[#003074] outline-none"
+      >
+        Practice Areas &amp; Services
       </h2>
       <p class="mt-4 text-base sm:text-lg text-[#003074]/80">
         Standard-driven quality applications, modernization, and dedicated engineering.
       </p>
     </div>
 
-    <!-- Preact Island for Interactive Bento Grid & Accessible Detail Modal -->
-    <ServiceDetailModal client:visible services={services} />
+    <!-- Desktop Sticky Stacked Card Deck (`#services-deck`) -->
+    <div id="services-deck" class="hidden lg:block relative space-y-12 pb-16">
+      {services.map((svc, idx) => (
+        <div
+          class="service-card-stack sticky top-24 rounded-3xl bg-white border-2 border-[#d4e8f7] shadow-xl overflow-hidden p-10 transition-all duration-300"
+          data-cursor="view"
+          data-service-index={idx}
+        >
+          <div class="grid grid-cols-12 gap-10 items-center">
+            
+            <!-- Left Info (7 cols) -->
+            <div class="col-span-7 space-y-6">
+              <div class="flex items-center gap-4">
+                <span class="text-sm font-black tracking-widest text-[#0088cc] uppercase">
+                  Practice Area {svc.number}
+                </span>
+                <span class="h-1.5 w-1.5 rounded-full bg-[#0070a8]" />
+                <span class="text-xs font-bold uppercase tracking-wider text-[#0070a8]">
+                  {svc.tagline}
+                </span>
+              </div>
+
+              <h3 class="text-3xl lg:text-4xl font-black text-[#003074] leading-tight">
+                {svc.title}
+              </h3>
+
+              <p class="text-base text-[#003074]/85 leading-relaxed font-normal">
+                {svc.summary}
+              </p>
+
+              {svc.bulletPoints && (
+                <ul class="grid grid-cols-2 gap-3 pt-2">
+                  {svc.bulletPoints.map((pt) => (
+                    <li class="flex items-start gap-2 text-xs text-[#003074]/90 font-medium">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[#0088cc] mt-1.5 shrink-0" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <div class="pt-4 flex items-center gap-4">
+                <button
+                  type="button"
+                  data-open-modal={svc.id}
+                  class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#0070a8] hover:bg-[#003074] transition-colors shadow-md shadow-blue-900/10 cursor-pointer"
+                >
+                  <span>Explore Full Capability</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Visual Graphic (5 cols) -->
+            <div class="col-span-5 aspect-[4/3] rounded-2xl bg-[#eef7fd] border border-[#d4e8f7] flex items-center justify-center p-6 relative overflow-hidden">
+              {idx === 0 && <ServiceEngineering />}
+              {idx === 1 && <ServiceCustomApp />}
+              {idx === 2 && <ServiceSaaS />}
+              {idx === 3 && <ServiceModernization />}
+              {idx === 4 && <ServiceTesting />}
+              {idx === 5 && <ServiceAnalytics />}
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Mobile Responsive Grid (<1024px) -->
+    <div class="lg:hidden">
+      <ServiceDetailModal client:visible services={services} />
+    </div>
 
   </div>
 </section>
+
+<script>
+  // Wire desktop button clicks directly to ServiceDetailModal if modal trigger is present
+  document.querySelectorAll('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const svcId = (e.currentTarget as HTMLElement).dataset.openModal;
+      if (svcId) {
+        window.dispatchEvent(new CustomEvent('open-service-modal', { detail: { id: svcId } }));
+      }
+    });
+  });
+</script>

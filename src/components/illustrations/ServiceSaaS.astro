@@ -1,0 +1,87 @@
+---
+// ServiceSaaS.astro — Cloud with Pay-As-You-Go Scale Meter (No Fake Numbers)
+// Illustrates Software as a Service & Cloud Architecture.
+---
+
+<svg
+  viewBox="0 0 240 160"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  class="w-full h-auto max-h-40"
+>
+  <defs>
+    <linearGradient id="cloud-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#eef7fd" />
+    </linearGradient>
+  </defs>
+
+  <!-- Surrounding network arcs -->
+  <path
+    d="M 40 120 C 30 70, 70 30, 120 30 C 170 30, 210 70, 200 120"
+    fill="none"
+    stroke="#d4e8f7"
+    stroke-width="1.5"
+    stroke-dasharray="4 4"
+  />
+
+  <!-- Main Floating Cloud Container -->
+  <g class="svc-cloud" transform="translate(120, 68)">
+    <!-- Cloud base silhouette -->
+    <path
+      d="M -55 20
+         C -70 20, -78 8, -68 -4
+         C -75 -18, -58 -32, -40 -26
+         C -30 -42, 2 -45, 18 -30
+         C 32 -40, 58 -30, 58 -10
+         C 72 -5, 74 15, 55 20
+         Z"
+      fill="url(#cloud-grad)"
+      stroke="#0088cc"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Up/Down Dynamic Scale Sync Arrows -->
+    <path
+      d="M -16 6 L -16 -12 M -21 -7 L -16 -12 L -11 -7"
+      fill="none"
+      stroke="#003074"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M 16 -12 L 16 6 M 11 1 L 16 6 L 21 1"
+      fill="none"
+      stroke="#0070a8"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- Pay-As-You-Go Scale Meter Arc below (strictly without fake numbers) -->
+  <g transform="translate(120, 134)">
+    <!-- Track -->
+    <path
+      d="M -60 0 A 60 60 0 0 1 60 0"
+      fill="none"
+      stroke="#d4e8f7"
+      stroke-width="8"
+      stroke-linecap="round"
+    />
+    <!-- Active scale indicator band -->
+    <path
+      d="M -60 0 A 60 60 0 0 1 20 -56"
+      fill="none"
+      stroke="#0088cc"
+      stroke-width="8"
+      stroke-linecap="round"
+    />
+    <!-- Dial needle pivot & pointer -->
+    <circle cx="0" cy="0" r="5" fill="#003074" />
+    <line x1="0" y1="0" x2="16" y2="-45" stroke="#003074" stroke-width="2.5" stroke-linecap="round" />
+    <text y="14" text-anchor="middle" font-size="8" fill="#0070a8" font-weight="700" letter-spacing="1">ELASTIC SCALE</text>
+  </g>
+</svg>

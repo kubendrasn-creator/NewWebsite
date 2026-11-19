@@ -1,0 +1,76 @@
+---
+// PillarAgile.astro — "We follow a flexible model that adapts to meet project needs."
+// Flowing route with nodes that re-route — stroke-dashoffset animation.
+---
+
+<svg
+  viewBox="0 0 200 200"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  class="w-full h-full"
+  style="max-height: 320px;"
+>
+  <!-- Background grid dots -->
+  <g opacity="0.18" fill="#0088cc">
+    {Array.from({ length: 5 }).map((_, row) =>
+      Array.from({ length: 5 }).map((_, col) => (
+        <circle cx={30 + col * 36} cy={30 + row * 36} r="2" />
+      ))
+    )}
+  </g>
+
+  <!-- Route line: main path that animates -->
+  <path
+    class="agile-route"
+    d="M 30 100 C 50 60, 70 140, 100 100 S 150 60, 170 100"
+    fill="none"
+    stroke="#0088cc"
+    stroke-width="3"
+    stroke-dasharray="20 8"
+    stroke-linecap="round"
+    opacity="0.9"
+  />
+
+  <!-- Alternative route (lighter) -->
+  <path
+    d="M 30 130 Q 80 160 170 130"
+    fill="none"
+    stroke="#d4e8f7"
+    stroke-width="2"
+    stroke-dasharray="6 4"
+    opacity="0.7"
+  />
+
+  <!-- Nodes -->
+  <!-- Start node -->
+  <circle cx="30" cy="100" r="8" fill="#003074" />
+  <circle cx="30" cy="100" r="4" fill="white" />
+
+  <!-- Mid node (re-routing decision point) -->
+  <circle cx="100" cy="100" r="10" fill="#0070a8" />
+  <circle cx="100" cy="100" r="5" fill="white" />
+  <!-- Reroute indicator arrows -->
+  <path d="M96 95 L100 90 L104 95" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- End node -->
+  <circle cx="170" cy="100" r="8" fill="#0088cc" />
+  <circle cx="170" cy="100" r="4" fill="white" />
+
+  <!-- State labels -->
+  <text x="30" y="120" text-anchor="middle" font-size="8" fill="#003074" font-weight="700" opacity="0.8">Start</text>
+  <text x="100" y="122" text-anchor="middle" font-size="8" fill="#0070a8" font-weight="700" opacity="0.8">Adapt</text>
+  <text x="170" y="120" text-anchor="middle" font-size="8" fill="#0088cc" font-weight="700" opacity="0.8">Deliver</text>
+
+  <!-- Animated moving dot -->
+  <circle r="4" fill="#003074" opacity="0.85">
+    <animateMotion
+      path="M 30 100 C 50 60, 70 140, 100 100 S 150 60, 170 100"
+      dur="3s"
+      repeatCount="indefinite"
+    />
+  </circle>
+
+  <!-- Decorative bracket -->
+  <path d="M 20 70 L 10 70 L 10 130 L 20 130" fill="none" stroke="#d4e8f7" stroke-width="2" stroke-linecap="round" />
+  <path d="M 180 70 L 190 70 L 190 130 L 180 130" fill="none" stroke="#d4e8f7" stroke-width="2" stroke-linecap="round" />
+</svg>

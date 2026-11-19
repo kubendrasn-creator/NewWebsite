@@ -3,13 +3,17 @@
 
 /*
   Apt Infosoft Brand Design System
-  Strict Color Tokens sampled directly from src/assets/logo.png:
-  - brand-blue:     #0088cc (graphics, gradients, large headings >=24px)
-  - brand-navy:     #003074 (all body text and headings, deep wordmark)
-  - brand-blue-ink: #0070a8 (button fills, small links, passes AA 4.5:1 with white)
-  - brand-ice:      #eef7fd (section backgrounds, card tints)
-  - white:          #ffffff
-  Derived tints/shades via color-mix/oklch only.
+  Token table (sampled from logo + live site CSS):
+  ┌─────────────────┬──────────┬─────────────────────────────────────┐
+  │ Token           │ Hex      │ Source                              │
+  ├─────────────────┼──────────┼─────────────────────────────────────┤
+  │ brand-blue      │ #0088cc  │ logo, site header buttons, links    │
+  │ brand-navy      │ #003074  │ logo text, deep ink, body text      │
+  │ brand-ink       │ #0070a8  │ button fills, AA-safe on white      │
+  │ brand-ice       │ #eef7fd  │ section backgrounds, card tints     │
+  │ white           │ #ffffff  │ page background, card bg            │
+  └─────────────────┴──────────┴─────────────────────────────────────┘
+  Derived tints/shades via color-mix/oklch only. No new hues.
 */
 
 @theme {
@@ -21,7 +25,7 @@
   --color-brand-ice: #eef7fd;
   --color-brand-white: #ffffff;
 
-  /* Derived Tonal Palette */
+  /* Derived tonal palette */
   --color-brand-ice-light: #f5fafe;
   --color-brand-navy-light: #0d418c;
   --color-brand-navy-border: #d4e8f7;
@@ -43,51 +47,53 @@
   --slant-deg: -8deg;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html {
   font-family: var(--font-sans);
   color-scheme: light;
   background-color: #ffffff;
   color: #003074;
-  scroll-behavior: smooth;
+  /* NOTE: scroll-behavior: smooth is intentionally REMOVED here.
+     Lenis handles smooth scroll on desktop; native on mobile.
+     Leaving CSS smooth-scroll conflicts with Lenis. */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Lenis Recommended CSS */
-html.lenis, html.lenis body {
-  height: auto;
+/* Custom cursor: hide native cursor only when has-custom-cursor class is set */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
 }
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
+/* Always restore cursor for touch / keyboard / input elements */
+html.has-custom-cursor input,
+html.has-custom-cursor textarea,
+html.has-custom-cursor select {
+  cursor: auto !important;
 }
 
-/* Scroll Progress Bar at the top of the viewport */
+/* Lenis Recommended CSS */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ── Scroll Progress Bar (CSS scroll-driven — desktop enhancement) ─────── */
 #scroll-progress-bar {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
   background: linear-gradient(90deg, #0088cc, #003074);
   transform-origin: 0% 50%;
   transform: scaleX(0);
   z-index: 9999;
   pointer-events: none;
 }
-
+/* Only use scroll-driven animation where JS/Lenis isn't the scroll engine,
+   i.e., mobile. On desktop, GSAP ScrollTrigger drives scroll, so the
+   CSS scroll-timeline still works fine as it reads native scroll position. */
 @supports (animation-timeline: scroll()) {
   #scroll-progress-bar {
     animation: grow-progress auto linear;
@@ -95,79 +101,67 @@ html.lenis, html.lenis body {
   }
   @keyframes grow-progress {
     from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
+    to   { transform: scaleX(1); }
   }
 }
 
-/* Subtle Film Grain Overlay */
+/* ── Static Grain Overlay (tiny tiled SVG, no animation) ───────────────── */
+/* This is a fixed, tiled, non-animated grain — no repaints, no GPU layer */
 .grain-overlay {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
   z-index: 9998;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  /* Tiny 64×64 tiled fractalNoise SVG at 2.5% opacity */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='64' height='64' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  /* will-change: nothing — static, never repainted */
+}
+@media (max-width: 768px) { .grain-overlay { display: none; } }
+
+/* ── Header: NO backdrop-filter. Solid translucent bg. ─────────────────── */
+#site-header {
+  background-color: rgba(255, 255, 255, 0.92);
+  /* No backdrop-filter — it costs a composite layer and can jank scroll */
+  transition: padding 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+#site-header.header-top {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  box-shadow: none;
+}
+#site-header.header-scrolled {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  box-shadow: 0 1px 12px 0 rgba(0,48,116,0.08);
+  background-color: rgba(255,255,255,0.97);
 }
 
-@media (max-width: 768px) {
-  .grain-overlay {
-    display: none !important;
-  }
-  .bento-conic-border::before {
-    animation: none !important;
-    opacity: 0.25 !important;
-  }
+/* ── Typography Scale ───────────────────────────────────────────────────── */
+.hero-headline {
+  font-size: clamp(3.5rem, 9vw, 10rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  text-wrap: balance;
 }
+.section-title {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+body { font-size: 1.125rem; /* 18px */ }
+p { max-width: 62ch; }
+h1, h2, h3, h4 { text-wrap: balance; }
 
-/* Custom Cursor Follower */
-@media (pointer: fine) {
-  .custom-cursor-follower {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 9999px;
-    background-color: rgba(0, 136, 204, 0.25);
-    border: 1.5px solid #0088cc;
-    pointer-events: none;
-    z-index: 10000;
-    transform: translate(-50%, -50%);
-    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 0.25s ease,
-                border-color 0.25s ease;
-    will-change: transform;
-  }
+/* ── 8-degree Slant Dividers ────────────────────────────────────────────── */
+.slant-divider-top    { clip-path: polygon(0 4vw, 100% 0, 100% 100%, 0 100%); }
+.slant-divider-bottom { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4vw), 0 100%); }
+.slant-divider-both   { clip-path: polygon(0 3.5vw, 100% 0, 100% calc(100% - 3.5vw), 0 100%); }
 
-  .custom-cursor-follower.is-hovering {
-    width: 48px;
-    height: 48px;
-    background-color: rgba(0, 112, 168, 0.15);
-    border-color: #0070a8;
-  }
-}
-
-@media (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .custom-cursor-follower {
-    display: none !important;
-  }
-}
-
-/* 8-degree Slant Section Dividers */
-.slant-divider-top {
-  clip-path: polygon(0 4vw, 100% 0, 100% 100%, 0 100%);
-}
-.slant-divider-bottom {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4vw), 0 100%);
-}
-.slant-divider-both {
-  clip-path: polygon(0 3.5vw, 100% 0, 100% calc(100% - 3.5vw), 0 100%);
-}
-
-/* Animated Conic Gradient Border for Services Bento Cards */
+/* ── Animated Conic Border for Service Cards ────────────────────────────── */
 .bento-conic-border {
   position: relative;
   background: #ffffff;
@@ -181,70 +175,60 @@ html.lenis, html.lenis body {
   background: conic-gradient(from var(--conic-angle), #eef7fd, #0088cc, #003074, #0088cc, #eef7fd);
   animation: rotate-conic 8s linear infinite;
   z-index: -1;
-  opacity: 0.4;
+  opacity: 0.35;
   transition: opacity 0.3s ease;
 }
-.bento-conic-border:hover::before {
-  opacity: 1;
-}
-
+.bento-conic-border:hover::before { opacity: 1; }
 @keyframes rotate-conic {
   from { --conic-angle: 0deg; }
-  to { --conic-angle: 360deg; }
+  to   { --conic-angle: 360deg; }
 }
-
-/* Fallback for browsers without @property */
 @supports not (background: conic-gradient(from var(--conic-angle), red, blue)) {
-  .bento-conic-border {
-    border: 1.5px solid #d4e8f7;
-  }
-  .bento-conic-border:hover {
-    border-color: #0088cc;
-  }
+  .bento-conic-border { border: 1.5px solid #d4e8f7; }
+  .bento-conic-border:hover { border-color: #0088cc; }
 }
 
-/* Marquee Animation */
+/* ── Marquee ────────────────────────────────────────────────────────────── */
 @keyframes marquee-scroll {
   from { transform: translateX(0%); }
-  to { transform: translateX(-50%); }
+  to   { transform: translateX(-50%); }
 }
-
 .animate-marquee {
   display: flex;
   width: max-content;
   animation: marquee-scroll 32s linear infinite;
 }
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
+.animate-marquee:hover { animation-play-state: paused; }
 
-/* Service Detail Modal Transition */
+/* ── Duotone helper ─────────────────────────────────────────────────────── */
+.duotone-logo { filter: contrast(1.1) brightness(0.95); }
+
+/* ── View Transition service panel ─────────────────────────────────────── */
 ::view-transition-group(service-card-panel) {
   animation-duration: 0.35s;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Focus Trap Outline */
+/* ── Focus ──────────────────────────────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid #0070a8;
   outline-offset: 2px;
 }
 
-/* Duotone image filter in logo colors */
-.duotone-logo {
-  filter: contrast(1.1) brightness(0.95);
-  position: relative;
+/* ── Text helpers ───────────────────────────────────────────────────────── */
+.text-balance { text-wrap: balance; }
+.text-pretty  { text-wrap: pretty; }
+
+/* ── Reveal animation helpers (set by GSAP, only need CSS fallback) ──────── */
+/* When JS is unavailable or reduced-motion is set, content must be visible */
+@media (prefers-reduced-motion: reduce) {
+  .word-inner,
+  .reveal-up,
+  .pillar-scene,
+  .service-card-stack { opacity: 1 !important; transform: none !important; }
 }
 
-/* Text wrap balancing */
-.text-balance {
-  text-wrap: balance;
-}
-.text-pretty {
-  text-wrap: pretty;
-}
-
-/* Prefers-reduced-motion safety */
+/* ── Prefers-reduced-motion global reset ────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -252,11 +236,73 @@ html.lenis, html.lenis body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-marquee {
-    animation: none !important;
-    transform: none !important;
-  }
-  #scroll-progress-bar {
-    display: none !important;
-  }
+  .animate-marquee { animation: none !important; transform: none !important; }
+  #scroll-progress-bar { display: none !important; }
+  #cursor-dot, #cursor-ring { display: none !important; }
 }
+
+/* ── SVG Illustration animations ────────────────────────────────────────── */
+/* APT illustration: rotating slot-in shapes */
+@keyframes slot-rotate {
+  0%   { transform: rotate(-15deg) translateY(8px); opacity: 0.6; }
+  60%  { transform: rotate(0deg)   translateY(0);   opacity: 1; }
+  100% { transform: rotate(0deg)   translateY(0);   opacity: 1; }
+}
+@keyframes slot-rotate-r {
+  0%   { transform: rotate(12deg) translateY(-6px); opacity: 0.5; }
+  60%  { transform: rotate(0deg)  translateY(0);    opacity: 1; }
+  100% { transform: rotate(0deg)  translateY(0);    opacity: 1; }
+}
+.apt-shape-a { animation: slot-rotate   2.4s cubic-bezier(.16,1,.3,1) infinite alternate; }
+.apt-shape-b { animation: slot-rotate-r 2.8s cubic-bezier(.16,1,.3,1) infinite alternate; transform-origin: center; }
+
+/* AGILE illustration: route re-routing */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -120; }
+}
+.agile-route { animation: dash-flow 2.5s linear infinite; }
+
+/* ASSURED illustration: stamp */
+@keyframes stamp-in {
+  0%   { transform: scale(2.5); opacity: 0; }
+  60%  { transform: scale(0.95); opacity: 1; }
+  80%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes ring-pulse {
+  0%, 100% { r: 38; opacity: 0.4; }
+  50%       { r: 44; opacity: 0.15; }
+}
+.assured-stamp  { animation: stamp-in  1.6s cubic-bezier(.16,1,.3,1) infinite; transform-origin: 50px 50px; animation-delay: 0.3s; }
+.assured-ring   { animation: ring-pulse 2s ease-in-out infinite; }
+
+/* Service icon animations */
+@keyframes concept-flow {
+  0%,100% { stroke-dashoffset: 60; }
+  50%     { stroke-dashoffset: 0; }
+}
+@keyframes device-appear {
+  0%  { transform: translateY(10px); opacity: 0; }
+  100%{ transform: translateY(0);    opacity: 1; }
+}
+@keyframes cloud-bob {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-4px); }
+}
+@keyframes block-morph {
+  0%,100%{ rx: 2; }
+  50%    { rx: 12; }
+}
+@keyframes lane-merge {
+  0%,100%{ transform: scaleX(1); }
+  50%    { transform: scaleX(0.6) translateX(10px); }
+}
+@keyframes dot-converge {
+  0%  { transform: translate(0,0); opacity: 0.4; }
+  100%{ transform: translate(var(--tx,0),var(--ty,0)); opacity: 1; }
+}
+.svc-flow    { stroke-dasharray: 60; animation: concept-flow 2s ease-in-out infinite; }
+.svc-cloud   { animation: cloud-bob 2.4s ease-in-out infinite; }
+.svc-morph   { animation: block-morph 2s ease-in-out infinite; }
+.svc-lane    { animation: lane-merge  2.4s ease-in-out infinite; }
+.svc-dot     { animation: dot-converge 1.8s cubic-bezier(.16,1,.3,1) infinite alternate; }

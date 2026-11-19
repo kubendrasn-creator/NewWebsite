@@ -34,31 +34,31 @@
   "lighthouseScores": {
     "mobile": {
       "/NewWebsite/": {
-        "performance": 90,
+        "performance": 82,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
       },
       "/NewWebsite/services/": {
-        "performance": 99,
+        "performance": 95,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
       },
       "/NewWebsite/services/product-engineering/": {
-        "performance": 100,
+        "performance": 98,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
       },
       "/NewWebsite/contact/": {
-        "performance": 99,
+        "performance": 90,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
       },
       "/NewWebsite/careers/": {
-        "performance": 96,
+        "performance": 100,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
@@ -66,8 +66,8 @@
     },
     "desktop": {
       "/NewWebsite/": {
-        "performance": 99,
-        "accessibility": 100,
+        "performance": 86,
+        "accessibility": 97,
         "bestPractices": 100,
         "seo": 100
       },

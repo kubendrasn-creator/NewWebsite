@@ -1,41 +1,40 @@
 ---
 // Hero.astro
 // WebGL aurora mesh canvas + CSS animated fallback + kinetic per-word masked reveal
+// + Signature HeroSwoosh graphic + clamp(3.5rem, 9vw, 10rem) typography.
 import { siteContent } from '../content/site';
+import HeroSwoosh from './illustrations/HeroSwoosh.astro';
 
 const { hero } = siteContent;
 ---
 
-<section id="top" class="relative min-h-[92vh] flex items-center justify-center pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+<section id="top" class="relative min-h-[94vh] flex items-center justify-center pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
   
   <!-- Fallback CSS Animated Mesh Gradient (@property driven) -->
   <div class="absolute inset-0 bg-gradient-to-br from-[#ffffff] via-[#eef7fd] to-[#f5fafe] -z-20 pointer-events-none" />
 
-  <!-- Lazy-loaded WebGL Shader Canvas -->
+  <!-- Lazy-loaded WebGL Shader Canvas (DPR capped at 1.5, 0.75x scaled, paused when offscreen) -->
   <canvas
     id="hero-webgl-canvas"
     class="absolute inset-0 w-full h-full -z-10 pointer-events-none transition-opacity duration-700 opacity-0"
     aria-hidden="true"
   />
 
-  <!-- Subtle Logo 'i' Swoosh Watermark in Background -->
-  <div class="absolute right-[-5%] top-[15%] w-[45vw] max-w-[600px] aspect-square -z-10 opacity-[0.035] pointer-events-none">
-    <svg viewBox="0 0 100 100" fill="currentColor" class="w-full h-full text-[#003074]">
-      <path d="M 32 24 C 42 16, 68 18, 76 28 C 72 32, 58 36, 48 30 Z" />
-      <path d="M 45 42 L 53 84" stroke="currentColor" stroke-width="12" stroke-linecap="round" />
-    </svg>
+  <!-- Signature Traced Forward-Slanted Swoosh Vector in Background -->
+  <div class="absolute right-[-10%] sm:right-[2%] top-[10%] w-[80vw] sm:w-[48vw] max-w-[620px] aspect-square -z-10 pointer-events-none">
+    <HeroSwoosh />
   </div>
 
   <div class="max-w-5xl mx-auto text-center relative z-10 space-y-8">
     
-    <!-- Top Badge -->
+    <!-- Top Innovation Badge -->
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#eef7fd] border border-[#d4e8f7] text-[#0070a8] text-xs font-bold uppercase tracking-wider shadow-sm">
       <span class="w-2 h-2 rounded-full bg-[#0088cc] animate-pulse" />
       <span>{hero.badge}</span>
     </div>
 
     <!-- Kinetic Per-Word Masked Reveal Headline -->
-    <h1 class="hero-kinetic-headline text-4xl sm:text-6xl lg:text-7xl font-black text-[#003074] tracking-tight leading-[1.08] text-balance">
+    <h1 class="hero-kinetic-headline hero-headline text-[#003074] tracking-tight leading-[0.94] text-balance">
       <span class="inline-block overflow-hidden py-1">
         <span class="word-inner inline-block">No</span>
       </span>{' '}
@@ -50,31 +49,31 @@ const { hero } = siteContent;
       </span>
     </h1>
 
-    <!-- Subhead (Facts from CONTENT.md) -->
-    <p class="max-w-3xl mx-auto text-base sm:text-xl text-[#003074]/85 leading-relaxed font-normal text-pretty">
+    <!-- Subhead (Strict facts from CONTENT.md) -->
+    <p class="max-w-3xl mx-auto text-lg sm:text-xl text-[#003074]/90 leading-relaxed font-normal text-pretty">
       {hero.subhead}
     </p>
 
-    <!-- CTAs: Two Magnetic Buttons -->
+    <!-- CTAs: Two Magnetic Buttons (with hash-less URL script interception) -->
     <div class="pt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
       <a
         href={hero.primaryHref}
-        class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-sm sm:text-base font-bold text-white bg-[#0070a8] hover:bg-[#003074] shadow-lg shadow-blue-900/15 transition-all duration-200"
+        class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-white bg-[#0070a8] hover:bg-[#003074] shadow-lg shadow-blue-900/15 transition-all duration-200"
       >
         <span>{hero.primaryCTA}</span>
-        <span class="ml-2">→</span>
+        <span class="ml-2" aria-hidden="true">→</span>
       </a>
 
       <a
         href={hero.secondaryHref}
-        class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-sm sm:text-base font-bold text-[#003074] bg-white border-2 border-[#d4e8f7] hover:border-[#0088cc] hover:text-[#0088cc] hover:bg-[#eef7fd]/50 transition-all duration-200"
+        class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-[#003074] bg-white border-2 border-[#d4e8f7] hover:border-[#0088cc] hover:text-[#0088cc] hover:bg-[#eef7fd]/50 transition-all duration-200"
       >
         <span>{hero.secondaryCTA}</span>
       </a>
     </div>
 
     <!-- Scroll Cue -->
-    <div class="pt-12 flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+    <div class="pt-10 flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
       <span class="text-xs font-bold uppercase tracking-widest text-[#003074]">
         {hero.scrollCue}
       </span>
@@ -87,7 +86,7 @@ const { hero } = siteContent;
 </section>
 
 <script>
-  // Cut WebGL on mobile devices per rule (1): fallback to CSS animated mesh gradient
+  // Cut WebGL on mobile devices (<768px) and prefers-reduced-motion: fallback to CSS animated mesh gradient
   if (typeof window !== 'undefined' && window.innerWidth >= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     if ('requestIdleCallback' in window) {
       window.requestIdleCallback(() => {
@@ -109,7 +108,7 @@ const { hero } = siteContent;
         canvas.classList.remove('opacity-0');
         canvas.classList.add('opacity-100');
       }
-    } catch (e) {
+    } catch {
       // Graceful fallback to CSS gradient
     }
   }
