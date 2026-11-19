@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0F172A"/>
+  <circle cx="1000" cy="150" r="350" fill="#14B8A6" fill-opacity="0.12"/>
+  <circle cx="200" cy="500" r="280" fill="#0D9488" fill-opacity="0.1"/>
+  
+  <!-- Logo Icon -->
+  <rect x="100" y="100" width="72" height="72" rx="18" fill="#1E293B"/>
+  <path d="M121 151L136 121L151 151H142.75L136 135.25L129.25 151H121Z" fill="#14B8A6"/>
+  <circle cx="136" cy="141" r="4.5" fill="#38BDF8"/>
+  <text x="190" y="148" font-family="Inter, system-ui, sans-serif" font-size="34" font-weight="800" fill="#FFFFFF">
+    Apt <tspan fill="#2DD4BF">Infosoft</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="100" y="270" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="900" fill="#FFFFFF">
+    Engineering software that
+  </text>
+  <text x="100" y="340" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="900" fill="#2DD4BF">
+    fits your business,
+  </text>
+  <text x="100" y="410" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="900" fill="#FFFFFF">
+    built to last.
+  </text>
+
+  <!-- Services list -->
+  <text x="100" y="490" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="400" fill="#94A3B8">
+    Product Engineering • Custom Applications • SaaS • Modernization • Testing • Analytics
+  </text>
+  <text x="100" y="530" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#14B8A6">
+    Flexible Onsite-Offshore Delivery • https://aptinfosoft.com
+  </text>
+</svg>

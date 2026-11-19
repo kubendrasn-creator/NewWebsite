@@ -1,0 +1,468 @@
+---
+// src/pages/index.astro
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ValueCard from '../components/ValueCard.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import EngagementCard from '../components/EngagementCard.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+// Service Grid definitions
+const services = [
+  {
+    title: 'Product Engineering',
+    description: 'From concept to market-ready software. We engineer resilient, scalable digital products designed to evolve with your business.',
+    href: '/services/product-engineering/',
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+  },
+  {
+    title: 'Custom Application Development',
+    description: 'Tailored web, mobile, and enterprise applications shaped around your operational workflows and business logic.',
+    href: '/services/application-development/',
+    icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18',
+  },
+  {
+    title: 'Software as a Service',
+    description: 'Transforming domain expertise into scalable, multi-tenant cloud platforms with robust subscription and billing engines.',
+    href: '/services/saas/',
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+  },
+  {
+    title: 'Application Modernization',
+    description: 'De-risking legacy systems through phased refactoring, cloud migration, and architecture modernization without business disruption.',
+    href: '/services/application-modernization/',
+    icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+  },
+  {
+    title: 'Testing Services',
+    description: 'Comprehensive automated and manual quality assurance spanning functional, performance, security, and cross-platform verification.',
+    href: '/services/testing/',
+    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  {
+    title: 'Business Analytics',
+    description: 'Transforming fragmented operational data into governed pipelines, real-time executive dashboards, and actionable business intelligence.',
+    href: '/services/business-analytics/',
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+  },
+];
+
+// Brand Pillars
+const brandPillars = [
+  {
+    pillar: 'Apt',
+    title: 'Tailored Solutions',
+    description: 'We do not sell cookie-cutter templates. Every architecture, technology stack, and sprint plan is molded to your unique domain logic, compliance needs, and scale requirements.',
+    highlights: [
+      'Engineered to your operational workflows',
+      'No unnecessary vendor lock-in or licensing bloat',
+      'Long-term architectural durability',
+    ],
+  },
+  {
+    pillar: 'Agile',
+    title: 'Keeps Pace with Technology',
+    description: 'Modern business requires engineering partners that adapt quickly. We work in disciplined two-week cadences, embracing shifting priorities while maintaining code stability and velocity.',
+    highlights: [
+      'Bi-weekly production increments and demos',
+      'Transparent tracking in Jira, Linear, or GitHub',
+      'Rapid integration of modern frameworks and tools',
+    ],
+  },
+  {
+    pillar: 'Assured',
+    title: 'Reliable Quality, Every Time',
+    description: 'Quality is an engineering discipline woven into our daily workflow through peer code reviews, automated CI/CD gates, static analysis, and rigorous test coverage.',
+    highlights: [
+      'Automated unit, integration, and E2E testing',
+      'Defense-in-depth security best practices',
+      'Deterministic deployments with instant rollback capability',
+    ],
+  },
+];
+
+// Engagement Models
+const engagementModels = [
+  {
+    title: 'Dedicated Team',
+    badge: 'Most Popular',
+    tagline: 'Autonomous pods scaling your product velocity',
+    description: 'An integrated cross-functional team of engineers, QA, and a technical project lead committed exclusively to your roadmap with full visibility.',
+    bestFor: 'Continuous product development, long-term roadmaps, and scale-up engineering teams.',
+    deliverables: [
+      'Dedicated full-stack engineers & QA',
+      'Direct communication via Slack/Teams & daily standups',
+      'Predictable monthly billing with flexible scaling',
+      'Full IP ownership and repository access',
+    ],
+    ctaText: 'Explore Dedicated Teams',
+    highlighted: true,
+  },
+  {
+    title: 'Fixed Scope',
+    tagline: 'Predictable delivery on bounded deliverables',
+    description: 'A clearly specified milestone-driven engagement with defined deliverables, agreed timelines, and fixed budget parameters.',
+    bestFor: 'Well-specified MVPs, modernization migrations, or bounded component builds.',
+    deliverables: [
+      'Comprehensive technical specification & scope lock',
+      'Milestone-based delivery and acceptance criteria',
+      'Guaranteed delivery timeline and budget certainty',
+      'Structured post-launch warranty support',
+    ],
+    ctaText: 'Inquire About Fixed Scope',
+    highlighted: false,
+  },
+  {
+    title: 'Time & Material',
+    tagline: 'Agile flexibility for evolving requirements',
+    description: 'On-demand engineering capacity billed against actual hours logged, giving you the versatility to pivot direction and scope on demand.',
+    bestFor: 'Exploratory prototypes, technical spikes, and ad-hoc engineering augmentation.',
+    deliverables: [
+      'Rapid kickoff with zero contractual lock-in',
+      'Weekly itemized timesheets and burn-down reports',
+      'Dynamic sprint backlog prioritization',
+      'Scale hours up or down based on current sprint needs',
+    ],
+    ctaText: 'Inquire About T&M',
+    highlighted: false,
+  },
+];
+
+// Why Apt Value Props
+const whyAptProps = [
+  {
+    title: 'Flexibility',
+    subtitle: 'Customizable Engagement Models',
+    description: 'Choose between Dedicated Pods, Fixed Scope milestones, or Time & Material resources. Scale capacity up as deadlines approach and scale down post-launch without bureaucratic overhead.',
+    icon: 'M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4',
+  },
+  {
+    title: 'Reliability & Scalability',
+    subtitle: 'Right Talent, Critical Mass',
+    description: 'Access a vetted bench of senior software engineers, architects, and QA specialists. We provide the critical mass needed to de-risk key milestones and solve complex technical bottlenecks.',
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+  },
+  {
+    title: 'Efficiency',
+    subtitle: 'Onsite-Offshore Delivery Synergy',
+    description: 'Benefit from local strategic consulting, solution architecture, and governance paired with high-velocity offshore engineering execution to achieve superior cost efficiency without quality compromise.',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+  },
+];
+
+// Tech stack icons
+const techStack = [
+  { name: 'TypeScript', desc: 'Type-safe frontend & backend' },
+  { name: 'React / Next.js', desc: 'Modern web applications' },
+  { name: 'Node.js', desc: 'High-throughput APIs' },
+  { name: 'Python', desc: 'Data engineering & analytics' },
+  { name: 'PostgreSQL', desc: 'Relational data modeling' },
+  { name: 'AWS & Cloud', desc: 'Scalable cloud infrastructure' },
+  { name: 'Docker & K8s', desc: 'Containerized orchestration' },
+  { name: 'Playwright', desc: 'Automated end-to-end testing' },
+];
+
+// Industries Placeholder List
+const industries = [
+  {
+    name: 'Financial Services & Fintech',
+    status: '[TODO: Add verified clients or transactions processed]',
+    desc: 'Secure transactional systems, ledger accounting, payment integrations, and regulatory reporting.',
+  },
+  {
+    name: 'Healthcare & Life Sciences',
+    status: '[TODO: Add compliance details e.g., HIPAA compliance notes]',
+    desc: 'Patient management portals, HIPAA-conscious data processing, and medical device integrations.',
+  },
+  {
+    name: 'Logistics & Supply Chain',
+    status: '[TODO: Add fleet or inventory tracking volume metrics]',
+    desc: 'Real-time telemetry, routing optimization, warehouse inventory management, and ERP integrations.',
+  },
+  {
+    name: 'B2B SaaS & Cloud Platforms',
+    status: '[TODO: Add multi-tenant platform benchmark metrics]',
+    desc: 'Multi-tenant architectures, subscription billing engines, and developer-facing APIs.',
+  },
+  {
+    name: 'Retail & E-Commerce',
+    status: '[TODO: Add catalog volume or peak throughput metrics]',
+    desc: 'High-availability product catalogs, headless commerce front-ends, and order fulfillment systems.',
+  },
+  {
+    name: 'Professional & Business Services',
+    status: '[TODO: Add workflow automation case highlights]',
+    desc: 'Internal tooling, client communication portals, document management, and analytics pipelines.',
+  },
+];
+
+const homeBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://aptinfosoft.com/"
+    }
+  ]
+};
+---
+
+<Base
+  title="Apt Infosoft – IT Services & Custom Software Engineering"
+  description="Engineering software that fits your business, built to last. Product engineering, custom applications, SaaS, modernization, testing, and analytics."
+  jsonLd={homeBreadcrumb}
+>
+  <!-- SECTION 1: HERO -->
+  <Hero />
+
+  <!-- SECTION 2: TRUST BAR -->
+  <section class="border-y border-[var(--color-border)] bg-[var(--color-bg-secondary)] py-12" aria-label="Trust & Credentials Bar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Metrics Grid with visible TODO placeholders -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 pb-10 border-b border-[var(--color-border)]">
+        
+        <div class="p-4 rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-center">
+          <p class="text-3xl sm:text-4xl font-extrabold text-navy-900 dark:text-white">
+            <span class="text-teal-600 dark:text-teal-400">[TODO: add years]</span>+
+          </p>
+          <p class="mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Years in Business
+          </p>
+          <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">Proven stability</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-center">
+          <p class="text-3xl sm:text-4xl font-extrabold text-navy-900 dark:text-white">
+            <span class="text-teal-600 dark:text-teal-400">[TODO: add team size]</span>+
+          </p>
+          <p class="mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Engineers & Specialists
+          </p>
+          <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">Full-stack talent pool</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-center">
+          <p class="text-3xl sm:text-4xl font-extrabold text-navy-900 dark:text-white">
+            <span class="text-teal-600 dark:text-teal-400">Onsite-Offshore</span>
+          </p>
+          <p class="mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Delivery Synergy
+          </p>
+          <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">Local lead + offshore scale</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-center">
+          <p class="text-3xl sm:text-4xl font-extrabold text-navy-900 dark:text-white">
+            <span class="text-teal-600 dark:text-teal-400">[TODO: add projects]</span>+
+          </p>
+          <p class="mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Delivered Solutions
+          </p>
+          <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">Production deployments</p>
+        </div>
+
+      </div>
+
+      <!-- Core Technology Stack Badges -->
+      <div class="pt-8">
+        <p class="text-center text-xs font-bold uppercase tracking-wider text-slate-400 mb-6">
+          Core Technologies & Engineering Ecosystem
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          {techStack.map((tech) => (
+            <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+              <span>{tech.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: APT / AGILE / ASSURED VALUE CARDS -->
+  <section class="py-24 sm:py-32 bg-[var(--color-bg)]" aria-labelledby="brand-pillars-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        id="brand-pillars-heading"
+        eyebrow="Our Guiding Values"
+        title="Apt. Agile. Assured."
+        subtitle="Three foundational pillars that guide how we engineer software and collaborate with clients on every sprint."
+      />
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {brandPillars.map((pillar) => (
+          <ValueCard {...pillar} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: SERVICES GRID -->
+  <section class="py-24 sm:py-32 bg-[var(--color-bg-secondary)] border-y border-[var(--color-border)]" aria-labelledby="services-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        id="services-heading"
+        eyebrow="Core Practices"
+        title="Engineering Disciplines"
+        subtitle="End-to-end software services designed to accelerate your roadmap, modernize tech stacks, and maintain reliable systems."
+      />
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map((svc) => (
+          <ServiceCard {...svc} />
+        ))}
+      </div>
+
+      <div class="mt-12 text-center">
+        <a
+          href="/services/"
+          class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/50 hover:bg-teal-100 dark:hover:bg-teal-900/50 border border-teal-200 dark:border-teal-800 transition-colors"
+        >
+          <span>View Comprehensive Services Index</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: HOW WE WORK (5-STEP PROCESS) -->
+  <section class="py-24 sm:py-32 bg-[var(--color-bg)]" aria-labelledby="process-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        id="process-heading"
+        eyebrow="Our Methodology"
+        title="How We Work"
+        subtitle="A predictable, five-step delivery framework ensuring transparent progress, low risk, and verifiable outcomes."
+      />
+
+      <div class="mt-16">
+        <ProcessSteps />
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: ENGAGEMENT MODELS -->
+  <section class="py-24 sm:py-32 bg-[var(--color-bg-secondary)] border-y border-[var(--color-border)]" aria-labelledby="models-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        id="models-heading"
+        eyebrow="Collaboration Frameworks"
+        title="Flexible Engagement Models"
+        subtitle="Structure your collaboration around your commercial objectives, timeline constraints, and team dynamics."
+      />
+
+      <div class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {engagementModels.map((model) => (
+          <EngagementCard {...model} />
+        ))}
+      </div>
+
+      <div class="mt-12 text-center">
+        <a
+          href="/engagement-models/"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-teal-600 dark:text-teal-400 hover:underline"
+        >
+          <span>Compare detailed engagement model terms & SLAs</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: WHY APT (id="why-apt") -->
+  <section id="why-apt" class="py-24 sm:py-32 bg-[var(--color-bg)] scroll-mt-20" aria-labelledby="why-apt-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        id="why-apt-heading"
+        eyebrow="Value Proposition"
+        title="Why Apt Infosoft"
+        subtitle="Built to overcome the traditional compromises of IT outsourcing: excessive overhead, lack of domain depth, and high attrition."
+      />
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {whyAptProps.map((prop) => (
+          <div class="p-8 sm:p-10 rounded-3xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-teal-500/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-6">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={prop.icon} />
+                </svg>
+              </div>
+
+              <h3 class="text-2xl font-bold text-navy-900 dark:text-white mb-2">
+                {prop.title}
+              </h3>
+              <p class="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 mb-4">
+                {prop.subtitle}
+              </p>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                {prop.description}
+              </p>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-[var(--color-border)] text-xs text-slate-400">
+              Apt Infosoft Advantage
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: INDUSTRIES SERVED (Placeholder list marked [TODO]) -->
+  <section class="py-24 sm:py-32 bg-[var(--color-bg-secondary)] border-y border-[var(--color-border)]" aria-labelledby="industries-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        id="industries-heading"
+        eyebrow="Industry Focus"
+        title="Industries Served"
+        subtitle="We deliver software solutions tailored to the operational realities and compliance requirements of specialized sectors."
+      />
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {industries.map((ind) => (
+          <div class="p-6 sm:p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-teal-500/40 transition-all">
+            <h3 class="text-lg font-bold text-navy-900 dark:text-white mb-2">
+              {ind.name}
+            </h3>
+            <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+              {ind.desc}
+            </p>
+            <div class="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-[11px] font-mono text-amber-800 dark:text-amber-300">
+              {ind.status}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-10 p-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-slate-100/60 dark:bg-slate-800/40 text-center max-w-2xl mx-auto">
+        <p class="text-xs text-slate-500 dark:text-slate-400 font-mono">
+          [TODO: Replace placeholder industry cards with verified client case studies, certifications, or specific domain highlights]
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: CTA BANNER -->
+  <CTABanner
+    eyebrow="Get In Touch"
+    title="Ready to engineer software that fits your business?"
+    subtitle="Speak directly with our senior engineering leadership. We evaluate your requirements, answer your questions candidly, and propose an actionable plan."
+    primaryCtaText="Talk to us"
+    primaryCtaHref="/contact/"
+    secondaryCtaText="Explore our services"
+    secondaryCtaHref="/services/"
+  />
+</Base>

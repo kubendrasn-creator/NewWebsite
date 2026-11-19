@@ -1,0 +1,112 @@
+---
+// src/pages/privacy-policy.astro
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://aptinfosoft.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Privacy Policy",
+      "item": "https://aptinfosoft.com/privacy-policy/"
+    }
+  ]
+};
+---
+
+<Base
+  title="Privacy Policy – Apt Infosoft"
+  description="Apt Infosoft's privacy practices, data protection commitments, and information handling procedures."
+  jsonLd={breadcrumbSchema}
+>
+  <section class="py-20 lg:py-24 bg-gradient-to-b from-navy-950 via-navy-900 to-[#0b1120] text-white text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-400 mb-3">
+        Legal & Governance
+      </p>
+      <h1 class="text-4xl sm:text-5xl font-black tracking-tight mb-4">
+        Privacy Policy
+      </h1>
+      <p class="text-sm text-slate-400">
+        Effective Date: November 2026 • [TODO: Review and update with company legal counsel]
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20 bg-[var(--color-bg)]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base space-y-6">
+        
+        <h2>1. Overview and Scope</h2>
+        <p>
+          Apt Infosoft ("we," "our," or "us") respects your personal privacy. This Privacy Policy details the types of information we collect through our website (<strong>https://aptinfosoft.com</strong>), how we process it, and your rights concerning that data.
+        </p>
+
+        <h2>2. Information Collected</h2>
+        <p>
+          We do not collect personal identifying information unless you voluntarily submit it to us through our direct contact mechanisms. Specifically:
+        </p>
+        <ul>
+          <li><strong>Contact Inquiries:</strong> When you submit our contact form, we collect your full name, work email address, company name, service interests, and message details.</li>
+          <li><strong>Technical Web Traffic:</strong> Standard server access logs including IP address, user-agent browser string, referring pages, and access timestamps for security monitoring and bot mitigation.</li>
+        </ul>
+
+        <h2>3. Purpose of Processing</h2>
+        <p>
+          Information collected via our contact mechanisms is used exclusively to:
+        </p>
+        <ul>
+          <li>Evaluate and respond to your software engineering, consulting, or employment inquiries.</li>
+          <li>Draft tailored technical proposals, statements of work, or project roadmaps requested by you.</li>
+          <li>Prevent spam, automated abuse, and protect site security.</li>
+        </ul>
+        <p>
+          We do not sell, rent, or trade your personal information to third-party data brokers or marketing networks.
+        </p>
+
+        <h2>4. Third-Party Service Providers</h2>
+        <p>
+          We utilize selected third-party infrastructure providers to deliver our static website and facilitate communication:
+        </p>
+        <ul>
+          <li><strong>Web3Forms:</strong> Encrypted transmission of contact form submissions to our corporate inbox.</li>
+          <li><strong>GitHub Pages:</strong> High-performance static web hosting and SSL termination.</li>
+          <li><strong>Calendly / Cal.com (optional):</strong> Embedded meeting scheduling services when initiated by user request.</li>
+        </ul>
+
+        <h2>5. Cookies and Client-Side Storage</h2>
+        <p>
+          Our static marketing website does not employ tracking cookies, marketing pixels, or third-party behavioral analytics scripts. We store a single key (<code>theme</code>) in your browser's local storage solely to remember your light/dark mode visual preference.
+        </p>
+
+        <h2>6. Data Retention and Security</h2>
+        <p>
+          Contact inquiries are retained in our corporate email systems only as long as necessary to conduct ongoing business discussions or fulfill contractual relationships. We employ industry-standard encryption, SSL/TLS transmission protocols, and access controls.
+        </p>
+
+        <h2>7. Contact and Data Subject Rights</h2>
+        <p>
+          You have the right to request access to, correction of, or deletion of any personal data submitted to us. To exercise these rights, please contact our data governance team directly at:
+        </p>
+        <p>
+          <strong>Email:</strong> <a href="mailto:info@aptinfosoft.com" class="text-teal-600 dark:text-teal-400">info@aptinfosoft.com</a><br/>
+          <strong>Address:</strong> [TODO: Add legal corporate registered address]
+        </p>
+
+        <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-300 dark:border-slate-700 text-xs font-mono text-slate-600 dark:text-slate-400">
+          [TODO: Customize clauses to match specific local jurisdiction requirements e.g. GDPR, CCPA/CPRA, or local data privacy acts]
+        </div>
+
+      </div>
+    </div>
+  </section>
+</Base>

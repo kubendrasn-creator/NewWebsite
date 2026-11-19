@@ -1,0 +1,213 @@
+---
+// src/pages/engagement-models.astro
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import EngagementCard from '../components/EngagementCard.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://aptinfosoft.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Engagement Models",
+      "item": "https://aptinfosoft.com/engagement-models/"
+    }
+  ]
+};
+
+const models = [
+  {
+    title: 'Dedicated Team',
+    badge: 'Recommended for Products',
+    tagline: 'Autonomous pods scaling your product velocity',
+    description: 'A fully committed engineering pod embedded into your technical roadmap. The team operates as a direct extension of your organization, participating in daily standups and sprint planning.',
+    bestFor: 'Continuous product development, core platform scaling, and organizations seeking dedicated engineering mass without local recruiting overhead.',
+    deliverables: [
+      'Dedicated senior full-stack engineers, QA, and tech lead',
+      'Direct team collaboration via Slack, Microsoft Teams, and Jira/Linear',
+      'Predictable monthly billing structure with flexible quarterly sizing',
+      'Continuous CI/CD deployments and complete IP ownership',
+      'Cross-training and documentation retention across team members',
+    ],
+    ctaText: 'Assemble a Dedicated Pod',
+    highlighted: true,
+  },
+  {
+    title: 'Fixed Scope',
+    tagline: 'Predictable delivery on bounded deliverables',
+    description: 'A structured engagement with deterministic requirements, milestone-based sign-offs, and agreed budget parameters. Ideal when specifications and acceptance criteria are locked upfront.',
+    bestFor: 'Well-specified MVPs, discrete system integrations, standalone modernization sprints, and organizations with strict procurement constraints.',
+    deliverables: [
+      'Detailed technical specification & architecture blueprint',
+      'Milestone-gated payment schedule tied to acceptance tests',
+      'Strict change control governance preventing scope creep',
+      'Post-deployment stability warranty and knowledge transfer',
+      'Zero surprise costs: fixed budget predictability',
+    ],
+    ctaText: 'Scope a Fixed Project',
+    highlighted: false,
+  },
+  {
+    title: 'Time & Material',
+    tagline: 'Agile versatility for evolving requirements',
+    description: 'Maximum agility to tackle exploratory problems, technical spikes, and unpredictable workloads. You pay solely for actual engineering hours logged against agreed rates.',
+    bestFor: 'Early-stage R&D, rapid prototyping, technical audits, performance tuning, and temporary surge capacity for existing engineering squads.',
+    deliverables: [
+      'Rapid onboarding with minimal initial paperwork',
+      'Bi-weekly transparent timesheets with detailed work summaries',
+      'Dynamic sprint backlog prioritization based on latest market feedback',
+      'Ramp hours up or down with standard contractual notice',
+      'Ideal for exploratory discovery prior to locking fixed scope',
+    ],
+    ctaText: 'Discuss T&M Capacity',
+    highlighted: false,
+  },
+];
+
+const comparisonCriteria = [
+  {
+    criteria: 'Requirements Definition',
+    dedicated: 'Evolving & iterative backlog',
+    fixed: 'Strictly defined & locked upfront',
+    tm: 'Fluid, agile & exploratory',
+  },
+  {
+    criteria: 'Team Allocation',
+    dedicated: '100% exclusive dedicated engineers',
+    fixed: 'Project-assigned shared specialists',
+    tm: 'Flexible on-demand resource hours',
+  },
+  {
+    criteria: 'Billing Cadence',
+    dedicated: 'Predictable monthly retainer per engineer',
+    fixed: 'Milestone deliverables sign-off',
+    tm: 'Actual hours logged bi-weekly/monthly',
+  },
+  {
+    criteria: 'Sprint Governance',
+    dedicated: 'Client directs backlog & priorities',
+    fixed: 'Jointly managed against locked spec',
+    tm: 'Client directs hours & deliverables',
+  },
+  {
+    criteria: 'Capacity Scaling',
+    dedicated: 'Quarterly team adjustments',
+    fixed: 'Formal change requests for scope changes',
+    tm: 'Sprint-by-sprint hourly adjustments',
+  },
+];
+---
+
+<Base
+  title="Engagement Models – Apt Infosoft"
+  description="Explore our flexible IT engagement models: Dedicated Engineering Teams, Fixed Scope milestones, and Time & Material capacity."
+  jsonLd={breadcrumbSchema}
+>
+  <!-- Page Hero -->
+  <section class="py-20 lg:py-28 bg-gradient-to-b from-navy-950 via-navy-900 to-[#0b1120] text-white text-center relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-400 mb-4">
+        Collaboration Frameworks
+      </p>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6">
+        Flexible Engagement Models
+      </h1>
+      <p class="text-base sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
+        Tailored delivery models designed to align with your project risk tolerance, budgetary guidelines, and organizational velocity.
+      </p>
+    </div>
+  </section>
+
+  <!-- Engagement Cards Section -->
+  <section class="py-20 lg:py-24 bg-[var(--color-bg)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        eyebrow="Structure"
+        title="Three Models, One High Standard"
+        subtitle="Choose the model that fits your stage of development, whether you are launching an MVP or scaling an enterprise platform."
+      />
+
+      <div class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {models.map((m) => (
+          <EngagementCard {...m} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Matrix Table -->
+  <section class="py-20 bg-[var(--color-bg-secondary)] border-y border-[var(--color-border)]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading
+        eyebrow="Side-by-Side Analysis"
+        title="Compare Engagement Models"
+        subtitle="Evaluate key operational criteria to identify the optimal structure for your technical team."
+      />
+
+      <div class="mt-16 overflow-x-auto rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] shadow-sm">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-slate-100 dark:bg-slate-800/80 text-navy-900 dark:text-white border-b border-[var(--color-border)]">
+            <tr>
+              <th scope="col" class="py-4 px-6 font-bold uppercase tracking-wider text-xs">Criteria</th>
+              <th scope="col" class="py-4 px-6 font-bold uppercase tracking-wider text-xs text-teal-600 dark:text-teal-400">Dedicated Team</th>
+              <th scope="col" class="py-4 px-6 font-bold uppercase tracking-wider text-xs">Fixed Scope</th>
+              <th scope="col" class="py-4 px-6 font-bold uppercase tracking-wider text-xs">Time & Material</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[var(--color-border)] text-slate-700 dark:text-slate-300">
+            {comparisonCriteria.map((row) => (
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                <th scope="row" class="py-4 px-6 font-semibold text-navy-900 dark:text-white whitespace-nowrap">
+                  {row.criteria}
+                </th>
+                <td class="py-4 px-6 font-medium text-teal-700 dark:text-teal-300 bg-teal-50/50 dark:bg-teal-950/20">
+                  {row.dedicated}
+                </td>
+                <td class="py-4 px-6">
+                  {row.fixed}
+                </td>
+                <td class="py-4 px-6">
+                  {row.tm}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pragmatic Advice Callout -->
+  <section class="py-20 bg-[var(--color-bg)]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <SectionHeading
+        eyebrow="Not Sure Which Fits?"
+        title="We Help You Choose Without Pressure"
+        subtitle="Many clients begin with a small Time & Material discovery sprint or Fixed Scope architectural review before transitioning into a Dedicated Team. Tell us what you are aiming to accomplish."
+      />
+      <div class="mt-8 flex justify-center">
+        <a
+          href="/contact/"
+          class="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-semibold text-white bg-teal-600 hover:bg-teal-500 shadow-md transition-all focus-visible:outline-2 focus-visible:outline-teal-500"
+        >
+          Discuss Your Project Parameters
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    eyebrow="Start Today"
+    title="Ready to discuss team composition & pricing rates?"
+    subtitle="Connect directly with an engineering principal to evaluate sizing, timeline, and candidate availability."
+  />
+</Base>

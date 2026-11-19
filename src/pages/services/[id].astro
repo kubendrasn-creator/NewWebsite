@@ -1,0 +1,198 @@
+---
+// src/pages/services/[id].astro
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((service) => ({
+    params: { id: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+
+const siteUrl = 'https://aptinfosoft.com';
+const pageUrl = `${siteUrl}/services/${service.id}/`;
+
+// JSON-LD Service Schema
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": service.data.title,
+  "description": service.data.description,
+  "provider": {
+    "@type": "Organization",
+    "name": "Apt Infosoft",
+    "url": siteUrl,
+  },
+  "url": pageUrl,
+};
+
+// Breadcrumb Schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": `${siteUrl}/`
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Services",
+      "item": `${siteUrl}/services/`
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": service.data.title,
+      "item": pageUrl
+    }
+  ]
+};
+
+const allServices = await getCollection('services');
+const otherServices = allServices
+  .filter((s) => s.id !== service.id)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title={`${service.data.title} – Apt Infosoft`}
+  description={service.data.description}
+  jsonLd={[serviceSchema, breadcrumbSchema]}
+>
+  <!-- Breadcrumb Navigation Bar -->
+  <nav aria-label="Breadcrumb Navigation" class="border-b border-[var(--color-border)] bg-[var(--color-bg-secondary)] py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ol class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+        <li>
+          <a href="/" class="hover:text-teal-600 dark:hover:text-teal-400 transition-colors">Home</a>
+        </li>
+        <li aria-hidden="true" class="text-slate-300 dark:text-slate-600">/</li>
+        <li>
+          <a href="/services/" class="hover:text-teal-600 dark:hover:text-teal-400 transition-colors">Services</a>
+        </li>
+        <li aria-hidden="true" class="text-slate-300 dark:text-slate-600">/</li>
+        <li class="font-semibold text-navy-900 dark:text-white" aria-current="page">
+          {service.data.title}
+        </li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Service Hero Section -->
+  <section class="py-20 lg:py-28 bg-gradient-to-b from-navy-950 via-navy-900 to-[#0b1120] text-white relative overflow-hidden" aria-label="Service Overview">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-1/4 -right-24 w-96 h-96 rounded-full bg-teal-500/10 blur-3xl"></div>
+      <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-sky-500/10 blur-3xl"></div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="w-14 h-14 rounded-2xl bg-teal-950/80 border border-teal-500/30 text-teal-400 flex items-center justify-center mb-8">
+        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d={service.data.icon} />
+        </svg>
+      </div>
+
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-400 mb-3">
+        Engineering Practice • Apt Infosoft
+      </p>
+
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] mb-6">
+        {service.data.title}
+      </h1>
+
+      <p class="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-3xl mb-8">
+        {service.data.description}
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href={`/contact/?service=${encodeURIComponent(service.data.title)}`}
+          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-semibold text-white bg-teal-600 hover:bg-teal-500 shadow-lg shadow-teal-950/50 transition-all focus-visible:outline-2 focus-visible:outline-teal-400"
+        >
+          Discuss Your {service.data.title} Project
+        </a>
+        <a
+          href="/engagement-models/"
+          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-semibold text-slate-200 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors focus-visible:outline-2 focus-visible:outline-teal-400"
+        >
+          Review Engagement Models
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Detailed Content -->
+  <section class="py-20 lg:py-24 bg-[var(--color-bg)]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+        
+        <!-- Main Article Content -->
+        <article class="lg:col-span-2 prose prose-slate dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-navy-900 dark:prose-headings:text-white prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:leading-relaxed prose-li:text-slate-600 dark:prose-li:text-slate-300 prose-strong:text-navy-900 dark:prose-strong:text-white prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800 max-w-none">
+          <Content />
+        </article>
+
+        <!-- Sidebar Navigation / Quick Action -->
+        <aside class="space-y-8">
+          <!-- Direct Inquiry Box -->
+          <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-navy-900 dark:text-white">
+              Consult on {service.data.title}
+            </h2>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Have an architecture diagram, legacy system audit, or requirement specification ready? Review it with an engineering lead.
+            </p>
+            <a
+              href={`/contact/?service=${encodeURIComponent(service.data.title)}`}
+              class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-teal-600 hover:bg-teal-500 shadow transition-colors"
+            >
+              Request Scoping Call
+            </a>
+          </div>
+
+          <!-- Other Practices Navigation -->
+          <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] space-y-4">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Other Engineering Practices
+            </h2>
+            <ul class="space-y-2.5 text-xs sm:text-sm">
+              {otherServices.map((other) => (
+                <li>
+                  <a
+                    href={`/services/${other.id}/`}
+                    class="flex items-center justify-between text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors py-1"
+                  >
+                    <span>{other.data.title}</span>
+                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <CTABanner
+    eyebrow={`Ready for ${service.data.title}?`}
+    title={`Scale your team with dedicated ${service.data.title.toLowerCase()} specialists`}
+    subtitle="Let's structure a team and delivery model customized to your exact timeline and budget requirements."
+    primaryCtaText="Talk to us"
+    primaryCtaHref={`/contact/?service=${encodeURIComponent(service.data.title)}`}
+  />
+</Base>
