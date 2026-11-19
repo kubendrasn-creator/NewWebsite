@@ -1,0 +1,100 @@
+{
+  "axeResults": {
+    "/": {
+      "lightViolations": [],
+      "darkViolations": [],
+      "skipLink": true,
+      "reducedMotion": true
+    },
+    "/services/": {
+      "lightViolations": [],
+      "darkViolations": [],
+      "skipLink": true,
+      "reducedMotion": true
+    },
+    "/services/product-engineering/": {
+      "lightViolations": [],
+      "darkViolations": [],
+      "skipLink": true,
+      "reducedMotion": true
+    },
+    "/contact/": {
+      "lightViolations": [],
+      "darkViolations": [],
+      "skipLink": true,
+      "reducedMotion": true
+    },
+    "/careers/": {
+      "lightViolations": [],
+      "darkViolations": [],
+      "skipLink": true,
+      "reducedMotion": true
+    }
+  },
+  "lighthouseScores": {
+    "mobile": {
+      "/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/services/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/services/product-engineering/": {
+        "performance": 95,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/contact/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/careers/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      }
+    },
+    "desktop": {
+      "/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/services/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/services/product-engineering/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/contact/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "/careers/": {
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      }
+    }
+  }
+}
