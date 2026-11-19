@@ -6,10 +6,10 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "node scripts/cli.js dev",
+    "build": "node scripts/cli.js build",
+    "preview": "node scripts/cli.js preview",
+    "astro": "node scripts/cli.js"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.5",
