@@ -53,11 +53,12 @@ const culturePoints = [
   jsonLd={breadcrumbSchema}
 >
   <!-- Careers Hero -->
-  <section class="py-20 lg:py-28 bg-gradient-to-b from-navy-950 via-navy-900 to-[#0b1120] text-white text-center relative overflow-hidden">
+  <section class="py-20 lg:py-28 bg-gradient-to-b from-[#071120] via-[#0c1b33] to-[#071120] text-white text-center relative overflow-hidden">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-400 mb-4">
-        Join Apt Infosoft
-      </p>
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/80 border border-blue-500/30 text-[#38bdf8] text-xs font-semibold uppercase tracking-wider mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-ping"></span>
+        <span>Join Apt Infosoft</span>
+      </div>
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6">
         Build Software You Are Proud Of
       </h1>
@@ -78,7 +79,7 @@ const culturePoints = [
 
       <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {culturePoints.map((point) => (
-          <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-teal-500/40 hover:shadow-md transition-all">
+          <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-[#0073df]/40 hover:shadow-md transition-all">
             <h3 class="text-lg font-bold text-navy-900 dark:text-white mb-2">
               {point.title}
             </h3>
@@ -102,19 +103,19 @@ const culturePoints = [
 
       <div class="mt-16 space-y-6">
         {openRoles.map((role) => (
-          <div class="p-6 sm:p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-teal-500/50 hover:shadow-lg transition-all duration-200">
+          <div class="p-6 sm:p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-[#0073df]/50 hover:shadow-lg transition-all duration-200">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
               
               <!-- Role Details -->
               <div class="space-y-3">
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+                  <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 dark:bg-blue-950/60 text-[#0073df] dark:text-[#38bdf8] border border-blue-200 dark:border-blue-800">
                     {role.data.department}
                   </span>
-                  <span class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  <span class="px-3.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                     {role.data.type}
                   </span>
-                  <span class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  <span class="px-3.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                     {role.data.location}
                   </span>
                 </div>
@@ -123,7 +124,7 @@ const culturePoints = [
                   {role.data.title}
                 </h3>
 
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl font-normal">
                   {role.data.summary}
                 </p>
               </div>
@@ -132,7 +133,7 @@ const culturePoints = [
               <div class="shrink-0">
                 <a
                   href={`/contact/?role=${encodeURIComponent(role.data.title)}`}
-                  class="inline-flex items-center justify-center w-full md:w-auto px-6 py-3.5 rounded-xl text-sm font-semibold text-white bg-teal-600 hover:bg-teal-500 shadow transition-colors focus-visible:outline-2 focus-visible:outline-teal-500"
+                  class="inline-flex items-center justify-center w-full md:w-auto px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#0073df] to-[#005bb5] hover:from-[#005bb5] hover:to-[#004a94] shadow-md shadow-blue-500/25 transition-all focus-visible:outline-2 focus-visible:outline-[#38bdf8]"
                 >
                   Apply for this Role
                 </a>
@@ -153,7 +154,7 @@ const culturePoints = [
         </p>
         <a
           href="/contact/?role=Speculative%20Application"
-          class="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/40 hover:bg-teal-100 dark:hover:bg-teal-900/50 border border-teal-200 dark:border-teal-800 transition-colors"
+          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-sm font-bold text-[#0073df] dark:text-[#38bdf8] bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800 transition-colors"
         >
           Submit General Application
         </a>

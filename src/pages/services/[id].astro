@@ -75,11 +75,11 @@ const otherServices = allServices
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <ol class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
         <li>
-          <a href="/" class="hover:text-teal-600 dark:hover:text-teal-400 transition-colors">Home</a>
+          <a href="/" class="hover:text-[#0073df] dark:hover:text-[#38bdf8] transition-colors">Home</a>
         </li>
         <li aria-hidden="true" class="text-slate-300 dark:text-slate-600">/</li>
         <li>
-          <a href="/services/" class="hover:text-teal-600 dark:hover:text-teal-400 transition-colors">Services</a>
+          <a href="/services/" class="hover:text-[#0073df] dark:hover:text-[#38bdf8] transition-colors">Services</a>
         </li>
         <li aria-hidden="true" class="text-slate-300 dark:text-slate-600">/</li>
         <li class="font-semibold text-navy-900 dark:text-white" aria-current="page">
@@ -90,20 +90,20 @@ const otherServices = allServices
   </nav>
 
   <!-- Service Hero Section -->
-  <section class="py-20 lg:py-28 bg-gradient-to-b from-navy-950 via-navy-900 to-[#0b1120] text-white relative overflow-hidden" aria-label="Service Overview">
+  <section class="py-20 lg:py-28 bg-gradient-to-b from-[#071120] via-[#0c1b33] to-[#071120] text-white relative overflow-hidden" aria-label="Service Overview">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-1/4 -right-24 w-96 h-96 rounded-full bg-teal-500/10 blur-3xl"></div>
-      <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-sky-500/10 blur-3xl"></div>
+      <div class="absolute top-1/4 -right-24 w-96 h-96 rounded-full bg-[#0073df]/15 blur-3xl"></div>
+      <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-[#00b4d8]/10 blur-3xl"></div>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="w-14 h-14 rounded-2xl bg-teal-950/80 border border-teal-500/30 text-teal-400 flex items-center justify-center mb-8">
+      <div class="w-14 h-14 rounded-2xl bg-blue-950/80 border border-blue-500/30 text-[#38bdf8] flex items-center justify-center mb-8">
         <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d={service.data.icon} />
         </svg>
       </div>
 
-      <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-400 mb-3">
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#38bdf8] mb-3">
         Engineering Practice • Apt Infosoft
       </p>
 
@@ -118,13 +118,13 @@ const otherServices = allServices
       <div class="flex flex-wrap items-center gap-4">
         <a
           href={`/contact/?service=${encodeURIComponent(service.data.title)}`}
-          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-semibold text-white bg-teal-600 hover:bg-teal-500 shadow-lg shadow-teal-950/50 transition-all focus-visible:outline-2 focus-visible:outline-teal-400"
+          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-bold text-white bg-gradient-to-r from-[#0073df] to-[#005bb5] hover:from-[#005bb5] hover:to-[#004a94] shadow-lg shadow-blue-500/25 transition-all focus-visible:outline-2 focus-visible:outline-[#38bdf8]"
         >
           Discuss Your {service.data.title} Project
         </a>
         <a
           href="/engagement-models/"
-          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-semibold text-slate-200 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors focus-visible:outline-2 focus-visible:outline-teal-400"
+          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-semibold text-slate-200 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors focus-visible:outline-2 focus-visible:outline-[#38bdf8]"
         >
           Review Engagement Models
         </a>
@@ -154,7 +154,7 @@ const otherServices = allServices
             </p>
             <a
               href={`/contact/?service=${encodeURIComponent(service.data.title)}`}
-              class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-teal-600 hover:bg-teal-500 shadow transition-colors"
+              class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#0073df] to-[#005bb5] hover:from-[#005bb5] hover:to-[#004a94] shadow-md shadow-blue-500/20 transition-all"
             >
               Request Scoping Call
             </a>
@@ -170,7 +170,7 @@ const otherServices = allServices
                 <li>
                   <a
                     href={`/services/${other.id}/`}
-                    class="flex items-center justify-between text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors py-1"
+                    class="flex items-center justify-between text-slate-600 dark:text-slate-400 hover:text-[#0073df] dark:hover:text-[#38bdf8] transition-colors py-1 font-medium"
                   >
                     <span>{other.data.title}</span>
                     <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

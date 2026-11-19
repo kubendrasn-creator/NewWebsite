@@ -6,49 +6,64 @@
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 
-  --color-navy-50: #f8fafc;
-  --color-navy-100: #f1f5f9;
-  --color-navy-200: #e2e8f0;
-  --color-navy-300: #cbd5e1;
-  --color-navy-400: #94a3b8;
-  --color-navy-500: #64748b;
-  --color-navy-600: #475569;
-  --color-navy-700: #334155;
-  --color-navy-800: #1e293b;
-  --color-navy-900: #0f172a;
-  --color-navy-950: #080c15;
+  /* Apt Infosoft Authentic Brand Blue Palette (#0073df) */
+  --color-brand-50: #eef7ff;
+  --color-brand-100: #d9edff;
+  --color-brand-200: #bce0ff;
+  --color-brand-300: #8ecbff;
+  --color-brand-400: #57aeff;
+  --color-brand-500: #298dff;
+  --color-brand-600: #0073df;  /* Authentic Apt Royal Blue */
+  --color-brand-700: #005bb5;
+  --color-brand-800: #004a94;
+  --color-brand-900: #053e7a;
+  --color-brand-950: #032752;
 
-  --color-teal-50: #f0fdfa;
-  --color-teal-100: #ccfbf1;
-  --color-teal-200: #99f6e4;
-  --color-teal-300: #5eead4;
-  --color-teal-400: #2dd4bf;
-  --color-teal-500: #14b8a6;
-  --color-teal-600: #0f766e;
-  --color-teal-700: #115e59;
-  --color-teal-800: #134e4a;
-  --color-teal-900: #042f2e;
-  --color-teal-950: #021a19;
+  /* Authentic Navy & Slate Corporate Tones */
+  --color-navy-50: #f4f7fb;
+  --color-navy-100: #e8eef6;
+  --color-navy-200: #d1dde9;
+  --color-navy-300: #abc3d7;
+  --color-navy-400: #7e9fc0;
+  --color-navy-500: #5d81a8;
+  --color-navy-600: #46678e;
+  --color-navy-700: #395475;
+  --color-navy-800: #1b2d42;
+  --color-navy-900: #0c1b33;  /* Deep Navy */
+  --color-navy-950: #071120;  /* Ultra Deep Midnight */
+
+  /* Electric Cyan / Sky Accent */
+  --color-cyan-400: #38bdf8;
+  --color-cyan-500: #00b4d8;
+  --color-cyan-600: #0096c7;
 }
 
 :root {
   --color-bg: #ffffff;
-  --color-bg-secondary: #f8fafc;
-  --color-bg-tertiary: #f1f5f9;
-  --color-text: #0f172a;
-  --color-text-muted: #64748b;
+  --color-bg-secondary: #f6f9fc;
+  --color-bg-tertiary: #edf3fa;
+  --color-text: #0b1528;
+  --color-text-muted: #475569;
   --color-border: #e2e8f0;
   --color-card-bg: #ffffff;
+  --color-card-hover: #ffffff;
+  --color-brand-primary: #0073df;
+  --color-brand-dark: #005bb5;
+  --color-brand-light: #eef7ff;
 }
 
 .dark {
-  --color-bg: #0b1120;
-  --color-bg-secondary: #0f172a;
-  --color-bg-tertiary: #1e293b;
+  --color-bg: #071120;
+  --color-bg-secondary: #0c1b33;
+  --color-bg-tertiary: #132440;
   --color-text: #f8fafc;
   --color-text-muted: #94a3b8;
-  --color-border: #1e293b;
-  --color-card-bg: #111c35;
+  --color-border: #1a2e4c;
+  --color-card-bg: #0d1e38;
+  --color-card-hover: #132646;
+  --color-brand-primary: #38bdf8;
+  --color-brand-dark: #0073df;
+  --color-brand-light: #0d274c;
 }
 
 * {
@@ -66,16 +81,66 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
 }
 
 main {
   flex: 1;
 }
 
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark .glass-panel {
+  background: rgba(13, 30, 56, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(30, 58, 95, 0.6);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #0073df 0%, #00b4d8 50%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .text-gradient {
+  background: linear-gradient(135deg, #57aeff 0%, #38bdf8 50%, #99f6e4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Card glow on hover */
+.card-hover-glow {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 30px -10px rgba(0, 115, 223, 0.15);
+  border-color: rgba(0, 115, 223, 0.4);
+}
+
+.dark .card-hover-glow:hover {
+  box-shadow: 0 20px 35px -10px rgba(0, 180, 216, 0.2);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
 /* Accessible focus visible outlines */
 :focus-visible {
-  outline: 2px solid var(--color-teal-500);
+  outline: 2px solid #0073df;
+  outline-offset: 2px;
+}
+
+.dark :focus-visible {
+  outline: 2px solid #38bdf8;
   outline-offset: 2px;
 }
 

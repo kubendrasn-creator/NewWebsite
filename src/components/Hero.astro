@@ -3,87 +3,188 @@
 ---
 
 <section
-  class="relative overflow-hidden py-24 sm:py-32 lg:py-36 bg-gradient-to-b from-navy-950 via-navy-900 to-[#0b1120] text-white"
+  class="relative overflow-hidden py-24 sm:py-32 lg:py-40 bg-gradient-to-b from-[#071120] via-[#0c1b33] to-[#071120] text-white"
   aria-label="Hero Section"
 >
-  <!-- Subtle Animated Abstract Background (CSS & SVG only) -->
+  <!-- Futuristic Mesh & Glow Background -->
   <div class="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
-    <!-- Ambient Gradient Orbs -->
-    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-teal-500/10 blur-3xl"></div>
-    <div class="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full bg-teal-600/10 blur-3xl"></div>
-    <div class="absolute -bottom-24 left-1/3 w-80 h-80 rounded-full bg-sky-500/10 blur-3xl"></div>
+    <!-- Radial Ambient Glows -->
+    <div class="absolute -top-40 -left-40 w-[38rem] h-[38rem] rounded-full bg-[#0073df]/20 blur-[120px]"></div>
+    <div class="absolute top-1/4 -right-40 w-[42rem] h-[42rem] rounded-full bg-[#00b4d8]/15 blur-[140px]"></div>
+    <div class="absolute -bottom-32 left-1/3 w-[36rem] h-[36rem] rounded-full bg-[#005bb5]/20 blur-[130px]"></div>
 
-    <!-- Geometric SVG Grid & Orbital Lines -->
-    <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+    <!-- High-Tech Coordinate Grid -->
+    <svg class="absolute inset-0 w-full h-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="hero-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="currentColor" stroke-width="0.75" class="text-teal-300" />
+        <pattern id="hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.75" class="text-blue-300" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#hero-grid)" />
     </svg>
 
     <!-- Concentric Architectural Rings -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-teal-500/10"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[950px] rounded-full border border-teal-400/5"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-blue-500/10"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[1100px] rounded-full border border-cyan-400/5"></div>
   </div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl">
-      <!-- Eyebrow Badge -->
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-950/80 border border-teal-500/40 text-teal-300 text-xs sm:text-sm font-semibold mb-8">
-        <span class="w-2 h-2 rounded-full bg-teal-400"></span>
-        <span>Apt • Agile • Assured</span>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      
+      <!-- Left Content Column (7 cols) -->
+      <div class="lg:col-span-7">
+        
+        <!-- Eyebrow Pill -->
+        <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-950/80 border border-[#0073df]/40 text-[#38bdf8] text-xs sm:text-sm font-semibold mb-8 backdrop-blur-md shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-[#0073df] ring-4 ring-[#0073df]/30 animate-pulse"></span>
+          <span>Apt • Agile • Assured</span>
+          <span class="text-slate-500">|</span>
+          <span class="text-slate-300">Engineering Software That Fits</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
+          Engineering software that <br class="hidden sm:inline" />
+          <span class="bg-gradient-to-r from-[#38bdf8] via-[#298dff] to-[#0073df] bg-clip-text text-transparent">fits your business</span>,<br />
+          built to last.
+        </h1>
+
+        <!-- Subhead -->
+        <p class="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl font-normal">
+          Product engineering, custom applications, SaaS, modernization, testing, and analytics, delivered through a flexible onsite-offshore model.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="mt-10 flex flex-wrap items-center gap-4">
+          <a
+            href="/contact/"
+            class="group relative inline-flex items-center justify-center px-7 py-4 rounded-xl text-base font-bold text-white bg-gradient-to-r from-[#0073df] via-[#0066cc] to-[#005bb5] hover:from-[#005bb5] hover:to-[#004a94] shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/50 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-[#38bdf8]"
+          >
+            <span>Talk to us</span>
+            <svg class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+
+          <a
+            href="/services/"
+            class="inline-flex items-center justify-center px-7 py-4 rounded-xl text-base font-semibold text-slate-200 hover:text-white bg-slate-800/60 hover:bg-slate-800/90 border border-slate-700/80 hover:border-slate-500/80 backdrop-blur-md transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#38bdf8]"
+          >
+            Explore services
+          </a>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="mt-12 pt-8 border-t border-slate-800/80 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-slate-300">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-[#38bdf8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Tailored Engagement Models</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-[#38bdf8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Onsite-Offshore Delivery</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-[#38bdf8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>100% IP Ownership</span>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Main Headline -->
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
-        Engineering software that <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-300 to-sky-300">fits your business</span>, built to last.
-      </h1>
+      <!-- Right Interactive Visual Card (5 cols) -->
+      <div class="lg:col-span-5 relative">
+        <div class="relative mx-auto max-w-lg lg:max-w-none rounded-3xl border border-slate-700/60 bg-gradient-to-b from-[#0c1b33]/90 via-[#0a172c]/90 to-[#071120]/95 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl shadow-blue-950/60">
+          
+          <!-- Terminal / Architecture Header -->
+          <div class="flex items-center justify-between pb-5 border-b border-slate-800/80">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+            </div>
+            <span class="text-xs font-mono text-slate-400">apt-delivery-mesh v3.4</span>
+            <div class="flex items-center gap-1.5 text-xs text-[#38bdf8] font-mono">
+              <span class="w-2 h-2 rounded-full bg-[#38bdf8] animate-ping"></span>
+              <span>LIVE</span>
+            </div>
+          </div>
 
-      <!-- Subhead -->
-      <p class="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl">
-        Product engineering, custom applications, SaaS, modernization, testing, and analytics, delivered through a flexible onsite-offshore model.
-      </p>
+          <!-- Architecture Visual Topology -->
+          <div class="py-6 space-y-4">
+            
+            <!-- Node 1: Client Discovery & Architecture -->
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/60 hover:border-[#0073df]/50 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-[#0073df]/20 text-[#38bdf8] flex items-center justify-center font-mono text-sm font-bold">
+                  01
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Client Requirements & Domain</p>
+                  <p class="text-[11px] text-slate-400">Apt Solution Architecture Spec</p>
+                </div>
+              </div>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-950 text-[#38bdf8] border border-blue-800/60">Discovered</span>
+            </div>
 
-      <!-- CTA Buttons -->
-      <div class="mt-10 flex flex-wrap items-center gap-4">
-        <a
-          href="/contact/"
-          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-semibold text-white bg-teal-600 hover:bg-teal-500 shadow-lg shadow-teal-950/40 hover:shadow-teal-900/60 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-teal-400"
-        >
-          Talk to us
-        </a>
-        <a
-          href="/services/"
-          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-base font-semibold text-slate-200 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 transition-colors focus-visible:outline-2 focus-visible:outline-teal-400"
-        >
-          Explore services
-          <svg class="ml-2 w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
-        </a>
-      </div>
+            <!-- Connector Down Line -->
+            <div class="flex justify-center -my-2">
+              <div class="w-0.5 h-4 bg-gradient-to-b from-[#0073df] to-[#00b4d8]"></div>
+            </div>
 
-      <!-- Quick Trust Indicators -->
-      <div class="mt-12 pt-8 border-t border-slate-800/80 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-slate-400">
-        <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>Flexible Engagement Models</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>Onsite & Offshore Delivery</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <svg class="w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>100% IP Ownership</span>
+            <!-- Node 2: Agile Sprint Delivery -->
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/60 hover:border-[#00b4d8]/50 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-[#00b4d8]/20 text-[#00b4d8] flex items-center justify-center font-mono text-sm font-bold">
+                  02
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Agile Onsite-Offshore Pods</p>
+                  <p class="text-[11px] text-slate-400">Continuous Sprints & 2-Week Demos</p>
+                </div>
+              </div>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/60">Active Sprint</span>
+            </div>
+
+            <!-- Connector Down Line -->
+            <div class="flex justify-center -my-2">
+              <div class="w-0.5 h-4 bg-gradient-to-b from-[#00b4d8] to-emerald-500"></div>
+            </div>
+
+            <!-- Node 3: Assured Quality & Production -->
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/60 hover:border-emerald-500/50 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono text-sm font-bold">
+                  03
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Assured Quality & Release</p>
+                  <p class="text-[11px] text-slate-400">Automated Tests, CI/CD, 100% IP</p>
+                </div>
+              </div>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/60">Production</span>
+            </div>
+
+          </div>
+
+          <!-- Bottom Metric Ticker -->
+          <div class="pt-4 border-t border-slate-800/80 grid grid-cols-2 gap-4 text-center">
+            <div class="p-2.5 rounded-xl bg-slate-800/30 border border-slate-800">
+              <p class="text-lg font-black text-white">100%</p>
+              <p class="text-[11px] text-slate-400">IP Ownership</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-800/30 border border-slate-800">
+              <p class="text-lg font-black text-[#38bdf8]">2-Week</p>
+              <p class="text-[11px] text-slate-400">Sprint Delivery</p>
+            </div>
+          </div>
+
         </div>
       </div>
 
