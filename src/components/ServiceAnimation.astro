@@ -1,0 +1,165 @@
+---
+// ServiceAnimation.astro
+interface Props {
+  icon: string;
+  enlarged?: boolean;
+}
+
+const { icon, enlarged = false } = Astro.props;
+const sizeClass = enlarged ? "w-32 h-32 sm:w-40 sm:h-40" : "w-16 h-16";
+---
+
+<div class={`relative flex items-center justify-center ${sizeClass} text-[#0073df]`}>
+  {icon === 'product-engineering' && (
+    /* Product Engineering: Idea dot grows into a product shape ("concept to commercialization") */
+    <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="pe-grad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#028ace" />
+          <stop offset="1" stop-color="#0073df" />
+        </linearGradient>
+      </defs>
+      <!-- Concept dot with pulse -->
+      <circle cx="25" cy="50" r="6" fill="#028ace" class="animate-pulse" />
+      <circle cx="25" cy="50" r="14" stroke="#028ace" stroke-width="1.5" stroke-dasharray="2 3" class="opacity-60" />
+      
+      <!-- Growth vector path -->
+      <path d="M35 50 Q 50 35, 65 42" stroke="#0073df" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 2" />
+      
+      <!-- Commercialized product 3D isometric cube structure -->
+      <g transform="translate(68, 48)">
+        <polygon points="0,-16 14,-8 0,0 -14,-8" fill="url(#pe-grad)" opacity="0.9" />
+        <polygon points="-14,-8 0,0 0,16 -14,8" fill="#005bb5" opacity="0.8" />
+        <polygon points="14,-8 0,0 0,16 14,8" fill="#033275" opacity="0.7" />
+        <circle cx="0" cy="0" r="3" fill="#ffffff" />
+      </g>
+    </svg>
+  )}
+
+  {icon === 'application-development' && (
+    /* Custom Application Development: Three device outlines (Mobile, Web, Windows) */
+    <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" aria-hidden="true">
+      <!-- Web browser window (Back left) -->
+      <rect x="10" y="20" width="46" height="34" rx="4" stroke="#0073df" stroke-width="2" fill="#f0f7ff" />
+      <line x1="10" y1="28" x2="56" y2="28" stroke="#0073df" stroke-width="1.5" />
+      <circle cx="16" cy="24" r="1.5" fill="#0073df" />
+      <circle cx="22" cy="24" r="1.5" fill="#028ace" />
+      <rect x="16" y="34" width="24" height="3" rx="1.5" fill="#0073df" opacity="0.4" />
+      <rect x="16" y="41" width="16" height="3" rx="1.5" fill="#0073df" opacity="0.25" />
+
+      <!-- Windows standalone app window (Back right) -->
+      <rect x="42" y="32" width="48" height="38" rx="4" stroke="#033275" stroke-width="2" fill="#ffffff" />
+      <line x1="42" y1="42" x2="90" y2="42" stroke="#033275" stroke-width="1.5" />
+      <!-- Windows window tiles -->
+      <rect x="48" y="48" width="16" height="16" rx="2" fill="#e0effe" />
+      <rect x="68" y="48" width="16" height="16" rx="2" fill="#bae0fd" />
+
+      <!-- Mobile device (Front center) -->
+      <rect x="26" y="42" width="24" height="44" rx="5" stroke="#028ace" stroke-width="2.5" fill="#ffffff" />
+      <line x1="34" y1="46" x2="42" y2="46" stroke="#028ace" stroke-width="1.5" stroke-linecap="round" />
+      <rect x="30" y="52" width="16" height="24" rx="2" fill="#f0f7ff" />
+      <circle cx="38" cy="80" r="2" fill="#028ace" />
+    </svg>
+  )}
+
+  {icon === 'saas' && (
+    /* Cloud SaaS: Cloud with dynamic pay-as-you-go meter, no numbers */
+    <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="meter-grad" x1="20" y1="75" x2="80" y2="75" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#028ace" />
+          <stop offset="0.6" stop-color="#0073df" />
+          <stop offset="1" stop-color="#033275" />
+        </linearGradient>
+      </defs>
+      <!-- Cloud outline -->
+      <path
+        d="M32 54 A 12 12 0 0 1 42 36 A 18 18 0 0 1 70 40 A 13 13 0 0 1 72 62 L 32 62 A 8 8 0 0 1 32 54 Z"
+        stroke="#0073df"
+        stroke-width="2.5"
+        fill="#f0f7ff"
+      />
+      <!-- Pay-as-you-go curved gauge meter (no numbers) -->
+      <path
+        d="M25 80 A 30 30 0 0 1 75 80"
+        stroke="#e2e8f0"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+      <path
+        d="M25 80 A 30 30 0 0 1 65 60"
+        stroke="url(#meter-grad)"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+      <!-- Meter dial indicator -->
+      <circle cx="50" cy="80" r="4" fill="#033275" />
+      <line x1="50" y1="80" x2="63" y2="62" stroke="#0073df" stroke-width="2.5" stroke-linecap="round" />
+    </svg>
+  )}
+
+  {icon === 'application-modernization' && (
+    /* Modernization: Old block morphs into new streamlined cloud block */
+    <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" aria-hidden="true">
+      <!-- Old pixelated / legacy block -->
+      <g opacity="0.65">
+        <rect x="14" y="32" width="26" height="36" stroke="#64748b" stroke-width="2" stroke-dasharray="3 2" fill="#f1f5f9" />
+        <line x1="14" y1="44" x2="40" y2="44" stroke="#94a3b8" stroke-width="1.5" />
+        <line x1="14" y1="56" x2="40" y2="56" stroke="#94a3b8" stroke-width="1.5" />
+      </g>
+
+      <!-- Morphing transition arrows -->
+      <path d="M43 50 L 55 50 M 51 46 L 55 50 L 51 54" stroke="#028ace" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+      <!-- Modern high-performance block -->
+      <rect x="60" y="28" width="28" height="44" rx="6" stroke="#0073df" stroke-width="2.5" fill="#e0effe" />
+      <circle cx="74" cy="40" r="4" fill="#0073df" />
+      <rect x="66" y="50" width="16" height="4" rx="2" fill="#028ace" />
+      <rect x="66" y="58" width="10" height="3" rx="1.5" fill="#033275" />
+    </svg>
+  )}
+
+  {icon === 'testing' && (
+    /* Testing: Manual lane + automated lane merge */
+    <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" aria-hidden="true">
+      <!-- Manual Lane (Top) -->
+      <path d="M14 36 L 44 36 Q 58 36, 68 50" stroke="#028ace" stroke-width="2.5" stroke-linecap="round" />
+      <circle cx="18" cy="36" r="3.5" fill="#028ace" />
+      <circle cx="34" cy="36" r="2.5" fill="#028ace" />
+
+      <!-- Automated Lane (Bottom) -->
+      <path d="M14 64 L 44 64 Q 58 64, 68 50" stroke="#0073df" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 2" />
+      <circle cx="18" cy="64" r="3.5" fill="#0073df" />
+      <circle cx="34" cy="64" r="2.5" fill="#0073df" />
+
+      <!-- Merged verified quality check -->
+      <line x1="68" y1="50" x2="78" y2="50" stroke="#033275" stroke-width="3" stroke-linecap="round" />
+      <circle cx="84" cy="50" r="8" fill="#0073df" />
+      <path d="M81 50 L 83.5 53 L 87.5 47" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )}
+
+  {icon === 'business-analytics' && (
+    /* Business Analytics: Scattered dots converge into a chart */
+    <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" aria-hidden="true">
+      <!-- Scattered dots on left -->
+      <circle cx="16" cy="30" r="3" fill="#028ace" class="animate-pulse" />
+      <circle cx="26" cy="46" r="2.5" fill="#0073df" />
+      <circle cx="14" cy="62" r="3.5" fill="#033275" />
+      <circle cx="32" cy="24" r="2" fill="#028ace" />
+
+      <!-- Convergence guiding rays -->
+      <path d="M26 46 Q 38 48, 48 54" stroke="#0073df" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.6" />
+
+      <!-- Ascending chart columns & trend line -->
+      <rect x="52" y="62" width="7" height="18" rx="2" fill="#bae0fd" />
+      <rect x="63" y="48" width="7" height="32" rx="2" fill="#7cc7fb" />
+      <rect x="74" y="34" width="7" height="46" rx="2" fill="#0073df" />
+      <rect x="85" y="22" width="7" height="58" rx="2" fill="#033275" />
+
+      <!-- Trendline overlay -->
+      <polyline points="55,58 66,44 77,30 88,18" stroke="#028ace" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="88" cy="18" r="3.5" fill="#028ace" />
+    </svg>
+  )}
+</div>

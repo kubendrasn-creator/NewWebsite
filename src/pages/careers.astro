@@ -1,12 +1,11 @@
 ---
 // src/pages/careers.astro
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import CTABanner from '../components/CTABanner.astro';
+import { getCollection } from 'astro:content';
+import CTABand from '../components/CTABand.astro';
 
-const allRoles = await getCollection('careers');
-const openRoles = allRoles.filter((r) => r.data.open !== false);
+const careerRoles = await getCollection('careers');
+const sortedCareers = careerRoles.sort((a, b) => a.data.order - b.data.order);
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -21,153 +20,53 @@ const breadcrumbSchema = {
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Careers",
+      "name": "Career",
       "item": "https://aptinfosoft.com/careers/"
     }
   ]
 };
-
-const culturePoints = [
-  {
-    title: 'Engineers Lead Engineering',
-    desc: 'You work alongside architects and technical founders who write code, understand trade-offs, and respect thoughtful engineering solutions.',
-  },
-  {
-    title: 'High Trust & Autonomy',
-    desc: 'We judge work by code quality, system reliability, and business impact — never by surveillance metrics or micromanagement.',
-  },
-  {
-    title: 'Modern Technology Stacks',
-    desc: 'We build with TypeScript, modern cloud architectures, automated CI/CD pipelines, and clean tooling across all client and internal projects.',
-  },
-  {
-    title: 'Continuous Professional Growth',
-    desc: 'Mentorship, sponsored certifications, and exposure to challenging multi-tenant architectures and high-scale systems.',
-  },
-];
 ---
 
 <Base
-  title="Careers at Apt Infosoft – Join Our Software Engineering Team"
-  description="Explore software engineering, QA automation, and cloud infrastructure opportunities at Apt Infosoft. Build software that fits, built to last."
+  title="Career – Apt Infosoft"
+  description="Career opportunities and role openings at Apt Infosoft."
   jsonLd={breadcrumbSchema}
 >
-  <!-- Careers Hero -->
-  <section class="py-20 lg:py-28 bg-gradient-to-b from-[#071120] via-[#0c1b33] to-[#071120] text-white text-center relative overflow-hidden">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/80 border border-blue-500/30 text-[#38bdf8] text-xs font-semibold uppercase tracking-wider mb-4">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-ping"></span>
-        <span>Join Apt Infosoft</span>
-      </div>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6">
-        Build Software You Are Proud Of
+  <section class="py-20 lg:py-28 bg-[#f6f9fc] border-b border-slate-200 text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-[#033275] text-xs font-bold uppercase tracking-wider mb-4">
+        <span>Join Our Team</span>
+      </span>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-[#033275] tracking-tight mb-6">
+        Career
       </h1>
-      <p class="text-base sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
-        Join a team of curious, pragmatic engineers solving real technical challenges for ambitious clients worldwide.
-      </p>
     </div>
   </section>
 
-  <!-- Culture & Engineering Philosophy -->
-  <section class="py-20 bg-[var(--color-bg)]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionHeading
-        eyebrow="Our Work Culture"
-        title="Why Engineers Join and Stay"
-        subtitle="We have designed an engineering environment that prizes craft, clear communication, and mutual respect."
-      />
+  <!-- Roles Grid -->
+  <section class="py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {sortedCareers.map((role) => (
+          <div class="p-8 sm:p-10 rounded-3xl bg-[#f6f9fc] border border-slate-200 shadow-sm flex flex-col justify-between space-y-6">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#005bb5] block mb-2">
+                Engineering
+              </span>
+              <h2 class="text-2xl font-bold text-[#033275]">
+                {role.data.title}
+              </h2>
+            </div>
 
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {culturePoints.map((point) => (
-          <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-[#0073df]/40 hover:shadow-md transition-all">
-            <h3 class="text-lg font-bold text-navy-900 dark:text-white mb-2">
-              {point.title}
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              {point.desc}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Open Positions List -->
-  <section class="py-20 bg-[var(--color-bg-secondary)] border-y border-[var(--color-border)]">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionHeading
-        eyebrow="Current Openings"
-        title="Explore Open Positions"
-        subtitle="We are actively hiring experienced engineers across full-stack development, QA automation, and cloud architecture."
-      />
-
-      <div class="mt-16 space-y-6">
-        {openRoles.map((role) => (
-          <div class="p-6 sm:p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card-bg)] hover:border-[#0073df]/50 hover:shadow-lg transition-all duration-200">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              
-              <!-- Role Details -->
-              <div class="space-y-3">
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 dark:bg-blue-950/60 text-[#0073df] dark:text-[#38bdf8] border border-blue-200 dark:border-blue-800">
-                    {role.data.department}
-                  </span>
-                  <span class="px-3.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    {role.data.type}
-                  </span>
-                  <span class="px-3.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    {role.data.location}
-                  </span>
-                </div>
-
-                <h3 class="text-2xl font-bold text-navy-900 dark:text-white">
-                  {role.data.title}
-                </h3>
-
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl font-normal">
-                  {role.data.summary}
-                </p>
-              </div>
-
-              <!-- Apply Action Button -->
-              <div class="shrink-0">
-                <a
-                  href={`/contact/?role=${encodeURIComponent(role.data.title)}`}
-                  class="inline-flex items-center justify-center w-full md:w-auto px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#0073df] to-[#005bb5] hover:from-[#005bb5] hover:to-[#004a94] shadow-md shadow-blue-500/25 transition-all focus-visible:outline-2 focus-visible:outline-[#38bdf8]"
-                >
-                  Apply for this Role
-                </a>
-              </div>
-
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-200/70 text-slate-700 text-xs sm:text-sm font-semibold w-fit">
+              <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+              <span>{role.data.status}</span>
             </div>
           </div>
         ))}
       </div>
-
-      <!-- Speculative Application Note -->
-      <div class="mt-12 p-8 rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-card-bg)] text-center space-y-4">
-        <h3 class="text-xl font-bold text-navy-900 dark:text-white">
-          Do not see your exact discipline?
-        </h3>
-        <p class="text-slate-600 dark:text-slate-400 text-sm max-w-xl mx-auto leading-relaxed">
-          We are always excited to connect with talented engineers, system architects, and technical project leads. Send us an open application.
-        </p>
-        <a
-          href="/contact/?role=Speculative%20Application"
-          class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-sm font-bold text-[#0073df] dark:text-[#38bdf8] bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800 transition-colors"
-        >
-          Submit General Application
-        </a>
-      </div>
-
     </div>
   </section>
 
-  <CTABanner
-    eyebrow="Questions?"
-    title="Curious about what it is like to engineer at Apt Infosoft?"
-    subtitle="Reach out directly to our hiring team to learn about our delivery pods and onboarding roadmap."
-    primaryCtaText="Contact Recruiting"
-    primaryCtaHref="/contact/?service=Career%20Application"
-  />
+  <CTABand />
 </Base>

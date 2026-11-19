@@ -1,0 +1,56 @@
+---
+// ServicesGrid.astro
+import { getCollection } from 'astro:content';
+import ServiceAnimation from './ServiceAnimation.astro';
+
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="services-grid" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#005bb5] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-100">
+        <span>Our Practice Areas</span>
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black text-[#033275] tracking-tight">
+        Services
+      </h2>
+    </div>
+
+    <!-- Bento Grid of 6 Cards with Spotlight Hover -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {sortedServices.map((svc) => (
+        <a
+          href={`/services/${svc.data.id}/`}
+          class="spotlight-card group p-8 rounded-3xl block relative overflow-hidden focus-visible:outline-2 focus-visible:outline-[#0073df]"
+        >
+          <!-- Micro-Animation Container -->
+          <div class="mb-6 p-4 rounded-2xl bg-blue-50/60 w-fit group-hover:bg-blue-100/70 transition-colors">
+            <ServiceAnimation icon={svc.data.icon} />
+          </div>
+
+          <h3
+            class="text-xl sm:text-2xl font-bold text-[#033275] mb-3 group-hover:text-[#0073df] transition-colors"
+            transition:name={`service-title-${svc.data.id}`}
+          >
+            {svc.data.title}
+          </h3>
+
+          <p class="text-sm text-slate-600 leading-relaxed font-normal line-clamp-4 mb-6">
+            {svc.data.text}
+          </p>
+
+          <div class="inline-flex items-center text-xs sm:text-sm font-bold text-[#0073df] group-hover:translate-x-1 transition-transform">
+            <span>Learn more</span>
+            <svg class="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</section>

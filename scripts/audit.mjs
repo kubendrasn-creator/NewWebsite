@@ -28,7 +28,10 @@ const mimeTypes = {
 function createServer(port = 4321) {
   const server = http.createServer((req, res) => {
     let reqPath = decodeURI(req.url.split('?')[0]);
-    if (reqPath.endsWith('/')) reqPath += 'index.html';
+    if (reqPath.startsWith('/NewWebsite')) {
+      reqPath = reqPath.slice('/NewWebsite'.length);
+    }
+    if (reqPath === '' || reqPath.endsWith('/')) reqPath += 'index.html';
     let filePath = path.join(distDir, reqPath);
 
     if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
@@ -62,11 +65,11 @@ function createServer(port = 4321) {
 }
 
 const auditPages = [
-  '/',
-  '/services/',
-  '/services/product-engineering/',
-  '/contact/',
-  '/careers/',
+  '/NewWebsite/',
+  '/NewWebsite/services/',
+  '/NewWebsite/services/product-engineering/',
+  '/NewWebsite/contact/',
+  '/NewWebsite/careers/',
 ];
 
 async function run() {

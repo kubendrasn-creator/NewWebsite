@@ -1,0 +1,111 @@
+---
+// DeliverySection.astro
+// Global delivery route SVG that draws on scroll with a travelling pulse and glow
+import { siteContent } from '../content/site';
+
+const { delivery } = siteContent;
+---
+
+<section id="delivery" class="py-24 sm:py-32 bg-[#eef7fd] border-y border-[#d4e8f7] relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7] shadow-sm">
+        <span>{delivery.subheading}</span>
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black text-[#003074] tracking-tight">
+        {delivery.heading}
+      </h2>
+      <p class="mt-4 text-base sm:text-xl text-[#003074]/90 font-medium">
+        {delivery.coreStatement}
+      </p>
+    </div>
+
+    <!-- Animated Arc Container -->
+    <div class="relative max-w-4xl mx-auto p-8 sm:p-12 rounded-3xl bg-white border border-[#d4e8f7] shadow-md">
+      
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-3">
+          <span class="w-4 h-4 rounded-full bg-[#0070a8] flex items-center justify-center">
+            <span class="w-2 h-2 rounded-full bg-white" />
+          </span>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#0070a8]">Onshore Hub</p>
+            <p class="text-lg font-black text-[#003074]">{delivery.origin}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 text-right">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#0070a8]">Offshore Center</p>
+            <p class="text-lg font-black text-[#003074]">{delivery.destination}</p>
+          </div>
+          <span class="w-4 h-4 rounded-full bg-[#0088cc] flex items-center justify-center">
+            <span class="w-2 h-2 rounded-full bg-white" />
+          </span>
+        </div>
+      </div>
+
+      <!-- SVG Drawing Arc with Glowing Travelling Pulse -->
+      <div class="relative w-full aspect-[21/9]">
+        <svg
+          class="w-full h-full overflow-visible"
+          viewBox="0 0 800 300"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Background Guide Arc -->
+          <path
+            d="M 50 250 C 250 50, 550 50, 750 250"
+            stroke="#d4e8f7"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-dasharray="6 6"
+          />
+
+          <!-- Drawing Active Arc Path -->
+          <path
+            id="delivery-route-svg-path"
+            d="M 50 250 C 250 50, 550 50, 750 250"
+            stroke="url(#delivery-gradient)"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+
+          <!-- Glowing Pulse Dot -->
+          <circle
+            id="delivery-pulse-dot"
+            cx="50"
+            cy="250"
+            r="8"
+            fill="#0088cc"
+            filter="url(#glow-filter)"
+          />
+
+          <defs>
+            <linearGradient id="delivery-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0070a8" />
+              <stop offset="100%" stop-color="#0088cc" />
+            </linearGradient>
+
+            <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-[#d4e8f7]">
+        <p class="text-sm text-[#003074]/80 leading-relaxed text-center max-w-2xl mx-auto">
+          {delivery.methodology}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>

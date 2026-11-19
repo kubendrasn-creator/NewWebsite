@@ -1,0 +1,24 @@
+---
+// Marquee.astro
+// Infinite service-name ticker (pure CSS), pauses on hover, logo-color styling.
+import { siteContent } from '../content/site';
+
+const items = siteContent.marquee;
+---
+
+<div class="relative py-6 bg-[#003074] text-white overflow-hidden border-y border-[#0088cc]/30 shadow-inner">
+  <div class="animate-marquee flex items-center whitespace-nowrap">
+    {/* Doubled for seamless loop */}
+    {[...items, ...items].map((text) => (
+      <div class="inline-flex items-center gap-6 mx-8">
+        <span class="text-xs sm:text-sm font-bold tracking-wider uppercase text-white/95">
+          {text}
+        </span>
+        {/* ~8 degree slanted separator motif */}
+        <span class="text-white/70 font-black text-sm select-none transform skew-x-[-8deg]" aria-hidden="true">
+          / /
+        </span>
+      </div>
+    ))}
+  </div>
+</div>

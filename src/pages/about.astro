@@ -1,9 +1,25 @@
 ---
 // src/pages/about.astro
 import Base from '../layouts/Base.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import ValueCard from '../components/ValueCard.astro';
-import CTABanner from '../components/CTABanner.astro';
+import { getEntry, getCollection } from 'astro:content';
+import AudienceSelector from '../components/islands/AudienceSelector';
+import CTABand from '../components/CTABand.astro';
+
+const siteEntry = await getEntry('site', 'data');
+if (!siteEntry) throw new Error('site/data content entry missing');
+const { about } = siteEntry.data;
+
+const audienceList = await getCollection('audience');
+const sortedAudience = audienceList.sort((a, b) => a.data.order - b.data.order);
+
+const servicesList = await getCollection('services');
+const serviceMetas = servicesList
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((s) => ({
+    id: s.data.id,
+    shortTitle: s.data.shortTitle,
+    href: `/services/${s.data.id}/`,
+  }));
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -18,159 +34,65 @@ const breadcrumbSchema = {
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "About",
+      "name": "About Us",
       "item": "https://aptinfosoft.com/about/"
     }
   ]
 };
-
-const brandPillars = [
-  {
-    pillar: 'Apt',
-    title: 'Tailored Solutions',
-    description: 'We reject generic one-size-fits-all frameworks. We take the time to dissect your exact commercial processes, domain constraints, and technical realities, architecting software that fits like a glove.',
-    highlights: [
-      'Tailored to your organizational realities',
-      'No unnecessary framework bloat or vendor lock-in',
-      'Architected for sustainable evolution over years',
-    ],
-  },
-  {
-    pillar: 'Agile',
-    title: 'Keeps Pace with Technology',
-    description: 'Markets shift, requirements evolve, and modern infrastructure advances. Our agile cadence keeps your codebase modern and your delivery rapid without succumbing to technical debt.',
-    highlights: [
-      'Bi-weekly production increments and demos',
-      'Continuous alignment with modern standards',
-      'Rapid feedback incorporation with zero drama',
-    ],
-  },
-  {
-    pillar: 'Assured',
-    title: 'Reliable Quality, Every Time',
-    description: 'We treat software engineering as an exacting craft. Peer reviews, rigorous test suites, automated CI/CD checks, and senior oversight guarantee dependable releases.',
-    highlights: [
-      'Multi-layer automated testing coverage',
-      'Deterministic deployments with rollback security',
-      'Engineers who take direct pride in uptime and maintainability',
-    ],
-  },
-];
 ---
 
 <Base
-  title="About Apt Infosoft – Our Story, Team & Engineering Principles"
-  description="Learn about Apt Infosoft: an IT services company dedicated to engineering software that fits your business, built to last."
+  title="About Us – Apt Infosoft"
+  description={about.p1.slice(0, 155)}
   jsonLd={breadcrumbSchema}
 >
-  <!-- About Hero -->
-  <section class="py-20 lg:py-28 bg-gradient-to-b from-[#071120] via-[#0c1b33] to-[#071120] text-white text-center relative overflow-hidden">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/80 border border-blue-500/30 text-[#38bdf8] text-xs font-semibold uppercase tracking-wider mb-4">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-ping"></span>
-        <span>Our Story & Culture</span>
-      </div>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6">
-        Engineering Software Built to Last
+  <!-- Hero Section -->
+  <section class="py-20 lg:py-28 bg-[#f6f9fc] border-b border-slate-200 text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-[#033275] text-xs font-bold uppercase tracking-wider mb-4">
+        <span>{about.eyebrow}</span>
+      </span>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-[#033275] tracking-tight mb-6">
+        {about.heading}
       </h1>
-      <p class="text-base sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
-        We founded Apt Infosoft on a simple realization: businesses do not need more buzzwords; they need dependable software that fits their operational workflows.
-      </p>
     </div>
   </section>
 
-  <!-- Narrative & Story Section -->
-  <section class="py-20 lg:py-24 bg-[var(--color-bg)]">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-      
-      <!-- Company Origin -->
-      <div class="space-y-6">
-        <SectionHeading
-          eyebrow="Company Background"
-          title="Who We Are"
-          align="left"
-        />
-        <div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed text-base sm:text-lg space-y-4">
-          <p>
-            Apt Infosoft is a specialized IT services and custom software engineering firm. We serve growing SMBs, mid-market innovators, and enterprise teams seeking reliable, high-velocity engineering capacity without the bureaucracy or opaque margins of mega-consultancies.
-          </p>
-          <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-dashed border-slate-300 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300">
-            [TODO: Insert corporate founding story, incorporation year, and major milestone highlights here]
-          </div>
-          <p>
-            Our core mission is straightforward: <strong>engineering software that fits your business, built to last</strong>. Whether building an MVP from zero, converting proprietary algorithms into a scalable SaaS product, modernizing legacy mission-critical workloads, or establishing automated QA pipelines, our teams build with discipline and ownership.
-          </p>
-        </div>
-      </div>
-
-      <!-- Onsite-Offshore Synergy -->
-      <div class="p-8 sm:p-12 rounded-3xl bg-[var(--color-card-bg)] border border-[var(--color-border)] shadow-sm space-y-6">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900 dark:text-white">
-          The Onsite-Offshore Advantage
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm sm:text-base">
-          Offshore software development frequently fails when communication is handed off to account managers with no engineering background. We solved this by designing a tightly coupled onsite-offshore delivery structure:
+  <!-- Narrative Section -->
+  <section class="py-24 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-base sm:text-xl text-slate-700 leading-relaxed font-normal">
+      <div class="p-8 sm:p-10 rounded-3xl bg-[#f6f9fc] border border-slate-200 shadow-sm space-y-6">
+        <p>
+          {about.p1}
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          <div class="p-6 rounded-2xl bg-[var(--color-bg-secondary)] border border-[var(--color-border)]">
-            <div class="text-[#0073df] dark:text-[#38bdf8] font-bold text-sm uppercase tracking-wider mb-2">
-              Onsite Leadership
-            </div>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Technical architects and client partners who lead scoping sessions, participate in executive governance, and ensure seamless requirements translation.
-            </p>
-          </div>
-          <div class="p-6 rounded-2xl bg-[var(--color-bg-secondary)] border border-[var(--color-border)]">
-            <div class="text-[#0073df] dark:text-[#38bdf8] font-bold text-sm uppercase tracking-wider mb-2">
-              Offshore Engineering Mass
-            </div>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Dedicated full-stack software engineers and QA automation specialists executing continuous sprints with overlapping timezones for daily syncs.
-            </p>
-          </div>
-        </div>
-        <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 text-xs text-slate-500 font-mono">
-          [TODO: Add physical office locations: e.g. North America / UK / Europe client offices and India delivery centers]
-        </div>
+        <p>
+          {about.p2}
+        </p>
       </div>
-
-      <!-- Values Grid -->
-      <div class="space-y-8">
-        <SectionHeading
-          eyebrow="Our Principles"
-          title="What Defines Apt Infosoft"
-          align="left"
-        />
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {brandPillars.map((p) => (
-            <ValueCard {...p} />
-          ))}
-        </div>
-      </div>
-
-      <!-- Team & Culture -->
-      <div class="space-y-6">
-        <SectionHeading
-          eyebrow="Our People"
-          title="Built on Engineering Merit"
-          align="left"
-        />
-        <div class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base space-y-4">
-          <p>
-            We do not believe in massive hierarchies. We hire experienced, communicative software engineers who enjoy solving hard problems and taking ownership of their code. We foster continuous technical learning, active code mentorship, and deep mutual respect.
-          </p>
-          <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-dashed border-slate-300 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300">
-            [TODO: Add leadership team bios, photographs, and key executive backgrounds]
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <CTABanner
-    eyebrow="Work With Us"
-    title="Ready to meet our engineering team?"
-    subtitle="Let's discuss how Apt Infosoft can bring stability and velocity to your software roadmap."
-  />
+  <!-- Who can benefit from our engagement? -->
+  <section class="py-24 bg-[#f6f9fc] border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-3xl sm:text-4xl font-black text-[#033275] tracking-tight">
+          {about.audienceHeading}
+        </h2>
+      </div>
+
+      <AudienceSelector
+        client:visible
+        items={sortedAudience.map((a) => ({
+          id: a.data.id,
+          letter: a.data.letter,
+          text: a.data.text,
+          matchedServices: a.data.matchedServices,
+        }))}
+        services={serviceMetas}
+      />
+    </div>
+  </section>
+
+  <CTABand />
 </Base>

@@ -1,0 +1,13 @@
+{
+  "id": "saas",
+  "title": "Cloud Software as a Service (SaaS)",
+  "shortTitle": "Software as a Service",
+  "text": "SaaS is now a widely accepted model of providing dependable and cost-effective software applications to customers. Typically a software product or an application is hosted by the vendor on a cloud infrastructure maintained by top cloud platform providers (like windows Azure platform provided by Microsoft). This product/application may be used by customers from their desktop/mobile devices over the internet. Our systematic approach will help you transition your product to the cloud, or develop new web-applications for you. The SaaS model provides several advantages to both the vendor and the customer",
+  "items": [],
+  "advantages": [
+    "Reduced upfront investment: This model eliminates the need for procuring, maintaining, upgrading and securing expensive IT infrastructure for both vendor and customer.",
+    "Reduced operational cost with pay-as-you-go model: Cloud based applications have a relatively lower operational costs and the services are dynamically scalable based on customer base."
+  ],
+  "order": 3,
+  "icon": "saas"
+}

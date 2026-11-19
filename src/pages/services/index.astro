@@ -1,108 +1,66 @@
 ---
 // src/pages/services/index.astro
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
-import ServiceCard from '../../components/ServiceCard.astro';
-import CTABanner from '../../components/CTABanner.astro';
+import { getCollection } from 'astro:content';
+import ServiceAnimation from '../../components/ServiceAnimation.astro';
+import CTABand from '../../components/CTABand.astro';
 
 const services = await getCollection('services');
 const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://aptinfosoft.com/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Services",
-      "item": "https://aptinfosoft.com/services/"
-    }
-  ]
-};
 ---
 
 <Base
-  title="Software Engineering Services & Practices – Apt Infosoft"
-  description="Explore our core IT engineering practices: Product Engineering, Custom Applications, SaaS, Application Modernization, Testing, and Business Analytics."
-  jsonLd={breadcrumbSchema}
+  title="Our Services – Apt Infosoft"
+  description="Product Engineering, Application Development, Software as a Service, Application Modernization, Testing, and Business Analytics."
 >
-  <!-- Services Index Header -->
-  <section class="py-20 lg:py-28 bg-gradient-to-b from-[#071120] via-[#0c1b33] to-[#071120] text-white text-center relative overflow-hidden">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/80 border border-blue-500/30 text-[#38bdf8] text-xs font-semibold uppercase tracking-wider mb-4">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-ping"></span>
-        <span>Engineering Capabilities</span>
-      </div>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6">
-        Full-Lifecycle Software Engineering
+  <!-- Services Index Hero -->
+  <section class="py-20 lg:py-24 bg-[#f6f9fc] border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-[#033275] text-xs font-bold uppercase tracking-wider mb-4">
+        <span>Practice Areas</span>
+      </span>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-[#033275] tracking-tight mb-6">
+        Our Services
       </h1>
-      <p class="text-base sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
-        Six specialized practices delivering end-to-end architecture, development, QA, and data engineering under a unified, accountable delivery model.
-      </p>
     </div>
   </section>
 
-  <!-- Services Grid Section -->
-  <section class="py-20 lg:py-24 bg-[var(--color-bg)]">
+  <!-- Services Bento Grid -->
+  <section class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionHeading
-        eyebrow="Our Disciplines"
-        title="Tailored Engineering Practices"
-        subtitle="Every practice is led by senior engineering architects focused on longevity, performance, and clean code."
-      />
-
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {sortedServices.map((svc) => (
-          <ServiceCard
-            title={svc.data.title}
-            description={svc.data.description}
-            href={`/services/${svc.id}/`}
-            icon={svc.data.icon}
-          />
+          <a
+            href={`/services/${svc.data.id}/`}
+            class="spotlight-card group p-8 rounded-3xl block relative overflow-hidden focus-visible:outline-2 focus-visible:outline-[#0073df]"
+          >
+            <!-- Micro-Animation Container -->
+            <div class="mb-6 p-4 rounded-2xl bg-blue-50/60 w-fit group-hover:bg-blue-100/70 transition-colors">
+              <ServiceAnimation icon={svc.data.icon} />
+            </div>
+
+            <h2
+              class="text-xl sm:text-2xl font-bold text-[#033275] mb-3 group-hover:text-[#0073df] transition-colors"
+              transition:name={`service-title-${svc.data.id}`}
+            >
+              {svc.data.title}
+            </h2>
+
+            <p class="text-sm text-slate-600 leading-relaxed font-normal mb-6">
+              {svc.data.text}
+            </p>
+
+            <div class="inline-flex items-center text-xs sm:text-sm font-bold text-[#0073df] group-hover:translate-x-1 transition-transform">
+              <span>Learn more</span>
+              <svg class="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Delivery Approach Highlight -->
-  <section class="py-20 bg-[var(--color-bg-secondary)] border-y border-[var(--color-border)]">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="p-8 sm:p-12 rounded-3xl bg-[var(--color-card-bg)] border border-[var(--color-border)] shadow-md">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900 dark:text-white mb-4">
-          Integrated Onsite-Offshore Accountability
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
-          Unlike disjointed outsourcing firms where your requirements are passed down through layers of non-technical intermediaries, Apt Infosoft pairs local strategic oversight and architecture leadership directly with dedicated offshore engineering pods. You get senior architectural guidance with continuous high-volume execution.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <a
-            href="/engagement-models/"
-            class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#0073df] to-[#005bb5] hover:from-[#005bb5] hover:to-[#004a94] shadow-md shadow-blue-500/25 transition-all"
-          >
-            Review Engagement Frameworks
-          </a>
-          <a
-            href="/contact/"
-            class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-          >
-            Schedule Technical Consultation
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <CTABanner
-    eyebrow="Need Multiple Disciplines?"
-    title="Compose a cross-functional pod tailored to your stack"
-    subtitle="Combine frontend, backend, QA automation, and DevOps talent under a unified dedicated engagement."
-  />
+  <CTABand />
 </Base>

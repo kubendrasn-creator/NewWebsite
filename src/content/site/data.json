@@ -1,0 +1,56 @@
+{
+  "siteName": "Apt Infosoft",
+  "nav": [
+    {
+      "name": "Home",
+      "href": "/"
+    },
+    {
+      "name": "Services",
+      "href": "/services/",
+      "children": [
+        { "name": "Product Engineering", "href": "/services/product-engineering/" },
+        { "name": "Application Development", "href": "/services/application-development/" },
+        { "name": "Software as a Service", "href": "/services/saas/" },
+        { "name": "Application Modernization", "href": "/services/application-modernization/" },
+        { "name": "Testing", "href": "/services/testing/" },
+        { "name": "Business Analytics", "href": "/services/business-analytics/" }
+      ]
+    },
+    {
+      "name": "About Us",
+      "href": "/about/"
+    },
+    {
+      "name": "Career",
+      "href": "/careers/"
+    },
+    {
+      "name": "Contact Us",
+      "href": "/contact/"
+    }
+  ],
+  "hero": {
+    "headline": "No two businesses are alike.",
+    "subtext": "Our Vision is to help small and mid-sized enterprises reap the benefits of modern technology and globalization.",
+    "primaryCTA": "Our Services",
+    "primaryCTALink": "/services/",
+    "secondaryCTA": "Contact Us",
+    "secondaryCTALink": "/contact/"
+  },
+  "about": {
+    "eyebrow": "Know The Reasons Behind Our Success",
+    "heading": "Driving Efficiency through Globalization",
+    "p1": "Apt InfoSoft focuses on providing high quality, reliable, world-class software development services for small and mid-sized enterprises (SME) leveraging the power of modern technology like cloud based services, along with the talent and cost-advantage of an off-shore delivery model. This helps companies significantly reduce their product ownership and maintenance costs giving them a competitive edge in the market.",
+    "p2": "Our Vision is to help small and mid-sized enterprises reap the benefits of modern technology and globalization. We understand that the business dynamics of SMEs are different from large enterprises. Business processes and technology solutions offered for big enterprises rarely suit the needs of SMEs. We at Apt InfoSoft work with you to chalk out a process, budget and timeline to suit the scale of your software development needs and help you achieve your product/application development goals in a cost-competitive manner",
+    "audienceHeading": "Who can benefit from our engagement?"
+  },
+  "contact": {
+    "usPhone": "US - (+1) 678-389-2238",
+    "indPhone": "IND - +91-9902999224",
+    "generalEmail": "General: info@aptinfosoft.com",
+    "salesEmail": "Sales: sales@aptinfosoft.com",
+    "indiaAddress": "4th Floor Vista Pixel, Vista Spaces, Jakkuru Layout, Bengaluru, Karnataka, INDIA, Pin Code - 560092",
+    "arcCaption": "Our onsite-offshore delivery model ensures cost, time and delivery efficiency across time zones."
+  }
+}

@@ -1,0 +1,60 @@
+---
+// src/pages/flexibility.astro
+import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import EngagementTabs from '../components/islands/EngagementTabs';
+import CTABand from '../components/CTABand.astro';
+
+const whyEntry = await getEntry('whyApt', 'flexibility');
+if (!whyEntry) throw new Error('whyApt/flexibility content entry missing');
+const { title, pageTitle, intro, models } = whyEntry.data;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://aptinfosoft.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": pageTitle,
+      "item": "https://aptinfosoft.com/flexibility/"
+    }
+  ]
+};
+---
+
+<Base
+  title={`${pageTitle} – Apt Infosoft`}
+  description={intro ? intro.slice(0, 155) : title}
+  jsonLd={breadcrumbSchema}
+>
+  <!-- Hero -->
+  <section class="py-20 lg:py-28 bg-[#f6f9fc] border-b border-slate-200 text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-[#033275] text-xs font-bold uppercase tracking-wider mb-4">
+        <span>Why Apt</span>
+      </span>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-[#033275] tracking-tight mb-6">
+        {pageTitle}
+      </h1>
+      <p class="text-base sm:text-xl text-slate-700 leading-relaxed font-normal max-w-2xl mx-auto">
+        {intro}
+      </p>
+    </div>
+  </section>
+
+  <!-- Interactive Engagement Tabs -->
+  <section class="py-24 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      {models && <EngagementTabs client:visible models={models} />}
+    </div>
+  </section>
+
+  <CTABand />
+</Base>

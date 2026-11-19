@@ -1,0 +1,100 @@
+---
+// PillarsScrollStory.astro
+// Pinned scroll story with GSAP ScrollTrigger pin, photo clip-path reveal, and progress rail.
+import { Image } from 'astro:assets';
+import { siteContent } from '../content/site';
+import img1 from '../assets/1.jpg';
+import img2 from '../assets/2.jpg';
+import img3 from '../assets/3.jpg';
+
+const pillars = siteContent.pillars;
+const images = [img1, img2, img3];
+---
+
+<section id="pillars" class="relative py-24 sm:py-32 bg-[#eef7fd] border-b border-[#d4e8f7]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="max-w-3xl mb-16">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7] shadow-sm">
+        <span>Strategic Foundation</span>
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black text-[#003074] tracking-tight">
+        Apt <span class="text-[#0088cc]">•</span> Agile <span class="text-[#0088cc]">•</span> Assured
+      </h2>
+    </div>
+
+    <!-- Pinned Scroll Story Layout -->
+    <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      
+      <!-- Left: Vertical Progress Rail + Steps (6 cols) -->
+      <div class="lg:col-span-6 relative flex gap-6 sm:gap-8">
+        
+        <!-- Animated Progress Rail -->
+        <div class="relative w-1 bg-[#d4e8f7] rounded-full shrink-0 my-4 hidden sm:block">
+          <div
+            id="pillars-rail-indicator"
+            class="absolute top-0 left-0 w-full bg-[#0088cc] rounded-full origin-top scale-y-0 h-full"
+          />
+        </div>
+
+        <!-- Pillar Step Cards -->
+        <div class="space-y-8 sm:space-y-12 w-full">
+          {pillars.map((pillar, idx) => (
+            <div
+              class={`pillar-step-card p-8 rounded-2xl bg-white border border-[#d4e8f7] shadow-sm transition-all duration-300 ${
+                idx === 0 ? 'ring-2 ring-[#0070a8]/20' : ''
+              }`}
+            >
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-black uppercase tracking-widest text-[#0070a8]">
+                  {pillar.eyebrow}
+                </span>
+                <span class="w-2 h-2 rounded-full bg-[#0070a8]" />
+              </div>
+              <h3 class="text-3xl sm:text-4xl font-black text-[#003074] mb-4">
+                {pillar.name}
+              </h3>
+              <p class="text-sm sm:text-base text-[#003074]/90 leading-relaxed font-normal">
+                {pillar.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+      </div>
+
+      <!-- Right: Pinned Photo Reveal Container with Duotone & Mask (6 cols) -->
+      <div class="lg:col-span-6 relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#003074] shadow-2xl border-4 border-white">
+        {pillars.map((pillar, idx) => (
+          <div
+            class={`pillar-photo absolute inset-0 w-full h-full transition-all duration-500 overflow-hidden ${
+              idx === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}
+          >
+            <Image
+              src={images[idx]}
+              alt={pillar.name}
+              width={800}
+              height={600}
+              format="avif"
+              class="w-full h-full object-cover duotone-logo"
+            />
+            {/* Logo-color duotone overlay */}
+            <div class="absolute inset-0 bg-gradient-to-tr from-[#003074]/60 via-[#0088cc]/30 to-transparent mix-blend-multiply pointer-events-none" />
+            <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-white/95 backdrop-blur-md border border-[#d4e8f7] flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#003074]">
+                Pillar {idx + 1} &mdash; {pillar.name}
+              </span>
+              <span class="text-xs font-mono font-bold text-[#0070a8]">
+                0{idx + 1} / 03
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+
+  </div>
+</section>

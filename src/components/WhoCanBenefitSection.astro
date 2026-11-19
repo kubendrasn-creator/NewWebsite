@@ -1,0 +1,48 @@
+---
+// WhoCanBenefitSection.astro
+import { getCollection, getEntry } from 'astro:content';
+import AudienceSelector from './islands/AudienceSelector';
+
+const audienceList = await getCollection('audience');
+const sortedAudience = audienceList.sort((a, b) => a.data.order - b.data.order);
+
+const servicesList = await getCollection('services');
+const serviceMetas = servicesList
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((s) => ({
+    id: s.data.id,
+    shortTitle: s.data.shortTitle,
+    href: `/services/${s.data.id}/`,
+  }));
+
+const siteEntry = await getEntry('site', 'data');
+if (!siteEntry) throw new Error('site/data content entry missing');
+const { about } = siteEntry.data;
+---
+
+<section class="py-24 bg-[#f6f9fc] border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#005bb5] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-100">
+        <span>Engagement Alignment</span>
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black text-[#033275] tracking-tight">
+        {about.audienceHeading}
+      </h2>
+    </div>
+
+    <!-- Audience Selector Preact Island -->
+    <AudienceSelector
+      client:visible
+      items={sortedAudience.map((a) => ({
+        id: a.data.id,
+        letter: a.data.letter,
+        text: a.data.text,
+        matchedServices: a.data.matchedServices,
+      }))}
+      services={serviceMetas}
+    />
+
+  </div>
+</section>

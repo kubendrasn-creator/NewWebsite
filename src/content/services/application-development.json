@@ -1,0 +1,14 @@
+{
+  "id": "application-development",
+  "title": "Custom Application Development",
+  "shortTitle": "Application Development",
+  "text": "We specialize in developing new applications and maintaining your existing ones. Our rich experience will help us understand your business needs and deliver standards-driven quality applications at low cost. We can meet your development needs for",
+  "items": [
+    "Mobile applications",
+    "Web applications",
+    "Standalone windows application"
+  ],
+  "advantages": [],
+  "order": 2,
+  "icon": "application-development"
+}

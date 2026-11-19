@@ -1,49 +1,48 @@
 ---
-// Base.astro
+// Base.astro - Light Mode Only Design System
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
 import '../styles/global.css';
 
 interface Props {
-  title: string;
-  description: string;
-  ogImage?: string;
-  canonical?: string;
+  title?: string;
+  description?: string;
   jsonLd?: object | object[];
 }
 
 const {
-  title,
-  description,
-  ogImage = '/og-image.svg',
-  canonical,
+  title = 'Apt Infosoft – Engineering Software Built to Last',
+  description = 'Product engineering, custom application development, cloud SaaS, application modernization, testing, and business reporting & analytics for SMEs.',
   jsonLd,
 } = Astro.props;
 
-const siteUrl = 'https://aptinfosoft.com';
-const canonicalUrl = canonical || new URL(Astro.url.pathname, siteUrl).toString();
-const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const siteUrl = 'https://kubendrasn-creator.github.io/NewWebsite';
+const canonicalUrl = `${siteUrl}/`;
+const logoUrl = `${siteUrl}/logo.png`;
 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Apt Infosoft",
   "url": siteUrl,
-  "logo": `${siteUrl}/logo.svg`,
-  "description": "IT services company engineering software that fits your business, built to last.",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "info@aptinfosoft.com",
-    "contactType": "Customer Support"
-  },
-  "sameAs": [
-    "https://in.linkedin.com/company/apt-infosoft-pvt-ltd"
-  ]
+  "logo": logoUrl,
+  "email": "info@aptinfosoft.com",
+  "telephone": ["+1-678-389-2238", "+91-9902999224"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "4th Floor Vista Pixel, Vista Spaces, Jakkuru Layout",
+    "addressLocality": "Bengaluru",
+    "addressRegion": "Karnataka",
+    "postalCode": "560092",
+    "addressCountry": "IN"
+  }
 };
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" style="color-scheme: light;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,15 +51,15 @@ const organizationSchema = {
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href={`${baseUrl}/logo.png`} />
+    <link rel="apple-touch-icon" href={`${baseUrl}/logo.png`} />
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Meta -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image" content={logoUrl} />
     <meta property="og:site_name" content="Apt Infosoft" />
 
     <!-- Twitter -->
@@ -68,35 +67,20 @@ const organizationSchema = {
     <meta name="twitter:url" content={canonicalUrl} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image" content={logoUrl} />
 
-    <!-- System Font Fallback & Self-hosted Optimization -->
+    <!-- Self-hosted font family Plus Jakarta Sans definition -->
     <style is:inline>
       @font-face {
-        font-family: 'Inter';
+        font-family: 'Plus Jakarta Sans';
         font-style: normal;
-        font-weight: 100 900;
+        font-weight: 400 800;
         font-display: swap;
-        src: local('Inter'), local('Inter-Regular'), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        src: local('Plus Jakarta Sans'), local('Inter'), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       }
     </style>
 
-    <!-- Inline Script to prevent Theme Flash (FOUC) -->
-    <script is:inline>
-      (function() {
-        try {
-          const stored = localStorage.getItem('theme');
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (stored === 'dark' || (!stored && prefersDark)) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-          }
-        } catch (e) {}
-      })();
-    </script>
-
-    <!-- Site-wide JSON-LD Schema -->
+    <!-- Structured Data Organization JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
 
     <!-- Page Specific JSON-LD Schema -->
@@ -107,21 +91,47 @@ const organizationSchema = {
       />
     )}
   </head>
-  <body class="bg-[var(--color-bg)] text-[var(--color-text)] transition-colors antialiased min-h-screen flex flex-col">
+  <body class="bg-white text-[#003074] antialiased min-h-screen flex flex-col relative selection:bg-[#0088cc] selection:text-white">
+    
+    <!-- Stroke-draw Preloader (max 900ms, skippable, 1x per session) -->
+    <Preloader />
+
+    <!-- CSS Scroll-driven Progress Bar -->
+    <div id="scroll-progress-bar" aria-hidden="true" />
+
+    <!-- Subtle Film Grain Overlay -->
+    <div class="grain-overlay" aria-hidden="true" />
+
+    <!-- Custom Cursor Follower (pointer: fine only) -->
+    <div id="custom-cursor" class="custom-cursor-follower" aria-hidden="true" />
+
     <!-- Accessible Skip Link -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#0073df] focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2.5 focus:bg-[#0070a8] focus:text-white focus:rounded-xl focus:shadow-xl focus:outline-none font-bold text-xs uppercase tracking-wider"
     >
       Skip to main content
     </a>
 
+    <!-- Sticky Header -->
     <Header />
 
     <main id="main-content" class="flex-1">
       <slot />
     </main>
 
+    <!-- Footer -->
     <Footer />
+
+    <!-- Motion Controller Script -->
+    <script>
+      import { initMotion } from '../scripts/motion';
+      // Initialize motion when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => initMotion());
+      } else {
+        initMotion();
+      }
+    </script>
   </body>
 </html>

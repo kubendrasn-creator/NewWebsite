@@ -1,0 +1,19 @@
+{
+  "id": "flexibility",
+  "title": "Flexibility",
+  "pageTitle": "Flexibility",
+  "slug": "flexibility",
+  "cardText": "We provide services through time-tested business engagement models, but are open to customize engagement...",
+  "intro": "We provide services through time-tested business engagement models, but are open to customize the engagement model to suit your specific requirements. Typical models we support are:",
+  "models": [
+    {
+      "name": "Time & Material",
+      "description": "We manage T&M projects as per your specific requirements, depth of scope, and degree of coverage. In this model, we ensure that your project gets the right resources with the right education, skillset and relevant project experience. We could also work out a single blend rate, i.e., one agreed upon rate for all resources involved in the project. In such cases we work in close coordination with you to agree upon a decomposition and resource allocation model to help you understand the rationale behind such blending."
+    },
+    {
+      "name": "Fixed Price",
+      "description": "As per this model we furnish complete details on how the project will be executed well before project kick-off. As the requirements are clear, periodic deliverables at agreed upon timelines (milestones) are possible in this model. Planning is the key in such projects and any scope creep and scope changes may need to be treated on a case to case basis and additional effort would need to be planned accordingly."
+    }
+  ],
+  "order": 1
+}

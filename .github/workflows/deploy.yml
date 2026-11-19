@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
   workflow_dispatch:
 
 permissions:
@@ -41,7 +42,6 @@ jobs:
         env:
           ASTRO_TELEMETRY_DISABLED: '1'
           PUBLIC_WEB3FORMS_KEY: ${{ secrets.PUBLIC_WEB3FORMS_KEY }}
-          PUBLIC_CALENDLY_URL: ${{ secrets.PUBLIC_CALENDLY_URL }}
         run: pnpm run build
 
       - name: Upload GitHub Pages Artifact

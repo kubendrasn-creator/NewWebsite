@@ -1,0 +1,25 @@
+---
+// CTABand.astro
+import { getEntry } from 'astro:content';
+
+const siteEntry = await getEntry('site', 'data');
+if (!siteEntry) throw new Error('site/data content entry missing');
+const { hero } = siteEntry.data;
+---
+
+<section class="py-20 bg-gradient-to-r from-[#0073df] via-[#028ace] to-[#033275] text-white text-center relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-8 leading-snug">
+      {hero.subtext}
+    </h2>
+    <a
+      href="/contact/"
+      class="inline-flex items-center justify-center px-10 py-4 rounded-xl text-base font-bold text-[#033275] bg-white hover:bg-slate-50 shadow-xl transition-all duration-200 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-white"
+    >
+      <span>Contact Us</span>
+      <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+    </a>
+  </div>
+</section>
