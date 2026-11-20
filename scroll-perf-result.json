@@ -1,12 +1,10 @@
 {
-  "totalFrames": 848,
+  "totalFrames": 895,
   "p50": 16.7,
   "p95": 16.8,
-  "p99": 33.4,
-  "pctOver16": 43.3,
-  "pctOver33": 2.6,
-  "longFramesCount": 22,
-  "sectionsWithLongFrames": {
-    "services": 22
-  }
+  "p99": 16.8,
+  "pctOver16": 46,
+  "pctOver33": 0,
+  "longFramesCount": 0,
+  "sectionsWithLongFrames": {}
 }

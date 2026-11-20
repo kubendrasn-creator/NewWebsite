@@ -1,14 +1,15 @@
 ---
-// Hero.astro
+// src/components/Hero.astro
 // WebGL aurora mesh canvas + CSS animated fallback + kinetic per-word masked reveal
-// + Signature HeroSwoosh graphic + clamp(3.5rem, 9vw, 10rem) typography.
+// + Signature HeroSwoosh graphic + clamp(3.5rem, 8.5vw, 8.5rem) typography.
 import { siteContent } from '../content/site';
 import HeroSwoosh from './illustrations/HeroSwoosh.astro';
+import { url } from '../utils/url';
 
 const { hero } = siteContent;
 ---
 
-<section id="top" class="relative min-h-[94vh] flex items-center justify-center pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+<section id="top" class="relative min-h-[94vh] flex flex-col items-center justify-center pt-40 sm:pt-48 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
   
   <!-- Fallback CSS Animated Mesh Gradient (@property driven) -->
   <div class="absolute inset-0 bg-gradient-to-br from-[#ffffff] via-[#eef7fd] to-[#f5fafe] -z-20 pointer-events-none" />
@@ -54,10 +55,11 @@ const { hero } = siteContent;
       {hero.subhead}
     </p>
 
-    <!-- CTAs: Two Magnetic Buttons (with hash-less URL script interception) -->
+    <!-- CTAs: Two Magnetic Buttons linking to real routes -->
     <div class="pt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
       <a
-        href={hero.primaryHref}
+        href={url(hero.primaryHref)}
+        data-astro-prefetch="hover"
         class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-white bg-[#0070a8] hover:bg-[#003074] shadow-lg shadow-blue-900/15 transition-all duration-200"
       >
         <span>{hero.primaryCTA}</span>
@@ -65,7 +67,8 @@ const { hero } = siteContent;
       </a>
 
       <a
-        href={hero.secondaryHref}
+        href={url(hero.secondaryHref)}
+        data-astro-prefetch="hover"
         class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-[#003074] bg-white border-2 border-[#d4e8f7] hover:border-[#0088cc] hover:text-[#0088cc] hover:bg-[#eef7fd]/50 transition-all duration-200"
       >
         <span>{hero.secondaryCTA}</span>
@@ -86,30 +89,21 @@ const { hero } = siteContent;
 </section>
 
 <script>
-  // Cut WebGL on mobile devices (<768px) and prefers-reduced-motion: fallback to CSS animated mesh gradient
-  if (typeof window !== 'undefined' && window.innerWidth >= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => {
-        loadShader();
-      });
-    } else {
-      setTimeout(loadShader, 200);
+  // WebGL shader initialization for desktop hero
+  function setupShader() {
+    if (typeof window !== 'undefined' && window.innerWidth >= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const canvas = document.getElementById('hero-webgl-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+
+      import('../scripts/hero-webgl').then(({ initHeroShader }) => {
+        const cleanup = initHeroShader(canvas);
+        if (cleanup) {
+          canvas.classList.remove('opacity-0');
+          canvas.classList.add('opacity-100');
+        }
+      }).catch(() => {});
     }
   }
 
-  async function loadShader() {
-    const canvas = document.getElementById('hero-webgl-canvas') as HTMLCanvasElement;
-    if (!canvas) return;
-
-    try {
-      const { initHeroShader } = await import('../scripts/hero-webgl');
-      const cleanup = initHeroShader(canvas);
-      if (cleanup) {
-        canvas.classList.remove('opacity-0');
-        canvas.classList.add('opacity-100');
-      }
-    } catch {
-      // Graceful fallback to CSS gradient
-    }
-  }
+  document.addEventListener('astro:page-load', setupShader);
 </script>

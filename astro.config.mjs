@@ -9,6 +9,10 @@ export default defineConfig({
   site: 'https://kubendrasn-creator.github.io',
   base: '/NewWebsite',
   trailingSlash: 'always',
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
   integrations: [preact(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

@@ -17,7 +17,11 @@ export default function EngagementTabs({ models }: EngagementTabsProps) {
     <div class="w-full max-w-4xl mx-auto space-y-8">
       {/* Tab Switcher */}
       <div class="flex items-center justify-center">
-        <div class="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200" role="tablist" aria-label="Engagement Models">
+        <div
+          class="inline-flex p-1.5 rounded-2xl bg-[#eef7fd] border border-[#d4e8f7] shadow-inner"
+          role="tablist"
+          aria-label="Engagement Models"
+        >
           {models.map((model, idx) => {
             const isActive = activeIndex === idx;
             return (
@@ -31,8 +35,8 @@ export default function EngagementTabs({ models }: EngagementTabsProps) {
                 onClick={() => setActiveIndex(idx)}
                 class={`relative px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-white text-[#0073df] shadow-sm border border-slate-200/60'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-[#0070a8] shadow-md border border-[#d4e8f7]'
+                    : 'text-[#003074]/70 hover:text-[#003074]'
                 }`}
               >
                 {model.name}
@@ -52,15 +56,15 @@ export default function EngagementTabs({ models }: EngagementTabsProps) {
               id={`panel-${idx}`}
               role="tabpanel"
               aria-labelledby={`tab-${idx}`}
-              class="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200 shadow-sm transition-all duration-300 animate-fadeIn"
+              class="p-8 sm:p-10 rounded-3xl bg-white border border-[#d4e8f7] shadow-lg shadow-blue-900/5 transition-all duration-300"
             >
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#005bb5] text-xs font-bold uppercase tracking-wider mb-4 border border-blue-100">
-                <span>Model {idx + 1}</span>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7]">
+                <span>Model 0{idx + 1}</span>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-extrabold text-[#033275] mb-4">
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-[#003074] mb-4">
                 {model.name}
-              </h2>
-              <p class="text-base sm:text-lg text-slate-700 leading-relaxed font-normal">
+              </h3>
+              <p class="text-base sm:text-lg text-[#003074]/85 leading-relaxed font-normal">
                 {model.description}
               </p>
             </div>

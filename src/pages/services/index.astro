@@ -1,66 +1,160 @@
 ---
 // src/pages/services/index.astro
+// Sticky stacked card deck (desktop) of all six services with large bespoke illustrations;
+// vertical stack on mobile. Each card links directly to its dedicated scene page.
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
-import ServiceAnimation from '../../components/ServiceAnimation.astro';
+import { siteContent } from '../../content/site';
+import { url } from '../../utils/url';
+import ServiceEngineering from '../../components/illustrations/ServiceEngineering.astro';
+import ServiceCustomApp from '../../components/illustrations/ServiceCustomApp.astro';
+import ServiceSaaS from '../../components/illustrations/ServiceSaaS.astro';
+import ServiceModernization from '../../components/illustrations/ServiceModernization.astro';
+import ServiceTesting from '../../components/illustrations/ServiceTesting.astro';
+import ServiceAnalytics from '../../components/illustrations/ServiceAnalytics.astro';
 import CTABand from '../../components/CTABand.astro';
 
-const services = await getCollection('services');
-const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+const services = siteContent.services;
 ---
 
 <Base
-  title="Our Services – Apt Infosoft"
-  description="Product Engineering, Application Development, Software as a Service, Application Modernization, Testing, and Business Analytics."
+  title="Practice Areas & Services – Apt Infosoft"
+  description="Explore our six core competencies: Product Engineering, Custom Application Development, Cloud SaaS, Application Modernization, QA & Testing, and Business Analytics."
 >
-  <!-- Services Index Hero -->
-  <section class="py-20 lg:py-24 bg-[#f6f9fc] border-b border-slate-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-[#033275] text-xs font-bold uppercase tracking-wider mb-4">
-        <span>Practice Areas</span>
-      </span>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-[#033275] tracking-tight mb-6">
-        Our Services
-      </h1>
-    </div>
-  </section>
-
-  <!-- Services Bento Grid -->
-  <section class="py-24 bg-white">
+  <section class="pt-36 pb-24 sm:pt-44 sm:pb-32 bg-white relative border-b border-[#d4e8f7]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {sortedServices.map((svc) => (
-          <a
-            href={`/services/${svc.data.id}/`}
-            class="spotlight-card group p-8 rounded-3xl block relative overflow-hidden focus-visible:outline-2 focus-visible:outline-[#0073df]"
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7]">
+          <span>Core Competencies</span>
+        </span>
+        <h1 class="section-title text-[#003074] outline-none">
+          Practice Areas &amp; Services
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-[#003074]/80">
+          Standards-driven quality applications, modernization, and dedicated engineering.
+        </p>
+      </div>
+
+      <!-- Desktop Sticky Stacked Card Deck (`#services-deck`) -->
+      <div id="services-deck" class="hidden lg:block relative space-y-12 pb-24">
+        {services.map((svc, idx) => (
+          <div
+            class="service-card-stack sticky top-24 rounded-3xl bg-white border-2 border-[#d4e8f7] shadow-xl overflow-hidden p-10 transition-all duration-300"
+            data-cursor="view"
+            data-service-index={idx}
+            style={{ viewTransitionName: `service-card-${svc.slug}` }}
           >
-            <!-- Micro-Animation Container -->
-            <div class="mb-6 p-4 rounded-2xl bg-blue-50/60 w-fit group-hover:bg-blue-100/70 transition-colors">
-              <ServiceAnimation icon={svc.data.icon} />
+            <div class="grid grid-cols-12 gap-10 items-center">
+              
+              <!-- Left Column: Details (7 cols) -->
+              <div class="col-span-7 space-y-6">
+                <div class="flex items-center gap-4">
+                  <span class="text-sm font-black tracking-widest text-[#0088cc] uppercase font-mono">
+                    Practice Area {svc.number}
+                  </span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-[#0070a8]" />
+                  <span class="text-xs font-bold uppercase tracking-wider text-[#0070a8]">
+                    {svc.tagline}
+                  </span>
+                </div>
+
+                <h2 class="text-3xl lg:text-4xl font-black text-[#003074] leading-tight">
+                  <a href={url(`/services/${svc.slug}`)} class="hover:text-[#0088cc] transition-colors">
+                    {svc.title}
+                  </a>
+                </h2>
+
+                <p class="text-base text-[#003074]/85 leading-relaxed font-normal">
+                  {svc.summary}
+                </p>
+
+                {svc.bulletPoints && (
+                  <ul class="grid grid-cols-2 gap-3 pt-2">
+                    {svc.bulletPoints.map((pt) => (
+                      <li class="flex items-start gap-2 text-xs text-[#003074]/90 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#0088cc] mt-1.5 shrink-0" />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <div class="pt-4 flex items-center gap-4">
+                  <a
+                    href={url(`/services/${svc.slug}`)}
+                    data-astro-prefetch="hover"
+                    class="magnetic-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#0070a8] hover:bg-[#003074] transition-colors shadow-md shadow-blue-900/10 cursor-pointer"
+                  >
+                    <span>Explore Full Capability Scene</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Right Column: Bespoke SVG Scene (5 cols) -->
+              <div class="col-span-5 aspect-[4/3] rounded-2xl bg-[#eef7fd] border border-[#d4e8f7] flex items-center justify-center p-6 relative overflow-hidden">
+                {idx === 0 && <ServiceEngineering />}
+                {idx === 1 && <ServiceCustomApp />}
+                {idx === 2 && <ServiceSaaS />}
+                {idx === 3 && <ServiceModernization />}
+                {idx === 4 && <ServiceTesting />}
+                {idx === 5 && <ServiceAnalytics />}
+              </div>
+
             </div>
-
-            <h2
-              class="text-xl sm:text-2xl font-bold text-[#033275] mb-3 group-hover:text-[#0073df] transition-colors"
-              transition:name={`service-title-${svc.data.id}`}
-            >
-              {svc.data.title}
-            </h2>
-
-            <p class="text-sm text-slate-600 leading-relaxed font-normal mb-6">
-              {svc.data.text}
-            </p>
-
-            <div class="inline-flex items-center text-xs sm:text-sm font-bold text-[#0073df] group-hover:translate-x-1 transition-transform">
-              <span>Learn more</span>
-              <svg class="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </a>
+          </div>
         ))}
       </div>
+
+      <!-- Mobile Vertical Stack (<1024px) -->
+      <div class="lg:hidden space-y-8">
+        {services.map((svc, idx) => (
+          <div
+            class="bento-conic-border p-8 rounded-2xl bg-white border border-[#d4e8f7] shadow-sm space-y-6"
+            style={{ viewTransitionName: `service-card-${svc.slug}` }}
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black tracking-widest text-[#0088cc] uppercase font-mono">
+                Practice Area {svc.number}
+              </span>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#0070a8]">
+                {svc.tagline}
+              </span>
+            </div>
+
+            <div class="aspect-[16/9] rounded-xl bg-[#eef7fd] border border-[#d4e8f7] flex items-center justify-center p-4">
+              {idx === 0 && <ServiceEngineering />}
+              {idx === 1 && <ServiceCustomApp />}
+              {idx === 2 && <ServiceSaaS />}
+              {idx === 3 && <ServiceModernization />}
+              {idx === 4 && <ServiceTesting />}
+              {idx === 5 && <ServiceAnalytics />}
+            </div>
+
+            <h2 class="text-2xl font-black text-[#003074]">
+              {svc.title}
+            </h2>
+
+            <p class="text-sm text-[#003074]/85 leading-relaxed">
+              {svc.summary}
+            </p>
+
+            <a
+              href={url(`/services/${svc.slug}`)}
+              data-astro-prefetch="hover"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#0070a8] hover:bg-[#003074]"
+            >
+              <span>Explore Capability Scene</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        ))}
+      </div>
+
     </div>
   </section>
 
+  <!-- CTA Band -->
   <CTABand />
 </Base>

@@ -1,9 +1,10 @@
 ---
-// Base.astro - Light Mode Only Design System
+// src/layouts/Base.astro - Multi-page Light Mode Only with ClientRouter
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Preloader from '../components/Preloader.astro';
 import '../styles/global.css';
+import { url, asset, BASE_URL } from '../utils/url';
 
 interface Props {
   title?: string;
@@ -17,16 +18,14 @@ const {
   jsonLd,
 } = Astro.props;
 
-const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-const siteUrl = 'https://kubendrasn-creator.github.io/NewWebsite';
-const canonicalUrl = `${siteUrl}/`;
-const logoUrl = `${siteUrl}/logo.png`;
+const canonicalUrl = new URL(Astro.url.pathname, 'https://kubendrasn-creator.github.io').toString();
+const logoUrl = 'https://kubendrasn-creator.github.io/NewWebsite/logo.png';
 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Apt Infosoft",
-  "url": siteUrl,
+  "url": "https://kubendrasn-creator.github.io/NewWebsite/",
   "logo": logoUrl,
   "email": "info@aptinfosoft.com",
   "telephone": ["+1-678-389-2238", "+91-9902999224"],
@@ -42,7 +41,7 @@ const organizationSchema = {
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" style="color-scheme: light;">
+<html lang="en" style="color-scheme: light;" data-direction="forward">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,8 +50,8 @@ const organizationSchema = {
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href={`${baseUrl}/logo.png`} />
-    <link rel="apple-touch-icon" href={`${baseUrl}/logo.png`} />
+    <link rel="icon" type="image/png" href={asset('logo.png')} />
+    <link rel="apple-touch-icon" href={asset('logo.png')} />
 
     <!-- Open Graph / Meta -->
     <meta property="og:type" content="website" />
@@ -69,7 +68,7 @@ const organizationSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={logoUrl} />
 
-    <!-- Self-hosted font family Plus Jakarta Sans definition -->
+    <!-- Font Family Plus Jakarta Sans -->
     <style is:inline>
       @font-face {
         font-family: 'Plus Jakarta Sans';
@@ -79,6 +78,42 @@ const organizationSchema = {
         src: local('Plus Jakarta Sans'), local('Inter'), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       }
     </style>
+
+    <!-- Astro ClientRouter for View Transitions with fallback -->
+    <ClientRouter fallback="animate" />
+
+    <!-- Direction determination for ~8° Slanted Transition Wipe -->
+    <script is:inline define:vars={{ BASE_URL }}>
+      (function() {
+        var navOrder = [
+          BASE_URL + '/',
+          BASE_URL + '/services/',
+          BASE_URL + '/why-apt/',
+          BASE_URL + '/about/',
+          BASE_URL + '/careers/',
+          BASE_URL + '/contact/'
+        ];
+
+        document.addEventListener('astro:before-preparation', function(event) {
+          var fromPath = window.location.pathname.replace(/\/$/, '') || '/';
+          var toPath = new URL(event.to).pathname.replace(/\/$/, '') || '/';
+
+          var fromIdx = -1;
+          var toIdx = -1;
+          for (var i = 0; i < navOrder.length; i++) {
+            var p = navOrder[i].replace(/\/$/, '');
+            if (fromPath === p || (p !== BASE_URL && fromPath.indexOf(p) === 0)) fromIdx = i;
+            if (toPath === p || (p !== BASE_URL && toPath.indexOf(p) === 0)) toIdx = i;
+          }
+
+          var direction = 'forward';
+          if (fromIdx !== -1 && toIdx !== -1) {
+            direction = toIdx < fromIdx ? 'back' : 'forward';
+          }
+          document.documentElement.setAttribute('data-direction', direction);
+        });
+      })();
+    </script>
 
     <!-- Structured Data Organization JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
@@ -93,17 +128,11 @@ const organizationSchema = {
   </head>
   <body class="bg-white text-[#003074] antialiased min-h-screen flex flex-col relative selection:bg-[#0088cc] selection:text-white">
     
-    <!-- Stroke-draw Preloader (max 900ms, skippable, 1x per session) -->
-    <Preloader />
-
-    <!-- CSS Scroll-driven Progress Bar -->
+    <!-- Scroll Progress Bar -->
     <div id="scroll-progress-bar" aria-hidden="true" />
 
     <!-- Subtle Film Grain Overlay -->
     <div class="grain-overlay" aria-hidden="true" />
-
-    <!-- Custom Cursor Follower (pointer: fine only) -->
-    <div id="custom-cursor" class="custom-cursor-follower" aria-hidden="true" />
 
     <!-- Accessible Skip Link -->
     <a
@@ -113,7 +142,10 @@ const organizationSchema = {
       Skip to main content
     </a>
 
-    <!-- Sticky Header -->
+    <!-- Polite Live Region for Route Change Announcements -->
+    <div id="a11y-route-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Persistent Header across transitions -->
     <Header />
 
     <main id="main-content" class="flex-1">
@@ -123,18 +155,9 @@ const organizationSchema = {
     <!-- Footer -->
     <Footer />
 
-    <!-- Motion Controller Script: dynamic import splits desktop motion from mobile -->
+    <!-- Load Unified Motion & Lifecycle Engine -->
     <script>
-      const isDesktop = window.innerWidth >= 1024;
-      if (isDesktop) {
-        import('../scripts/motion').then(({ initMotion }) => {
-          initMotion();
-        });
-      } else {
-        import('../scripts/mobile-nav').then(({ initMobileNav }) => {
-          initMobileNav();
-        });
-      }
+      import '../scripts/motion';
     </script>
   </body>
 </html>

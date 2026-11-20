@@ -119,22 +119,39 @@ export function initHeroShader(canvas: HTMLCanvasElement) {
   }
 
   // Pause when hero is offscreen
+  let isIntersecting = true;
   const obs = new IntersectionObserver(
-    ([entry]) => { paused = !entry.isIntersecting; },
+    ([entry]) => {
+      isIntersecting = entry.isIntersecting;
+      paused = !isIntersecting;
+    },
     { threshold: 0 }
   );
   obs.observe(canvas);
 
+  // Pause rendering during active scrolling to keep 120 FPS buttery smooth
+  let scrollTimer: any;
+  const onScroll = () => {
+    paused = true;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      paused = !isIntersecting || document.hidden;
+    }, 150);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+
   // Pause when tab hidden
   document.addEventListener('visibilitychange', () => {
-    paused = document.hidden;
+    paused = document.hidden || !isIntersecting;
   });
 
   rafId = requestAnimationFrame(tick);
 
   return () => {
     cancelAnimationFrame(rafId);
+    clearTimeout(scrollTimer);
     obs.disconnect();
     window.removeEventListener('resize', resize);
+    window.removeEventListener('scroll', onScroll);
   };
 }

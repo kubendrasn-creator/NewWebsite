@@ -1,31 +1,38 @@
 ---
-// Header.astro — Sticky header, solid translucent bg (no backdrop-filter), sliding active pill
-const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-const logoSrc = `${baseUrl}/logo.png`;
+// src/components/Header.astro
+// Sticky header with transition:persist, active state from pathname, and no hash links.
+import { siteContent } from '../content/site';
+import { url, asset } from '../utils/url';
+
+const logoSrc = asset('logo.png');
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const navItems = [
-  { name: 'Services',  href: '#services' },
-  { name: 'Why Apt',   href: '#pillars'  },
-  { name: 'About',     href: '#about'    },
-  { name: 'Careers',   href: '#careers'  },
-  { name: 'Contact',   href: '#contact'  },
+  { name: 'Services',  path: '/services' },
+  { name: 'Why Apt',   path: '/why-apt'  },
+  { name: 'About',     path: '/about'    },
+  { name: 'Careers',   path: '/careers'  },
+  { name: 'Contact Us', path: '/contact'  },
 ];
 ---
 
 <header
   id="site-header"
   class="fixed top-0 left-0 right-0 z-50 header-top border-b border-[#d4e8f7]/50"
+  transition:persist
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between h-16 sm:h-20">
 
-      <!-- Brand Logo -->
+      <!-- Brand Logo (view-transition-name: brand-logo) -->
       <a
-        href={`${baseUrl}/`}
+        href={url('/')}
         class="inline-flex items-center shrink-0 focus-visible:outline-2 focus-visible:outline-[#0070a8] rounded-xl"
         aria-label="Apt Infosoft – Home"
+        data-astro-prefetch="viewport"
       >
         <img
+          id="header-logo-mark"
           src={logoSrc}
           alt="Apt Infosoft"
           width="210"
@@ -36,43 +43,47 @@ const navItems = [
         />
       </a>
 
-      <!-- Desktop Nav -->
+      <!-- Desktop Route Navigation -->
       <nav
         class="hidden md:flex relative items-center p-1.5 rounded-2xl bg-[#eef7fd]/80 border border-[#d4e8f7]"
-        aria-label="Main page navigation"
+        aria-label="Main navigation"
       >
-        <!-- Sliding active pill (positioned by GSAP) -->
-        <span
-          id="nav-sliding-pill"
-          class="absolute top-1.5 bottom-1.5 rounded-xl bg-white shadow-sm border border-[#d4e8f7] pointer-events-none"
-          style="width:0;left:0;"
-          aria-hidden="true"
-        />
-
-        {navItems.map((item) => (
-          <a
-            href={item.href}
-            class="nav-anchor-link relative z-10 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-[#003074] hover:text-[#0088cc] transition-colors"
-            data-section={item.href.slice(1)}
-          >
-            {item.name}
-          </a>
-        ))}
+        {navItems.map((item) => {
+          const itemUrl = url(item.path);
+          const cleanItemPath = itemUrl.replace(/\/$/, '');
+          const isActive = cleanItemPath === currentPath || (item.path !== '/' && currentPath.startsWith(cleanItemPath));
+          return (
+            <a
+              href={itemUrl}
+              data-astro-prefetch="viewport"
+              aria-current={isActive ? 'page' : undefined}
+              class={`nav-anchor-link relative z-10 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                isActive
+                  ? 'bg-white text-[#0070a8] shadow-sm border border-[#d4e8f7]'
+                  : 'text-[#003074] hover:text-[#0088cc]'
+              }`}
+            >
+              {item.name}
+            </a>
+          );
+        })}
       </nav>
 
-      <!-- Desktop CTA -->
+      <!-- Desktop Contact CTA -->
       <div class="hidden sm:flex items-center gap-3">
         <a
-          href="#contact"
+          href={url('/contact')}
+          data-astro-prefetch="viewport"
           class="magnetic-btn inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#0070a8] hover:bg-[#003074] shadow-md shadow-blue-900/10 transition-all duration-200"
         >
           Talk to Us
         </a>
       </div>
 
-      <!-- Mobile: compact CTA -->
+      <!-- Mobile CTA Button -->
       <a
-        href="#contact"
+        href={url('/contact')}
+        data-astro-prefetch="viewport"
         class="md:hidden inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#0070a8]"
       >
         Contact

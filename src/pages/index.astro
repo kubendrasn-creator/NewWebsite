@@ -1,43 +1,34 @@
 ---
 // src/pages/index.astro
-// Single-page, award-level static website for Apt Infosoft
+// Home: Hero, Marquee, Pillars (pinned scenes), Services Teaser, Delivery Route SVG, CTA Band
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Marquee from '../components/Marquee.astro';
 import PillarsScrollStory from '../components/PillarsScrollStory.astro';
-import ServicesSection from '../components/ServicesSection.astro';
+import ServicesTeaser from '../components/ServicesTeaser.astro';
 import DeliverySection from '../components/DeliverySection.astro';
-import WhyAptSection from '../components/WhyAptSection.astro';
-import AboutSection from '../components/AboutSection.astro';
-import CareersSection from '../components/CareersSection.astro';
-import ContactSection from '../components/ContactSection.astro';
+import CTABand from '../components/CTABand.astro';
 ---
 
-<Base>
-  <!-- 1. HERO -->
+<Base
+  title="Apt Infosoft – Engineering Software Built to Last"
+  description="Our Vision is to help small and mid-sized enterprises reap the benefits of modern technology and globalization."
+>
+  <!-- 1. Hero with WebGL Shader & Swoosh "i" Signature Graphic -->
   <Hero />
 
-  <!-- 2. MARQUEE -->
+  <!-- 2. Infinite Service Marquee -->
   <Marquee />
 
-  <!-- 3. PILLARS (Apt / Agile / Assured) -->
+  <!-- 3. Pillars Scroll Story: Apt, Agile, Assured Pinned Scenes with Bespoke SVGs -->
   <PillarsScrollStory />
 
-  <!-- 4. SERVICES (Bento Grid + View Transition Modal) -->
-  <ServicesSection />
+  <!-- 4. Services Teaser: 6 Compact Cards Linking to Dedicated Service Pages -->
+  <ServicesTeaser />
 
-  <!-- 5. DELIVERY (US to Bengaluru Drawing Route) -->
+  <!-- 5. Delivery Route SVG: Onsite-Offshore Global Model -->
   <DeliverySection />
 
-  <!-- 6. WHY APT (Horizontal Pinned Scroll + Flexibility Tabs) -->
-  <WhyAptSection />
-
-  <!-- 7. ABOUT (Scroll-Linked Text Fill Reveal + 4 Expandable Cards) -->
-  <AboutSection />
-
-  <!-- 8. CAREERS (Role Cards + Verified No Openings States) -->
-  <CareersSection />
-
-  <!-- 9. CONTACT (Oversized CTA + Interactive Form + Direct Details) -->
-  <ContactSection />
+  <!-- 6. Action CTA Band -->
+  <CTABand />
 </Base>

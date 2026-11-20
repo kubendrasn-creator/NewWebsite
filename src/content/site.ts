@@ -3,6 +3,7 @@
 
 export interface ServiceDetail {
   id: string;
+  slug: string;
   number: string;
   title: string;
   shortTitle: string;
@@ -60,11 +61,11 @@ export const siteContent = {
     url: 'https://kubendrasn-creator.github.io/NewWebsite/',
   },
   nav: [
-    { name: 'Services', href: '#services' },
-    { name: 'Why Apt', href: '#why-apt' },
-    { name: 'About', href: '#about' },
-    { name: 'Careers', href: '#careers' },
-    { name: 'Contact Us', href: '#contact' },
+    { name: 'Services', href: '/services/' },
+    { name: 'Why Apt', href: '/why-apt/' },
+    { name: 'About', href: '/about/' },
+    { name: 'Careers', href: '/careers/' },
+    { name: 'Contact Us', href: '/contact/' },
   ],
   hero: {
     badge: 'Tailored Software Solutions',
@@ -72,9 +73,9 @@ export const siteContent = {
     headlineEmphasis: 'are alike.',
     subhead: 'Our Vision is to help small and mid-sized enterprises reap the benefits of modern technology and globalization.',
     primaryCTA: 'Our Services',
-    primaryHref: '#services',
+    primaryHref: '/services/',
     secondaryCTA: 'Contact Us',
-    secondaryHref: '#contact',
+    secondaryHref: '/contact/',
     scrollCue: 'Scroll to explore',
   },
   marquee: [
@@ -111,6 +112,7 @@ export const siteContent = {
   services: [
     {
       id: 'product-engineering',
+      slug: 'product-engineering',
       number: '01',
       title: 'Product Engineering Services',
       shortTitle: 'Product Engineering',
@@ -126,6 +128,7 @@ export const siteContent = {
     },
     {
       id: 'custom-application',
+      slug: 'application-development',
       number: '02',
       title: 'Custom Application Development',
       shortTitle: 'Custom Applications',
@@ -141,6 +144,7 @@ export const siteContent = {
     },
     {
       id: 'saas',
+      slug: 'saas',
       number: '03',
       title: 'Cloud Software as a Service (SaaS)',
       shortTitle: 'Cloud SaaS',
@@ -155,6 +159,7 @@ export const siteContent = {
     },
     {
       id: 'modernization',
+      slug: 'application-modernization',
       number: '04',
       title: 'Application Modernization / Migration Services',
       shortTitle: 'Modernization',
@@ -170,6 +175,7 @@ export const siteContent = {
     },
     {
       id: 'testing',
+      slug: 'testing',
       number: '05',
       title: 'Testing Services',
       shortTitle: 'Testing & QA',
@@ -185,6 +191,7 @@ export const siteContent = {
     },
     {
       id: 'analytics',
+      slug: 'business-analytics',
       number: '06',
       title: 'Business Reporting and Analytics',
       shortTitle: 'Business Analytics',
@@ -255,28 +262,28 @@ export const siteContent = {
         letter: 'A',
         title: 'New Product Ventures',
         description: 'If you have a product Idea and are looking to get it into the market we can work with you to convert your ideas into a marketable product.',
-        matchedServices: ['product-engineering', 'custom-application'],
+        matchedServices: ['Product Engineering', 'Custom Applications'],
       },
       {
         id: 'product-owners',
         letter: 'B',
         title: 'Product Modernization & Scale',
         description: 'If you are a product owner seeking to expand or upgrade your existing software products we can facilitate the migration of legacy systems into modern technology platforms and also take care of your new applications development needs.',
-        matchedServices: ['saas', 'modernization'],
+        matchedServices: ['Cloud SaaS', 'Modernization'],
       },
       {
         id: 'sme-enterprises',
         letter: 'C',
         title: 'SME Operational Streamlining',
         description: 'If you are a small or mid-sized enterprise considering technology to streamline business efficiency and improve quality, we help you find and implement off-the-shelf technology solutions or develop a custom solution for you to meet your specific needs and budget.',
-        matchedServices: ['custom-application', 'analytics'],
+        matchedServices: ['Custom Applications', 'Business Analytics'],
       },
       {
         id: 'strategic-roadmaps',
         letter: 'D',
         title: 'Enterprise Architecture & Roadmaps',
         description: "If you need a product roadmap or need us to determine your organization's technology landscape we partner with you to propose the right solutions for you.",
-        matchedServices: ['modernization', 'analytics', 'testing'],
+        matchedServices: ['Modernization', 'Business Analytics', 'Testing & QA'],
       },
     ] as AudienceItem[],
   },

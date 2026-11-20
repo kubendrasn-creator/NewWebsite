@@ -1,11 +1,11 @@
 ---
 // Footer.astro
-// Giant wordmark text reveal, unaltered logo, nav links, dynamic build year
+// Giant wordmark text reveal, unaltered logo, real route nav links, dynamic build year
 import { siteContent } from '../content/site';
+import { url, asset } from '../utils/url';
 
 const currentYear = new Date().getFullYear();
-const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-const logoSrc = `${baseUrl}/logo.png`;
+const logoSrc = asset('logo.png');
 ---
 
 <footer class="bg-[#003074] text-white pt-20 pb-12 border-t border-[#0088cc]/30 relative overflow-hidden">
@@ -19,7 +19,7 @@ const logoSrc = `${baseUrl}/logo.png`;
       
       <!-- Logo + Positioning Subhead (5 cols) -->
       <div class="md:col-span-5 space-y-4">
-        <a href="#top" class="inline-block" aria-label="Apt Infosoft Home">
+        <a href={url('/')} class="inline-block" aria-label="Apt Infosoft Home">
           <img
             src={logoSrc}
             alt="Apt Infosoft"
@@ -43,7 +43,7 @@ const logoSrc = `${baseUrl}/logo.png`;
         <ul class="grid grid-cols-2 gap-2 text-xs sm:text-sm font-semibold text-white/90">
           {siteContent.nav.map((item) => (
             <li>
-              <a href={item.href} class="hover:text-white hover:underline transition-colors">
+              <a href={url(item.href)} class="hover:text-white hover:underline transition-colors">
                 {item.name}
               </a>
             </li>
@@ -63,7 +63,7 @@ const logoSrc = `${baseUrl}/logo.png`;
 
     </div>
 
-    <!-- Giant Wordmark Graphic Reveal Motif (SVG Graphic) -->
+    <!-- Giant Wordmark Graphic Motif -->
     <div class="pt-12 pb-8 text-center select-none overflow-hidden" aria-hidden="true" role="presentation">
       <svg class="w-full h-16 sm:h-24 lg:h-36 overflow-visible" viewBox="0 0 1000 120" fill="none" aria-hidden="true">
         <text

@@ -1,0 +1,83 @@
+---
+// src/components/ServicesTeaser.astro
+// Compact 6-card services teaser on Home page linking to dedicated service pages
+import { siteContent } from '../content/site';
+import { url } from '../utils/url';
+
+const services = siteContent.services;
+---
+
+<section class="py-24 sm:py-32 bg-white relative border-b border-[#d4e8f7]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div class="max-w-2xl">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7]">
+          <span>Core Competencies</span>
+        </span>
+        <h2 class="section-title text-[#003074]">
+          Engineering Practices
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-[#003074]/80">
+          Standards-driven application development, cloud SaaS architectures, modernization, and enterprise reporting.
+        </p>
+      </div>
+
+      <div>
+        <a
+          href={url('/services')}
+          data-astro-prefetch="hover"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#0070a8] hover:bg-[#003074] transition-colors shadow-md shadow-blue-900/10"
+        >
+          <span>View All 6 Practice Areas</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 6 Compact Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {services.map((svc) => (
+        <a
+          href={url(`/services/${svc.slug}`)}
+          data-astro-prefetch="hover"
+          data-cursor="view"
+          style={{ viewTransitionName: `service-card-${svc.slug}` }}
+          class="bento-conic-border group p-8 rounded-2xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/5 focus-visible:outline-2 focus-visible:outline-[#0070a8]"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-black tracking-widest text-[#0088cc] uppercase font-mono">
+                {svc.number}
+              </span>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#eef7fd] text-[#0070a8] text-[11px] font-bold uppercase tracking-wider border border-[#d4e8f7]">
+                Practice Area
+              </span>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-black text-[#003074] mb-2 group-hover:text-[#0088cc] transition-colors">
+              {svc.title}
+            </h3>
+
+            <p class="text-xs font-bold uppercase tracking-wider text-[#0070a8] mb-3">
+              {svc.tagline}
+            </p>
+
+            <p class="text-sm text-[#003074]/80 leading-relaxed font-normal line-clamp-3">
+              {svc.summary}
+            </p>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-[#d4e8f7] flex items-center justify-between text-xs sm:text-sm font-bold text-[#0070a8] group-hover:text-[#003074] transition-colors">
+            <span>Explore Dedicated Capability</span>
+            <span class="transform group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden="true">
+              →
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</section>
+

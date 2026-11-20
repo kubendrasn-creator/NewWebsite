@@ -1,0 +1,246 @@
+---
+// src/pages/why-apt/index.astro
+import Base from '../../layouts/Base.astro';
+import { siteContent } from '../../content/site';
+import CTABand from '../../components/CTABand.astro';
+
+const flexibility = siteContent.whyApt[0];
+const reliability = siteContent.whyApt[1];
+const efficiency = siteContent.whyApt[2];
+
+const models = flexibility.models || [];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": siteContent.meta.url
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Why Apt",
+      "item": `${siteContent.meta.url}why-apt/`
+    }
+  ]
+};
+---
+
+<Base
+  title="Why Apt – Flexibility, Reliability & Efficiency | Apt Infosoft"
+  description="Discover how Apt Infosoft provides customized engagement models, scalable technical manpower, and onsite-offshore delivery efficiency for SMEs."
+  jsonLd={breadcrumbSchema}
+>
+  <!-- SCENE 1: FLEXIBILITY -->
+  <section class="scene-full why-apt-scene relative overflow-hidden bg-white border-b border-[#d4e8f7]">
+    <div class="scene-content-box w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col justify-center items-center text-center">
+      
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-6 border border-[#d4e8f7]">
+        <span class="w-2 h-2 rounded-full bg-[#0088cc]"></span>
+        <span>01 / Engagement Architecture</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-black text-[#003074] tracking-tight mb-6">
+        {flexibility.title}
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[#003074]/85 leading-relaxed max-w-3xl mb-10">
+        {flexibility.shortDescription}
+      </p>
+
+      <!-- Interactive Tabbed Engagement Models -->
+      <div class="w-full max-w-4xl mx-auto space-y-8 text-left">
+        <!-- Switcher Buttons -->
+        <div class="flex items-center justify-center">
+          <div class="inline-flex p-1.5 rounded-2xl bg-[#eef7fd] border border-[#d4e8f7] shadow-inner" role="tablist" aria-label="Engagement Models">
+            {models.map((m, idx) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-btn-${m.id}`}
+                data-tab-target={`panel-${m.id}`}
+                aria-selected={idx === 0 ? "true" : "false"}
+                aria-controls={`panel-${m.id}`}
+                class={`why-apt-tab-btn relative px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 cursor-pointer ${
+                  idx === 0
+                    ? 'bg-[#0070a8] text-white shadow-md'
+                    : 'bg-white text-[#003074] hover:bg-[#eef7fd]'
+                }`}
+              >
+                {m.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Panels -->
+        <div class="relative min-h-[220px]">
+          {models.map((m, idx) => (
+            <div
+              id={`panel-${m.id}`}
+              role="tabpanel"
+              aria-labelledby={`tab-btn-${m.id}`}
+              class={`why-apt-tab-panel p-8 sm:p-10 rounded-3xl bg-white border border-[#d4e8f7] shadow-xl shadow-blue-900/5 transition-all duration-300 ${
+                idx === 0 ? '' : 'hidden'
+              }`}
+            >
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7]">
+                <span>Model 0{idx + 1}</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-[#003074] mb-4">
+                {m.name}
+              </h2>
+              <p class="text-base sm:text-lg text-[#003074]/85 leading-relaxed font-normal">
+                {m.fullDescription}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SCENE 2: RELIABILITY AND SCALABILITY -->
+  <section class="scene-full why-apt-scene relative overflow-hidden bg-[#eef7fd]/50 border-b border-[#d4e8f7]">
+    <div class="scene-content-box w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col justify-center items-center">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+        <!-- Text Column (7 cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#0070a8] text-xs font-bold uppercase tracking-wider border border-[#d4e8f7]">
+            <span class="w-2 h-2 rounded-full bg-[#0088cc]"></span>
+            <span>02 / Critical Mass & Scale</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-5xl font-black text-[#003074] tracking-tight">
+            {reliability.title}
+          </h2>
+
+          <div class="p-8 sm:p-10 rounded-3xl bg-white border border-[#d4e8f7] shadow-lg shadow-blue-900/5 space-y-4">
+            <p class="text-base sm:text-lg text-[#003074]/90 leading-relaxed font-medium">
+              {reliability.shortDescription}
+            </p>
+            <p class="text-sm sm:text-base text-[#003074]/75 leading-relaxed">
+              Our technology expertise and the industry domain knowledge are the key factors that fulfil your business objectives. We work with you closely to assimilate your business objectives and technology requirements so that we provide you the right solution by leveraging the incredibly large talent pool at our disposal.
+            </p>
+            <p class="text-sm sm:text-base text-[#003074]/75 leading-relaxed">
+              Our global delivery model is built to address both the depth and scale depending on your specific needs. So choosing Apt-e-soft is the apt thing to do for you.
+            </p>
+          </div>
+        </div>
+
+        <!-- Bespoke SVG Graphic (5 cols) -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-md aspect-square rounded-3xl bg-white border border-[#d4e8f7] p-8 shadow-xl shadow-blue-900/5 flex items-center justify-center">
+            <svg class="w-full h-full text-[#0088cc]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="scale-grad" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#0088cc" />
+                  <stop offset="100%" stop-color="#003074" />
+                </linearGradient>
+                <radialGradient id="mesh-glow" cx="200" cy="200" r="180" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#eef7fd" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="200" cy="200" r="170" fill="url(#mesh-glow)" stroke="#d4e8f7" stroke-dasharray="4 4" />
+              <!-- Concentric Scalability Rings -->
+              <circle cx="200" cy="200" r="120" stroke="#0088cc" stroke-width="1.5" stroke-opacity="0.3" />
+              <circle cx="200" cy="200" r="70" stroke="#0070a8" stroke-width="2" stroke-opacity="0.6" />
+              <!-- Hub -->
+              <circle cx="200" cy="200" r="28" fill="url(#scale-grad)" />
+              <text x="200" y="206" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">APT</text>
+              <!-- Satellite Nodes -->
+              <g class="animate-pulse" style="animation-duration: 4s;">
+                <circle cx="110" cy="130" r="16" fill="#eef7fd" stroke="#0070a8" stroke-width="2" />
+                <path d="M125 142 L180 185" stroke="#0088cc" stroke-width="1.5" stroke-dasharray="2 3" />
+                <circle cx="290" cy="130" r="16" fill="#eef7fd" stroke="#0070a8" stroke-width="2" />
+                <path d="M275 142 L220 185" stroke="#0088cc" stroke-width="1.5" stroke-dasharray="2 3" />
+                <circle cx="110" cy="270" r="16" fill="#eef7fd" stroke="#0070a8" stroke-width="2" />
+                <path d="M125 258 L180 215" stroke="#0088cc" stroke-width="1.5" stroke-dasharray="2 3" />
+                <circle cx="290" cy="270" r="16" fill="#eef7fd" stroke="#0070a8" stroke-width="2" />
+                <path d="M275 258 L220 215" stroke="#0088cc" stroke-width="1.5" stroke-dasharray="2 3" />
+                <circle cx="200" cy="70" r="14" fill="#ffffff" stroke="#003074" stroke-width="2" />
+                <path d="M200 84 L200 172" stroke="#0070a8" stroke-width="1.5" />
+                <circle cx="200" cy="330" r="14" fill="#ffffff" stroke="#003074" stroke-width="2" />
+                <path d="M200 316 L200 228" stroke="#0070a8" stroke-width="1.5" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SCENE 3: EFFICIENCY -->
+  <section class="scene-full why-apt-scene relative overflow-hidden bg-white border-b border-[#d4e8f7]">
+    <div class="scene-content-box w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col justify-center items-center">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+        <!-- Bespoke SVG Graphic (5 cols) -->
+        <div class="lg:col-span-5 order-2 lg:order-1 flex justify-center">
+          <div class="relative w-full max-w-md aspect-square rounded-3xl bg-[#eef7fd]/60 border border-[#d4e8f7] p-8 shadow-xl shadow-blue-900/5 flex items-center justify-center">
+            <svg class="w-full h-full" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="eff-grad" x1="50" y1="200" x2="350" y2="200" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#0088cc" />
+                  <stop offset="50%" stop-color="#0070a8" />
+                  <stop offset="100%" stop-color="#003074" />
+                </linearGradient>
+              </defs>
+              <!-- Dual Loop of Efficiency (Onshore / Offshore Synergy) -->
+              <ellipse cx="140" cy="200" rx="90" ry="110" stroke="url(#eff-grad)" stroke-width="3" stroke-dasharray="6 4" />
+              <ellipse cx="260" cy="200" rx="90" ry="110" stroke="url(#eff-grad)" stroke-width="3" />
+              
+              <!-- Core nodes -->
+              <rect x="70" y="170" width="80" height="60" rx="12" fill="#ffffff" stroke="#0070a8" stroke-width="2" />
+              <text x="110" y="196" text-anchor="middle" font-size="11" font-weight="800" fill="#003074">SDLC</text>
+              <text x="110" y="214" text-anchor="middle" font-size="9" font-weight="600" fill="#0070a8">Standard</text>
+
+              <rect x="250" y="170" width="80" height="60" rx="12" fill="#ffffff" stroke="#0070a8" stroke-width="2" />
+              <text x="290" y="196" text-anchor="middle" font-size="11" font-weight="800" fill="#003074">AGILE</text>
+              <text x="290" y="214" text-anchor="middle" font-size="9" font-weight="600" fill="#0070a8">Speed</text>
+
+              <!-- Central Synergy Intersect -->
+              <circle cx="200" cy="200" r="28" fill="#003074" />
+              <path d="M190 200 L197 207 L212 193" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Text Column (7 cols) -->
+        <div class="lg:col-span-7 order-1 lg:order-2 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider border border-[#d4e8f7]">
+            <span class="w-2 h-2 rounded-full bg-[#0088cc]"></span>
+            <span>03 / Time-Zone Continuity</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-5xl font-black text-[#003074] tracking-tight">
+            {efficiency.title}
+          </h2>
+
+          <div class="p-8 sm:p-10 rounded-3xl bg-[#eef7fd]/40 border border-[#d4e8f7] shadow-lg shadow-blue-900/5 space-y-4">
+            <p class="text-base sm:text-lg text-[#003074]/90 leading-relaxed font-medium">
+              {efficiency.shortDescription}
+            </p>
+            <p class="text-sm sm:text-base text-[#003074]/75 leading-relaxed">
+              We follow the typical software development lifecycle (SDLC) as well as the agile methodology for software development. Our teams situated in offshore and onshore locations support you in your entire product life cycle through development, maintenance, tech support and technical documentation.
+            </p>
+            <p class="text-sm sm:text-base text-[#003074]/75 leading-relaxed">
+              Our approach is transparency at all levels, cooperation in partnership, and collaboration in all that we do. Trust is our biggest asset and it is the cornerstone of our business success.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <CTABand />
+</Base>

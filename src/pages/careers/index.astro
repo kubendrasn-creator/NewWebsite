@@ -1,0 +1,81 @@
+---
+// src/pages/careers/index.astro
+import Base from '../../layouts/Base.astro';
+import { siteContent } from '../../content/site';
+import CTABand from '../../components/CTABand.astro';
+
+const { careers } = siteContent;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": siteContent.meta.url
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Careers",
+      "item": `${siteContent.meta.url}careers/`
+    }
+  ]
+};
+---
+
+<Base
+  title="Careers – Opportunities & Openings | Apt Infosoft"
+  description="Career opportunities and role availability at Apt Infosoft. Transparent technical staffing and engineering careers."
+  jsonLd={breadcrumbSchema}
+>
+  <!-- Hero Section -->
+  <section class="pt-36 pb-20 sm:pt-44 sm:pb-24 bg-[#eef7fd]/50 border-b border-[#d4e8f7] text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#0070a8] text-xs font-bold uppercase tracking-wider mb-4 border border-[#d4e8f7]">
+        <span class="w-2 h-2 rounded-full bg-[#0088cc]"></span>
+        <span>{careers.eyebrow}</span>
+      </span>
+      <h1 class="text-4xl sm:text-6xl font-black text-[#003074] tracking-tight mb-6">
+        {careers.title}
+      </h1>
+      <p class="text-lg sm:text-xl text-[#003074]/80 max-w-2xl mx-auto leading-relaxed">
+        {careers.subtitle}
+      </p>
+    </div>
+  </section>
+
+  <!-- Roles Grid -->
+  <section class="py-24 bg-white border-b border-[#d4e8f7]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {careers.roles.map((role) => (
+          <div class="p-8 sm:p-10 rounded-3xl bg-[#eef7fd]/30 border border-[#d4e8f7] shadow-lg shadow-blue-900/5 flex flex-col justify-between space-y-8 hover:border-[#0088cc]/60 transition-all duration-300">
+            <div class="space-y-4">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-[#0070a8] text-xs font-bold uppercase tracking-wider border border-[#d4e8f7]">
+                <span>{role.department}</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-[#003074]">
+                {role.title}
+              </h2>
+              <p class="text-sm sm:text-base text-[#003074]/75 leading-relaxed">
+                {role.statusDetail}
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-[#d4e8f7]">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#d4e8f7] text-[#003074] text-xs sm:text-sm font-semibold">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#0070a8]"></span>
+                <span>{role.status}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</Base>
