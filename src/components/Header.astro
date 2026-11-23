@@ -80,15 +80,190 @@ const navItems = [
         </a>
       </div>
 
-      <!-- Mobile CTA Button -->
-      <a
-        href={url('/contact')}
-        data-astro-prefetch="viewport"
-        class="md:hidden inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#0070a8]"
-      >
-        Contact
-      </a>
+      <!-- Mobile Actions (Contact Button + Hamburger Menu Toggle) -->
+      <div class="flex md:hidden items-center gap-2">
+        <a
+          href={url('/contact')}
+          data-astro-prefetch="viewport"
+          class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-[#0070a8] hover:bg-[#003074] transition-colors"
+        >
+          Contact
+        </a>
+
+        <button
+          id="mobile-menu-toggle"
+          type="button"
+          class="p-2 rounded-xl text-[#003074] hover:bg-[#eef7fd] focus:outline-none focus:ring-2 focus:ring-[#0070a8] transition-colors"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-nav-drawer"
+        >
+          <!-- Hamburger Icon (Open state) -->
+          <svg id="hamburger-icon-open" class="w-6 h-6 block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close Icon (Closed state) -->
+          <svg id="hamburger-icon-close" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
 
     </div>
   </div>
+
+  <!-- Mobile Slide-Down Drawer Navigation -->
+  <div
+    id="mobile-nav-drawer"
+    class="hidden md:hidden border-t border-[#d4e8f7] bg-white/95 backdrop-blur-md px-4 py-4 space-y-1.5 shadow-xl transition-all"
+  >
+    {navItems.map((item) => {
+      const itemUrl = url(item.path);
+      const cleanItemPath = itemUrl.replace(/\/$/, '');
+      const isActive = cleanItemPath === currentPath || (item.path !== '/' && currentPath.startsWith(cleanItemPath));
+      return (
+        <a
+          href={itemUrl}
+          data-astro-prefetch="viewport"
+          aria-current={isActive ? 'page' : undefined}
+          class={`mobile-nav-link flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+            isActive
+              ? 'bg-[#eef7fd] text-[#0070a8] border border-[#d4e8f7]'
+              : 'text-[#003074] hover:bg-[#eef7fd]/50 hover:text-[#0088cc]'
+          }`}
+        >
+          <span>{item.name}</span>
+          <span class="text-xs opacity-60" aria-hidden="true">→</span>
+        </a>
+      );
+    })}
+
+    <div class="pt-3 border-t border-[#d4e8f7]/60">
+      <a
+        href={url('/contact')}
+        data-astro-prefetch="viewport"
+        class="mobile-nav-link flex items-center justify-center w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#0070a8] hover:bg-[#003074] transition-colors shadow-sm"
+      >
+        Talk to Us — Request Consultation
+      </a>
+    </div>
+  </div>
 </header>
+
+<!-- Header Client Logic: Active Pill Sync across ClientRouter & Mobile Drawer Toggle -->
+<script>
+  function setupHeaderInteractivity() {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const drawer = document.getElementById('mobile-nav-drawer');
+    const openIcon = document.getElementById('hamburger-icon-open');
+    const closeIcon = document.getElementById('hamburger-icon-close');
+
+    function closeDrawer() {
+      if (drawer && !drawer.classList.contains('hidden')) {
+        drawer.classList.add('hidden');
+        toggle?.setAttribute('aria-expanded', 'false');
+        openIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+      }
+    }
+
+    function toggleDrawer() {
+      if (!drawer) return;
+      const isExpanded = drawer.classList.toggle('hidden');
+      const isOpen = !isExpanded;
+      toggle?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (isOpen) {
+        openIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('hidden');
+      } else {
+        openIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+      }
+    }
+
+    if (toggle && drawer) {
+      toggle.onclick = (e) => {
+        e.stopPropagation();
+        toggleDrawer();
+      };
+
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDrawer();
+      });
+
+      // Close on drawer link click
+      drawer.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeDrawer);
+      });
+    }
+
+    // Dynamic Active Route Highlighting across Astro ClientRouter swaps
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+
+    const desktopLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-anchor-link');
+    desktopLinks.forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      const linkPath = href.replace(/\/$/, '') || '/';
+      const isHome = linkPath.endsWith('/NewWebsite') || linkPath === '/';
+      let isActive = false;
+      if (isHome) {
+        isActive = currentPath === linkPath || currentPath === `${linkPath}/`;
+      } else {
+        isActive = currentPath === linkPath || currentPath.startsWith(linkPath + '/');
+      }
+
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.add('bg-white', 'text-[#0070a8]', 'shadow-sm', 'border', 'border-[#d4e8f7]');
+        link.classList.remove('text-[#003074]');
+      } else {
+        link.removeAttribute('aria-current');
+        link.classList.remove('bg-white', 'text-[#0070a8]', 'shadow-sm', 'border', 'border-[#d4e8f7]');
+        link.classList.add('text-[#003074]');
+      }
+    });
+
+    const mobileLinks = document.querySelectorAll<HTMLAnchorElement>('.mobile-nav-link');
+    mobileLinks.forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      const linkPath = href.replace(/\/$/, '') || '/';
+      const isHome = linkPath.endsWith('/NewWebsite') || linkPath === '/';
+      let isActive = false;
+      if (isHome) {
+        isActive = currentPath === linkPath || currentPath === `${linkPath}/`;
+      } else {
+        isActive = currentPath === linkPath || currentPath.startsWith(linkPath + '/');
+      }
+
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.add('bg-[#eef7fd]', 'text-[#0070a8]', 'border', 'border-[#d4e8f7]');
+        link.classList.remove('text-[#003074]');
+      } else {
+        link.removeAttribute('aria-current');
+        link.classList.remove('bg-[#eef7fd]', 'text-[#0070a8]', 'border', 'border-[#d4e8f7]');
+        link.classList.add('text-[#003074]');
+      }
+    });
+  }
+
+  // Bind to Astro ClientRouter page cycle
+  document.addEventListener('astro:page-load', setupHeaderInteractivity);
+  document.addEventListener('astro:before-swap', () => {
+    const drawer = document.getElementById('mobile-nav-drawer');
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const openIcon = document.getElementById('hamburger-icon-open');
+    const closeIcon = document.getElementById('hamburger-icon-close');
+    if (drawer) drawer.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    openIcon?.classList.remove('hidden');
+    closeIcon?.classList.add('hidden');
+  });
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setupHeaderInteractivity();
+  } else {
+    document.addEventListener('DOMContentLoaded', setupHeaderInteractivity);
+  }
+</script>

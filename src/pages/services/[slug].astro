@@ -37,11 +37,37 @@ interface Props {
 }
 
 const { service, currentIndex, totalServices, nextService, prevService } = Astro.props;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": siteContent.meta.url
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Services",
+      "item": `${siteContent.meta.url}services/`
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": service.title,
+      "item": `${siteContent.meta.url}services/${service.slug}/`
+    }
+  ]
+};
 ---
 
 <Base
   title={`${service.title} – Apt Infosoft`}
   description={service.summary}
+  jsonLd={breadcrumbSchema}
 >
   <!-- Full-Viewport Hero Scene (min-h-[100svh], centered, offset by --header-h) -->
   <section class="scene-full bg-white relative border-b border-[#d4e8f7] overflow-hidden">

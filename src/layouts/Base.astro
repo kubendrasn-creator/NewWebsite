@@ -20,6 +20,7 @@ const {
 
 const canonicalUrl = new URL(Astro.url.pathname, 'https://kubendrasn-creator.github.io').toString();
 const logoUrl = 'https://kubendrasn-creator.github.io/NewWebsite/logo.png';
+const ogImageUrl = new URL(asset('og-image.svg'), 'https://kubendrasn-creator.github.io').toString();
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -58,7 +59,7 @@ const organizationSchema = {
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={logoUrl} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:site_name" content="Apt Infosoft" />
 
     <!-- Twitter -->
@@ -66,7 +67,7 @@ const organizationSchema = {
     <meta name="twitter:url" content={canonicalUrl} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={logoUrl} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Font Family Plus Jakarta Sans -->
     <style is:inline>

@@ -65,11 +65,18 @@ const breadcrumbSchema = {
               </p>
             </div>
 
-            <div class="pt-4 border-t border-[#d4e8f7]">
+            <div class="pt-4 border-t border-[#d4e8f7] flex items-center justify-between gap-4 flex-wrap">
               <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#d4e8f7] text-[#003074] text-xs sm:text-sm font-semibold">
                 <span class="w-2.5 h-2.5 rounded-full bg-[#0070a8]"></span>
                 <span>{role.status}</span>
               </div>
+              <a
+                href={`mailto:info@aptinfosoft.com?subject=Application%20for%20${encodeURIComponent(role.title)}%20-%20Apt%20Infosoft`}
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#0070a8] hover:bg-[#003074] transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-[#0070a8]"
+              >
+                <span>Express Interest</span>
+                <span aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
         ))}

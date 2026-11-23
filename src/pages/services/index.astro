@@ -14,11 +14,31 @@ import ServiceAnalytics from '../../components/illustrations/ServiceAnalytics.as
 import CTABand from '../../components/CTABand.astro';
 
 const services = siteContent.services;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": siteContent.meta.url
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Practice Areas & Services",
+      "item": `${siteContent.meta.url}services/`
+    }
+  ]
+};
 ---
 
 <Base
   title="Practice Areas & Services – Apt Infosoft"
   description="Explore our six core competencies: Product Engineering, Custom Application Development, Cloud SaaS, Application Modernization, QA & Testing, and Business Analytics."
+  jsonLd={breadcrumbSchema}
 >
   <section class="pt-36 pb-24 sm:pt-44 sm:pb-32 bg-white relative border-b border-[#d4e8f7]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
