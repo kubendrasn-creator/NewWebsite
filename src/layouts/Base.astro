@@ -134,6 +134,12 @@ const organizationSchema = {
     <!-- Subtle Film Grain Overlay -->
     <div class="grain-overlay" aria-hidden="true" />
 
+    <!-- Persistent Custom Cursor across ClientRouter transitions -->
+    <div id="cursor-dot" transition:persist="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" transition:persist="cursor-ring" aria-hidden="true">
+      <span id="cursor-ring-label">View</span>
+    </div>
+
     <!-- Accessible Skip Link -->
     <a
       href="#main-content"

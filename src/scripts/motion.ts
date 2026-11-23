@@ -56,94 +56,80 @@ function initGlobalSingletons() {
 }
 
 // ─── 2. CUSTOM CURSOR ────────────────────────────────────────────────────────
+let cursorActive = false;
+let cursorInitialized = false;
+let qDotX: ((val: number) => void) | null = null;
+let qDotY: ((val: number) => void) | null = null;
+let qRingX: ((val: number) => void) | null = null;
+let qRingY: ((val: number) => void) | null = null;
+let lastPointerX = -100;
+let lastPointerY = -100;
+
+export function ensureCursorActive() {
+  if (cursorActive) {
+    document.documentElement.classList.add('has-custom-cursor');
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (dot) dot.style.opacity = '1';
+    if (ring) ring.style.opacity = '1';
+  }
+}
+
 function initCursor() {
-  if (document.getElementById('cursor-dot')) return;
+  if (cursorInitialized) {
+    ensureCursorActive();
+    return;
+  }
 
-  const dot = document.createElement('div');
-  const ring = document.createElement('div');
-  dot.id = 'cursor-dot';
-  ring.id = 'cursor-ring';
-  dot.setAttribute('aria-hidden', 'true');
-  ring.setAttribute('aria-hidden', 'true');
+  let dot = document.getElementById('cursor-dot');
+  let ring = document.getElementById('cursor-ring');
+  let ringLabel = document.getElementById('cursor-ring-label');
 
-  Object.assign(dot.style, {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '6px',
-    height: '6px',
-    borderRadius: '50%',
-    background: '#0070a8',
-    pointerEvents: 'none',
-    zIndex: '10001',
-    transform: 'translate3d(-100px,-100px,0)',
-    willChange: 'transform',
-    opacity: '0',
-  });
+  // Fallback creation if not present in static DOM
+  if (!dot) {
+    dot = document.createElement('div');
+    dot.id = 'cursor-dot';
+    dot.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(dot);
+  }
+  if (!ring) {
+    ring = document.createElement('div');
+    ring.id = 'cursor-ring';
+    ring.setAttribute('aria-hidden', 'true');
+    ringLabel = document.createElement('span');
+    ringLabel.id = 'cursor-ring-label';
+    ringLabel.textContent = 'View';
+    ring.appendChild(ringLabel);
+    document.body.appendChild(ring);
+  }
 
-  const ringLabel = document.createElement('span');
-  ringLabel.id = 'cursor-ring-label';
-  Object.assign(ringLabel.style, {
-    position: 'absolute',
-    inset: '0',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '11px',
-    fontWeight: '800',
-    color: '#0070a8',
-    opacity: '0',
-    transition: 'opacity 0.15s',
-    letterSpacing: '0.08em',
-    userSelect: 'none',
-  });
-  ringLabel.textContent = 'View';
+  cursorInitialized = true;
 
-  Object.assign(ring.style, {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '36px',
-    height: '36px',
-    borderRadius: '50%',
-    border: '1.5px solid #0070a8',
-    pointerEvents: 'none',
-    zIndex: '10000',
-    transform: 'translate3d(-100px,-100px,0)',
-    willChange: 'transform',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'width 0.2s ease, height 0.2s ease, background-color 0.15s, opacity 0.2s',
-    opacity: '0',
-  });
-  ring.appendChild(ringLabel);
-
-  document.body.appendChild(dot);
-  document.body.appendChild(ring);
-  document.documentElement.classList.add('has-custom-cursor');
-
-  let initialized = false;
-  const qDotX = gsap.quickTo(dot, 'x', { duration: 0.02 });
-  const qDotY = gsap.quickTo(dot, 'y', { duration: 0.02 });
-  const qRingX = gsap.quickTo(ring, 'x', { duration: 0.15, ease: 'power2.out' });
-  const qRingY = gsap.quickTo(ring, 'y', { duration: 0.15, ease: 'power2.out' });
+  qDotX = gsap.quickTo(dot, 'x', { duration: 0.02 });
+  qDotY = gsap.quickTo(dot, 'y', { duration: 0.02 });
+  qRingX = gsap.quickTo(ring, 'x', { duration: 0.15, ease: 'power2.out' });
+  qRingY = gsap.quickTo(ring, 'y', { duration: 0.15, ease: 'power2.out' });
 
   gsap.set([dot, ring], { xPercent: -50, yPercent: -50 });
 
   window.addEventListener('mousemove', (e) => {
-    if (!initialized) {
-      initialized = true;
+    lastPointerX = e.clientX;
+    lastPointerY = e.clientY;
+
+    if (!cursorActive) {
+      cursorActive = true;
+      document.documentElement.classList.add('has-custom-cursor');
       gsap.to([dot, ring], { opacity: 1, duration: 0.2 });
     }
-    qDotX(e.clientX);
-    qDotY(e.clientY);
-    qRingX(e.clientX);
-    qRingY(e.clientY);
+    qDotX?.(e.clientX);
+    qDotY?.(e.clientY);
+    qRingX?.(e.clientX);
+    qRingY?.(e.clientY);
   }, { passive: true });
 
   // Delegated states
   document.addEventListener('mouseover', (e) => {
+    if (!cursorActive) return;
     const target = e.target as Element;
     if (!target) return;
     const viewCard = target.closest('[data-cursor="view"]');
@@ -159,38 +145,38 @@ function initCursor() {
       gsap.to(ring, { width: 72, height: 72, duration: 0.2, ease: 'power2.out' });
       ring.style.backgroundColor = 'rgba(0,112,168,0.08)';
       ring.style.borderColor = '#0070a8';
-      ringLabel.style.opacity = '1';
+      if (ringLabel) ringLabel.style.opacity = '1';
     } else if (isLink) {
       ring.style.opacity = '1';
       dot.style.opacity = '1';
       gsap.to(ring, { width: 50, height: 50, duration: 0.2, ease: 'power2.out' });
       ring.style.backgroundColor = 'rgba(0,136,204,0.10)';
       ring.style.borderColor = '#0088cc';
-      ringLabel.style.opacity = '0';
+      if (ringLabel) ringLabel.style.opacity = '0';
     } else {
       ring.style.opacity = '1';
       dot.style.opacity = '1';
       gsap.to(ring, { width: 36, height: 36, duration: 0.2, ease: 'power2.out' });
       ring.style.backgroundColor = 'transparent';
       ring.style.borderColor = '#0070a8';
-      ringLabel.style.opacity = '0';
+      if (ringLabel) ringLabel.style.opacity = '0';
     }
   });
 
   document.addEventListener('mousedown', () => {
-    gsap.to([dot, ring], { scale: 0.85, duration: 0.08 });
+    if (cursorActive) gsap.to([dot, ring], { scale: 0.85, duration: 0.08 });
   });
   document.addEventListener('mouseup', () => {
-    gsap.to([dot, ring], { scale: 1, duration: 0.15 });
+    if (cursorActive) gsap.to([dot, ring], { scale: 1, duration: 0.15 });
   });
   document.addEventListener('mouseleave', () => {
-    gsap.to([dot, ring], { opacity: 0, duration: 0.2 });
+    if (cursorActive) gsap.to([dot, ring], { opacity: 0, duration: 0.2 });
   });
   document.addEventListener('mouseenter', () => {
-    if (initialized) gsap.to([dot, ring], { opacity: 1, duration: 0.2 });
+    if (cursorActive) gsap.to([dot, ring], { opacity: 1, duration: 0.2 });
   });
   window.addEventListener('blur', () => {
-    gsap.set([dot, ring], { opacity: 0 });
+    if (cursorActive) gsap.set([dot, ring], { opacity: 0 });
   });
 }
 
@@ -224,6 +210,7 @@ export function destroyPage() {
 export function initPage() {
   initGlobalSingletons();
   destroyPage();
+  ensureCursorActive();
 
   const headerEl = document.getElementById('site-header');
   const headerH = headerEl?.offsetHeight || 72;
@@ -429,12 +416,28 @@ export function initPage() {
 
 // ─── 4. ASTRO CLIENTROUTER HOOKS ─────────────────────────────────────────────
 if (typeof window !== 'undefined') {
-  document.addEventListener('astro:page-load', () => {
-    initPage();
-  });
-
   document.addEventListener('astro:before-swap', () => {
     destroyPage();
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    ensureCursorActive();
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    initPage();
+    ensureCursorActive();
+    if (lastPointerX >= 0 && lastPointerY >= 0) {
+      qDotX?.(lastPointerX);
+      qDotY?.(lastPointerY);
+      qRingX?.(lastPointerX);
+      qRingY?.(lastPointerY);
+
+      const target = document.elementFromPoint(lastPointerX, lastPointerY);
+      if (target) {
+        target.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, cancelable: true }));
+      }
+    }
   });
 
   // Fallback initial load
