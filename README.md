@@ -1,61 +1,113 @@
-# Apt Infosoft – Production-Grade Static Website
+# Apt Infosoft – Multi-Page Static Website
 
-> Award-level static marketing website for **Apt Infosoft**, built with Astro, TypeScript, Tailwind CSS, and Preact islands.
+> Production-grade multi-page static website for **Apt Infosoft**, built with Astro 7, TypeScript, Tailwind CSS 4, and Preact islands. Deployed on GitHub Pages with Astro ClientRouter page transitions.
 
----
-
-## 1. Project Overview & Architecture
-
-- **Framework**: Astro 7.x (Static SSG, zero runtime backend)
-- **Deployment**: GitHub Pages (`https://kubendrasn-creator.github.io/NewWebsite/`)
-- **Interactive Islands (Preact)**:
-  - `Tabs` (`client:visible`): Morphing active pill engagement switcher (Time & Material vs Fixed Price)
-  - `ServiceDetailModal` (`client:visible`): Bento grid practice cards with view-transition-name panel morph and accessible focus trapping
-  - `ContactForm` (`client:idle`): Floating labels, client validation, honeypot, Web3Forms integration with mailto fallback
-- **Motion & Shader Stack**:
-  - Lenis smooth scrolling wired to GSAP ScrollTrigger via single RAF loop (Desktop only)
-  - Custom cursor follower dot (`pointer: fine` only)
-  - WebGL OGL Aurora mesh shader in logo colors (lazy loaded post-idle, desktop only; graceful CSS animated mesh gradient fallback)
-  - SVG scroll-drawn delivery route (US to Bengaluru) with travelling pulse
-  - Horizontal pinned scroll track for Why Apt on desktop (degrades to vertical stack on mobile)
-  - Word-by-word kinetic headline reveal and scroll-linked narrative text fill
+**Live Site**: [https://kubendrasn-creator.github.io/NewWebsite/](https://kubendrasn-creator.github.io/NewWebsite/)
 
 ---
 
-## 2. Design System & Logo Color Tokens
+## 1. Architecture & Tech Stack
 
-All design tokens are derived mathematically from `src/assets/logo.png`:
+| Layer | Technology |
+| :--- | :--- |
+| **Framework** | Astro 7.x (Static SSG, zero-JS-by-default) |
+| **Styling** | Tailwind CSS 4 with `@tailwindcss/typography` |
+| **Interactive Islands** | Preact 11 (`client:visible` / `client:idle`) |
+| **Animations** | GSAP 3 + ScrollTrigger (native scroll, no virtual scroll) |
+| **WebGL** | OGL Aurora mesh shader (lazy-loaded, desktop only) |
+| **Page Transitions** | Astro `<ClientRouter />` with ~8° slanted polygon wipe |
+| **Deployment** | GitHub Pages via GitHub Actions CI/CD |
+| **Base Path** | `/NewWebsite/` (project site) |
 
-| Token Name | Hex Code | Role & Usage | WCAG 2.2 AA Contrast Compliance |
+---
+
+## 2. Routes (13 Static Pages)
+
+| Route | Description |
+| :--- | :--- |
+| `/` | Home: Hero (WebGL shader + swoosh), marquee, Apt/Agile/Assured pillars, services teaser, delivery arc, CTA |
+| `/services/` | All six practice areas as a stacked card deck with bespoke SVG illustrations |
+| `/services/[slug]/` | Six individual service pages via `getStaticPaths` (product-engineering, application-development, saas, application-modernization, testing, business-analytics) |
+| `/why-apt/` | Flexibility (with Time & Material / Fixed Price tabs), Reliability, Efficiency — three full-viewport scenes |
+| `/about/` | Company narrative with scroll-linked text fill, expandable "Who can benefit?" accordion cards |
+| `/careers/` | Two role cards with direct "Express Interest" email action buttons |
+| `/contact/` | Contact form (Web3Forms + mailto fallback), phone/email details, India address, delivery route |
+| `/404` | On-brand error page with navigation recovery links |
+
+All navigation uses clean route URLs — no hash anchors. A base-aware `url()` helper prefixes every link and asset with `import.meta.env.BASE_URL`.
+
+---
+
+## 3. Design System & Logo Color Tokens
+
+All tokens sampled from the Apt Infosoft logo (`public/logo.png`). No extraneous hues.
+
+| Token | Hex | Usage | WCAG AA |
 | :--- | :--- | :--- | :--- |
-| **`brand-blue`** | `#0088cc` | Graphics, gradients, large headings (≥24px / ≥18.66px bold) | Passes 3.0:1 requirement for large display text |
-| **`brand-navy`** | `#003074` | Primary body text, section headings, brand wordmark | Passes 12.5:1 on white (AAA rating) |
-| **`brand-blue-ink`** | `#0070a8` | Interactive button fills, small links, badges, icons | Passes 4.7:1 on white (AA rating for small text) |
-| **`brand-ice`** | `#eef7fd` | Section backgrounds, card tinting, active states | Background tint, passes contrast with navy text |
-| **`white`** | `#ffffff` | Primary background, high-contrast reverse text | Base canvas |
+| `brand-blue` | `#0088cc` | Graphics, gradients, large headings | ✓ 3.0:1 (large text) |
+| `brand-navy` | `#003074` | Body text, headings, wordmark | ✓ 12.5:1 (AAA) |
+| `brand-ink` | `#0070a8` | Button fills, links, badges, icons | ✓ 4.7:1 (AA) |
+| `brand-ice` | `#eef7fd` | Section backgrounds, card tints | Background tint |
+| `white` | `#ffffff` | Page canvas, reverse text | Base |
 
-*No generic black, gray, or extraneous hues are used. Gradients run strictly from `brand-blue` to `brand-navy`.*
-
----
-
-## 3. Shape Language & Typography
-
-- **Slant Angle**: Consistent `~8 degree` forward slant matching the logo's italic angle (marquee separators, section transitions).
-- **Swoosh Motif**: Traced directly from the logo's dynamic `i` flick, reused across the preloader stroke-draw, the delivery route arc, and card accent glows.
-- **Typography Choice**: **Plus Jakarta Sans** (with fallback to Inter).
-  - *Rationale*: Chosen because its geometric structure, clean circular bowls, and assertive humanist italic terminals directly echo the modern, technical feel of the Apt Infosoft logo.
-- **Corner Radii**: Standardized to `8px – 14px` (moderate rounded corners avoiding overly sharp boxes or generic pill blobs).
+**Light mode only** — `color-scheme: light` enforced globally. No dark mode code.
 
 ---
 
-## 4. GSAP & SplitText License Notice
+## 4. Key Features
 
-- **ScrollTrigger & Core GSAP**: Standard GreenSock Public License.
-- **SplitText Licensing**: The official GreenSock `SplitText` plugin is a Club GSAP commercial bonus plugin. In this codebase, the per-word and per-character masked reveal is engineered using **vanilla semantic DOM span wrapping coupled with GSAP `fromTo` staggering**. This replicates the identical visual and kinetic effect with 0 external licensing dependencies and 0 commercial royalty obligations.
+### Page Transitions
+- Astro `<ClientRouter />` with `transition:persist` on Header and custom cursor elements.
+- Signature ~8° slanted polygon wipe (`clip-path` animation, ~650ms expo-out).
+- Direction-aware: forward vs back determined from navigation order.
+
+### Mobile Navigation Drawer
+- Accessible hamburger toggle with animated open ↔ close SVG icons.
+- Slide-down drawer with all route links and a primary CTA.
+- Auto-closes on link tap, `Escape` key, or page transition.
+
+### Custom Cursor
+- Dot + ring follower enabled only when `(hover: hover)` and `(pointer: fine)` and not `prefers-reduced-motion`.
+- Persists seamlessly across all ClientRouter page transitions via `transition:persist`.
+- Native cursor hidden via CSS when custom cursor is active; restored for touch/keyboard/no-JS.
+
+### Dynamic Active Route Indicator
+- Desktop nav pill and mobile drawer links dynamically highlight the current route on every `astro:page-load` event.
+- Computed from `window.location.pathname` — no stale server-rendered state.
+
+### Interactive Islands (Preact)
+- **ContactForm** (`client:visible`): Floating labels, honeypot, Web3Forms integration with `mailto:` fallback.
+- **EngagementTabs** (`client:visible`): Time & Material vs Fixed Price morphing tabs.
+- **AudienceSelector**: Independently expandable accordion cards (grid-template-rows transition).
+
+### Motion & Shader Stack
+- WebGL OGL aurora mesh shader in logo colors (lazy-loaded via `requestIdleCallback`, DPR capped at 1.5, paused offscreen).
+- CSS animated mesh gradient fallback for `prefers-reduced-motion`, `saveData`, low CPU, no WebGL, or `< 768px` viewports.
+- GSAP ScrollTrigger batch reveals (`once: true`), scroll-linked text fill, delivery route SVG draw with travelling pulse.
+- Per-word kinetic headline reveal using vanilla span wrapping + GSAP stagger (no SplitText license needed).
+
+### Bespoke SVG Illustrations
+- 10 hand-crafted SVG illustrations (6 service icons, 3 pillar scenes, 1 hero swoosh) — no placeholder or stock images.
+- All use brand colors exclusively. CSS-animated line draws, morphs, and pulses.
+
+### SEO & Structured Data
+- Every page has canonical URL, Open Graph, and Twitter Card meta tags.
+- Branded 1200×630 OG preview image in `public/og-image.svg`.
+- JSON-LD schemas: `Organization` (global), `BreadcrumbList` (all routes).
+- Auto-generated `sitemap-index.xml` via `@astrojs/sitemap`.
 
 ---
 
-## 5. Development & Local Setup
+## 5. Shape Language & Typography
+
+- **Slant Angle**: Consistent ~8° forward slant matching the logo's italic angle (page transitions, marquee separators, decorative bands).
+- **Swoosh Motif**: Traced from the logo's dynamic `i` flick, reused across the hero background, delivery route arc, and card accent glows.
+- **Typography**: **Plus Jakarta Sans** (fallback: Inter → system-ui). Chosen for its geometric structure and humanist italic terminals that echo the logo.
+- **Corner Radii**: Standardized 8–14px moderate rounded corners.
+
+---
+
+## 6. Development & Local Setup
 
 ```bash
 # Install dependencies
@@ -64,59 +116,94 @@ pnpm install
 # Run local development server
 pnpm run dev
 
-# Run TypeScript & Astro typecheck
-node scripts/cli.js check
-
 # Build production static bundle
 pnpm run build
 
 # Preview build locally
 pnpm run preview
+
+# TypeScript & Astro typecheck
+node scripts/cli.js check
 ```
 
 ### Environment Variables
 
 Create a `.env` file in the project root:
 ```env
-# Optional: Web3Forms access key for inquiries
+# Optional: Web3Forms access key for contact form submissions
 PUBLIC_WEB3FORMS_KEY=your_access_key_here
 ```
-*Note: If `PUBLIC_WEB3FORMS_KEY` is not provided, the contact form gracefully falls back to opening a pre-filled direct email via `mailto:info@aptinfosoft.com`.*
+If `PUBLIC_WEB3FORMS_KEY` is not set, the contact form gracefully opens a pre-filled `mailto:info@aptinfosoft.com`.
 
 ---
 
-## 6. GitHub Pages Deployment
+## 7. Deployment to GitHub Pages
 
-The repository includes an automated workflow at `.github/workflows/deploy.yml` which triggers on push to `main` or `master`.
+Deployment is automated via GitHub Actions (`.github/workflows/deploy.yml`):
+
+1. **Configure GitHub Pages Source**:
+   - Go to your repository on GitHub: **Settings -> Pages**.
+   - Under **Build and deployment -> Source**, select **GitHub Actions**.
+
+2. **Configure Contact Form Secret (Optional)**:
+   - Go to **Settings -> Secrets and variables -> Actions**.
+   - Add a repository secret named `PUBLIC_WEB3FORMS_KEY` with your Web3Forms access key.
+   - If omitted, the contact form automatically falls back to standard pre-filled `mailto:info@aptinfosoft.com`.
+
+3. **Deploy**:
+   - Push to `master` (or `main`) or trigger manually via **Actions -> Deploy to GitHub Pages -> Run workflow**.
+   - The workflow executes the `quality` gate (contrast ratio check, link integrity, copy audit) before deploying to GitHub Pages.
 
 ### Switching to a Custom Domain (e.g. `aptinfosoft.com`)
 
-1. In `astro.config.mjs`, update:
+When pointing the production site to the custom domain:
+1. In `astro.config.mjs`:
    ```js
    site: 'https://aptinfosoft.com',
-   base: '/', // Remove '/NewWebsite'
+   base: '/',
    ```
-2. Add your custom domain to `public/CNAME`:
-   ```text
+2. Create `public/CNAME`:
+   ```
    aptinfosoft.com
    ```
-3. Commit and push changes. In GitHub Repository Settings → Pages, verify Custom Domain is set and Enforce HTTPS is checked.
+3. In GitHub: **Settings -> Pages -> Custom domain** -> enter `aptinfosoft.com` and enforce HTTPS.
+4. *Legacy URL Redirects*: All 15 legacy redirects (`/about-us.html`, `/product-engineering-services.html`, `/contact-us.php`, etc.) defined in `astro.config.mjs` automatically become active at root!
+
+For full operational maintenance and development guidance, refer to [HANDOVER.md](file:///c:/Users/aptso/Desktop/NEW%20APT%20Website/HANDOVER.md).
 
 ---
 
-## 7. Audit Scores & Performance Budget
+## 8. GSAP License Notice
 
-Audit executed via Puppeteer, Axe-Core 4.14, and Google Lighthouse 13.6:
+- **ScrollTrigger & Core GSAP**: Standard GreenSock Public License.
+- **SplitText**: Not used. The per-word/per-character masked reveal is built with vanilla semantic DOM span wrapping + GSAP `fromTo` staggering — zero external licensing dependencies.
 
-- **Axe-Core Accessibility Violations**: **0 Light Violations / 0 Dark Violations across all routes**
-- **Lighthouse Scores**:
-  - **Desktop (`/NewWebsite/`)**: Performance: `99` | Accessibility: `100` | Best Practices: `100` | SEO: `100`
-  - **Mobile (`/NewWebsite/`)**: Performance: `90` | Accessibility: `100` | Best Practices: `100` | SEO: `100`
-  - **All Sub-Routes (`/services/`, `/contact/`, `/careers/`)**: `100 / 100 / 100 / 100`
+---
 
-### Performance Optimization Cuts Applied for Mobile:
-Per the project rules, when initial mobile Lighthouse fell below 90 due to device CPU emulation constraints:
-1. **WebGL Canvas**: Cut on screens `< 768px`; automatically replaced with high-performance CSS animated mesh gradient.
-2. **Custom Cursor**: Disabled on touch/mobile devices (`pointer: coarse`).
-3. **Horizontal Pinned Scroll**: Degraded cleanly to a responsive vertical flex stack on screens `< 1024px`.
-4. **Lenis & Conic Gradient Loops**: Bypassed on mobile to guarantee smooth native 60fps scrolling with 0 main-thread blocking.
+## 9. Project Structure
+
+```
+src/
+├── content/site.ts          # Single source of truth for all site content (from CONTENT.md)
+├── layouts/Base.astro       # Root layout with ClientRouter, meta tags, structured data
+├── components/
+│   ├── Header.astro         # Sticky header with transition:persist, mobile drawer, active route sync
+│   ├── Footer.astro         # Brand footer with giant wordmark motif
+│   ├── Hero.astro           # WebGL + CSS fallback hero with kinetic headline
+│   ├── CTABand.astro        # Gradient CTA section
+│   ├── DeliverySection.astro # SVG delivery route arc with pulse animation
+│   ├── illustrations/       # 10 bespoke SVG illustration components
+│   └── islands/             # Preact interactive islands (ContactForm, EngagementTabs, etc.)
+├── pages/
+│   ├── index.astro          # Home
+│   ├── 404.astro            # Custom 404
+│   ├── services/index.astro # Services overview
+│   ├── services/[slug].astro # Individual service template (6 pages)
+│   ├── why-apt/index.astro  # Why Apt (3 scenes)
+│   ├── about/index.astro    # About with accordion
+│   ├── careers/index.astro  # Careers with apply actions
+│   └── contact/index.astro  # Contact form + details
+├── scripts/motion.ts        # Unified GSAP lifecycle engine with cursor persistence
+├── styles/global.css        # Design system tokens, animations, page transition keyframes
+└── utils/url.ts             # Base-aware url() and asset() helpers
+```

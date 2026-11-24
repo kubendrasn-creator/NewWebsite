@@ -66,12 +66,42 @@ let lastPointerX = -100;
 let lastPointerY = -100;
 
 export function ensureCursorActive() {
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let isMotionPaused = false;
+  try {
+    isMotionPaused = sessionStorage.getItem('apt_motion_paused') === 'true';
+  } catch (e) {}
+
+  if (isMotionPaused || !isDesktop) {
+    document.documentElement.classList.remove('has-custom-cursor');
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (dot) dot.style.opacity = '0';
+    if (ring) ring.style.opacity = '0';
+    return;
+  }
+
   if (cursorActive) {
     document.documentElement.classList.add('has-custom-cursor');
     const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
     if (dot) dot.style.opacity = '1';
     if (ring) ring.style.opacity = '1';
+
+    // Rebind quickTo targets to active DOM elements
+    if (dot && ring) {
+      qDotX = gsap.quickTo(dot, 'x', { duration: 0.02 });
+      qDotY = gsap.quickTo(dot, 'y', { duration: 0.02 });
+      qRingX = gsap.quickTo(ring, 'x', { duration: 0.15, ease: 'power2.out' });
+      qRingY = gsap.quickTo(ring, 'y', { duration: 0.15, ease: 'power2.out' });
+      gsap.set([dot, ring], { xPercent: -50, yPercent: -50 });
+      if (lastPointerX >= 0 && lastPointerY >= 0) {
+        qDotX(lastPointerX);
+        qDotY(lastPointerY);
+        qRingX(lastPointerX);
+        qRingY(lastPointerY);
+      }
+    }
   }
 }
 
@@ -372,6 +402,9 @@ export function initPage() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
         onToggle();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onToggle();
       }
     };
 
@@ -384,6 +417,76 @@ export function initPage() {
       panel.removeEventListener('transitionend', onTransitionEnd);
       btn.removeEventListener('keydown', onKeyDown);
     });
+  });
+
+  // ── Pause Motion Toggle (WCAG 2.2.2 compliance) ──────────────────────────
+  const pauseToggleBtn = document.getElementById('pause-motion-toggle');
+  if (pauseToggleBtn) {
+    const updatePauseButtonUI = (isPaused: boolean) => {
+      pauseToggleBtn.textContent = isPaused ? 'Resume motion' : 'Pause motion';
+      pauseToggleBtn.setAttribute('aria-pressed', isPaused ? 'true' : 'false');
+      if (isPaused) {
+        document.documentElement.setAttribute('data-motion', 'paused');
+        document.documentElement.classList.remove('has-custom-cursor');
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        if (dot) dot.style.opacity = '0';
+        if (ring) ring.style.opacity = '0';
+      } else {
+        document.documentElement.removeAttribute('data-motion');
+        ensureCursorActive();
+      }
+    };
+
+    let initialPaused = false;
+    try {
+      initialPaused = sessionStorage.getItem('apt_motion_paused') === 'true';
+    } catch (e) {}
+    updatePauseButtonUI(initialPaused);
+
+    const onTogglePause = () => {
+      let isPaused = false;
+      try {
+        isPaused = sessionStorage.getItem('apt_motion_paused') === 'true';
+        isPaused = !isPaused;
+        sessionStorage.setItem('apt_motion_paused', isPaused ? 'true' : 'false');
+      } catch (e) {
+        isPaused = !document.documentElement.hasAttribute('data-motion');
+      }
+      updatePauseButtonUI(isPaused);
+      if (!isPaused) {
+        ScrollTrigger.refresh();
+      }
+    };
+
+    pauseToggleBtn.addEventListener('click', onTogglePause);
+    pageCleanups.push(() => pauseToggleBtn.removeEventListener('click', onTogglePause));
+  }
+
+  // ── Click to Copy Handler with ARIA Live Toast ──────────────────────────
+  const copyButtons = document.querySelectorAll<HTMLButtonElement>('.click-to-copy-btn');
+  copyButtons.forEach((btn) => {
+    const onCopy = async () => {
+      const val = btn.getAttribute('data-copy-value') || btn.getAttribute('data-copy') || '';
+      if (!val) return;
+      try {
+        await navigator.clipboard.writeText(val);
+        const toast = document.getElementById('a11y-toast');
+        if (toast) {
+          toast.textContent = `Copied ${val} to clipboard`;
+          toast.classList.remove('opacity-0');
+          toast.classList.add('opacity-100');
+          setTimeout(() => {
+            toast.classList.remove('opacity-100');
+            toast.classList.add('opacity-0');
+          }, 2500);
+        }
+      } catch (err) {
+        console.warn('Clipboard write failed:', err);
+      }
+    };
+    btn.addEventListener('click', onCopy);
+    pageCleanups.push(() => btn.removeEventListener('click', onCopy));
   });
 
   // ── Why Apt Model Tabs (/why-apt/) ─────────────────────────────────────────
@@ -416,8 +519,17 @@ export function initPage() {
 
 // ─── 4. ASTRO CLIENTROUTER HOOKS ─────────────────────────────────────────────
 if (typeof window !== 'undefined') {
-  document.addEventListener('astro:before-swap', () => {
+  document.addEventListener('astro:before-swap', (event: any) => {
     destroyPage();
+    if (cursorActive && event?.newDocument?.documentElement) {
+      event.newDocument.documentElement.classList.add('has-custom-cursor');
+    }
+    try {
+      const isMotionPaused = sessionStorage.getItem('apt_motion_paused') === 'true';
+      if (isMotionPaused && event?.newDocument?.documentElement) {
+        event.newDocument.documentElement.setAttribute('data-motion', 'paused');
+      }
+    } catch (e) {}
   });
 
   document.addEventListener('astro:after-swap', () => {
@@ -427,7 +539,15 @@ if (typeof window !== 'undefined') {
   document.addEventListener('astro:page-load', () => {
     initPage();
     ensureCursorActive();
-    if (lastPointerX >= 0 && lastPointerY >= 0) {
+
+    // Focus lands on the new page's h1
+    const h1 = document.querySelector('main h1') || document.querySelector('h1');
+    if (h1) {
+      h1.setAttribute('tabindex', '-1');
+      h1.focus({ preventScroll: true });
+    }
+
+    if (cursorActive && lastPointerX >= 0 && lastPointerY >= 0) {
       qDotX?.(lastPointerX);
       qDotY?.(lastPointerY);
       qRingX?.(lastPointerX);

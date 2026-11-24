@@ -1,0 +1,32 @@
+{
+  "name": "Apt Infosoft",
+  "short_name": "Apt Infosoft",
+  "description": "Engineering software that fits your business, built to last.",
+  "start_url": "/NewWebsite/",
+  "scope": "/NewWebsite/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0088cc",
+  "icons": [
+    {
+      "src": "/NewWebsite/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/NewWebsite/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/NewWebsite/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/NewWebsite/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

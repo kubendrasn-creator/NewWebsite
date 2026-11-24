@@ -2,6 +2,7 @@
   "name": "new-apt-website",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@12.21.0",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -9,7 +10,12 @@
     "dev": "node scripts/cli.js dev",
     "build": "node scripts/cli.js build",
     "preview": "node scripts/cli.js preview",
-    "astro": "node scripts/cli.js"
+    "astro": "node scripts/cli.js",
+    "test": "playwright test",
+    "test:smoke": "playwright test --project=chromium",
+    "check-contrast": "node scripts/check-contrast.mjs",
+    "check-links": "node scripts/check-links.mjs",
+    "copy-audit": "node scripts/copy-audit.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "^6.1.6",
@@ -25,6 +31,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@playwright/test": "^1.65.1",
     "axe-core": "^4.14.1",
     "chrome-launcher": "^1.2.3",
     "lighthouse": "^13.6.0",

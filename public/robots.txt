@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aptinfosoft.com/sitemap-index.xml
+Sitemap: https://kubendrasn-creator.github.io/NewWebsite/sitemap-index.xml

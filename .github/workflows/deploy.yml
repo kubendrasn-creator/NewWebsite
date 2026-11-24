@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,8 +26,6 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
@@ -49,9 +47,41 @@ jobs:
         with:
           path: ./dist
 
+  quality:
+    name: Quality Gate & Audits
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Dist
+        run: pnpm run build
+
+      - name: Contrast Ratio Audit
+        run: node scripts/check-contrast.mjs
+
+      - name: Link & Asset Integrity Check
+        run: node scripts/check-links.mjs
+
+      - name: Copy & Fact Audit
+        run: node scripts/copy-audit.mjs
+
   deploy:
     name: Deploy to Pages
-    needs: build
+    needs: [build, quality]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
