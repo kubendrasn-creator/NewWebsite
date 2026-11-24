@@ -78,6 +78,43 @@ export const siteContent = {
     secondaryHref: '/contact/',
     scrollCue: 'Scroll to explore',
   },
+  motionBeats: [
+    {
+      id: 'apt',
+      title: 'Apt',
+      caption: 'No two businesses are alike.',
+      keyPath: 'siteContent.motionBeats[0].caption',
+      sourceDoc: 'CONTENT.md: HERO Headline & PILLARS Apt',
+    },
+    {
+      id: 'product-engineering',
+      title: 'Product Engineering',
+      caption: 'We help companies build products from concept to commercialization.',
+      keyPath: 'siteContent.motionBeats[1].caption',
+      sourceDoc: 'CONTENT.md: SERVICES 1 (Sentence 1)',
+    },
+    {
+      id: 'application-modernization',
+      title: 'Application Modernization',
+      caption: 'If legacy technology is holding you back, we help you to migrate your legacy code into newer platforms that provides you with all the advantages of latest technology along with lower product maintenance cost.',
+      keyPath: 'siteContent.motionBeats[2].caption',
+      sourceDoc: 'CONTENT.md: SERVICES 4 (Sentence 1)',
+    },
+    {
+      id: 'delivery',
+      title: 'Delivery',
+      caption: 'Our onsite-offshore delivery model ensures cost, time and delivery efficiency across time zones.',
+      keyPath: 'siteContent.motionBeats[3].caption',
+      sourceDoc: 'CONTENT.md: WHY APT Efficiency (Sentence 2)',
+    },
+    {
+      id: 'testing',
+      title: 'Testing',
+      caption: 'Reliable, repeatable, timely and comprehensive testing is a must for the successful implementation of any software product or application.',
+      keyPath: 'siteContent.motionBeats[4].caption',
+      sourceDoc: 'CONTENT.md: SERVICES 5 (Sentence 1)',
+    },
+  ],
   marquee: [
     'Product Engineering Services',
     'Custom Application Development',
