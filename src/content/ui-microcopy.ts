@@ -47,4 +47,8 @@ export const uiMicrocopy = [
   'Skip to content',
   'Back to Home',
   'Page Not Found',
+  'Compare legacy and modern',
+  'Legacy',
+  'Modern',
+  'Explore',
 ];

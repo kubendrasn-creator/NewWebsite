@@ -1,0 +1,95 @@
+---
+// src/components/MotionDeliverySection.astro
+// Onsite-offshore delivery section powered by the Motion Engine Delivery beat (Beat 3).
+import { siteContent } from '../content/site';
+import { renderBeat } from '../motion/scene-engine';
+
+const { delivery } = siteContent;
+const initialSvg = renderBeat(2, 0.75).svg;
+---
+
+<section id="motion-delivery" class="py-24 bg-[#eef7fd]/40 border-b border-[#d4e8f7]">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#0070a8] text-xs font-bold uppercase tracking-wider border border-[#d4e8f7]">
+        <span>{delivery.subheading}</span>
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#003074] tracking-tight">
+        {delivery.heading}
+      </h2>
+      <p class="text-base sm:text-lg text-[#003074]/85 leading-relaxed">
+        {delivery.coreStatement}
+      </p>
+    </div>
+
+    <div class="bg-white border border-[#d4e8f7] rounded-3xl p-6 sm:p-10 shadow-sm space-y-6">
+      <div
+        id="contact-delivery-stage"
+        class="w-full max-w-xl mx-auto aspect-[4/3] flex items-center justify-center overflow-hidden rounded-2xl bg-white"
+        set:html={initialSvg}
+      />
+      <p class="text-xs sm:text-sm text-[#003074]/75 text-center max-w-2xl mx-auto leading-relaxed pt-4 border-t border-[#eef7fd]">
+        {delivery.methodology}
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { renderBeat } from '../motion/scene-engine';
+
+  let cleanupContactDelivery: (() => void) | null = null;
+
+  function initContactDeliveryMotion() {
+    if (cleanupContactDelivery) {
+      cleanupContactDelivery();
+      cleanupContactDelivery = null;
+    }
+
+    const stage = document.getElementById('contact-delivery-stage');
+    if (!stage) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isPaused = () =>
+      prefersReduced || document.documentElement.getAttribute('data-motion') === 'paused';
+
+    function updateFromScroll() {
+      if (!stage) return;
+      if (isPaused()) {
+        stage.innerHTML = renderBeat(2, 0.75).svg;
+        return;
+      }
+      const rect = stage.getBoundingClientRect();
+      const vh = window.innerHeight || 800;
+      const rawP = (vh * 0.9 - (rect.top + rect.height * 0.5)) / (vh * 0.7);
+      const p = Math.max(0, Math.min(1, rawP));
+      stage.innerHTML = renderBeat(2, p).svg;
+    }
+
+    let rafId: number | null = null;
+    function onScroll() {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(() => {
+          rafId = null;
+          updateFromScroll();
+        });
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateFromScroll();
+
+    cleanupContactDelivery = () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
+  }
+
+  document.addEventListener('astro:page-load', initContactDeliveryMotion);
+  document.addEventListener('astro:before-swap', () => {
+    if (cleanupContactDelivery) {
+      cleanupContactDelivery();
+      cleanupContactDelivery = null;
+    }
+  });
+</script>

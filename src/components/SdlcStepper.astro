@@ -1,0 +1,41 @@
+---
+// src/components/SdlcStepper.astro
+// SDLC Stepper using verbatim methodology copy from CONTENT.md (no Azure DevOps references).
+import { siteContent } from '../content/site';
+
+const stages = [
+  { num: '01', label: 'Development' },
+  { num: '02', label: 'Maintenance' },
+  { num: '03', label: 'Tech Support' },
+  { num: '04', label: 'Technical Documentation' },
+];
+---
+
+<section
+  id="sdlc-stepper"
+  class="py-20 sm:py-24 bg-white border-b border-[#d4e8f7]"
+  aria-labelledby="sdlc-heading"
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div class="max-w-3xl space-y-3">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#eef7fd] text-[#0070a8] text-xs font-bold uppercase tracking-wider border border-[#d4e8f7]">
+        <span>SDLC</span>
+      </span>
+      <h2 id="sdlc-heading" class="text-3xl sm:text-4xl font-black text-[#003074] tracking-tight">
+        Software Development Lifecycle
+      </h2>
+      <p class="text-base sm:text-lg text-[#003074]/85 leading-relaxed">
+        {siteContent.delivery.methodology}
+      </p>
+    </div>
+
+    <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {stages.map((stage) => (
+        <li class="p-6 rounded-2xl bg-[#eef7fd]/50 border border-[#d4e8f7] space-y-2">
+          <span class="text-xs font-mono font-black text-[#0088cc]">{stage.num}</span>
+          <h3 class="text-lg font-black text-[#003074]">{stage.label}</h3>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

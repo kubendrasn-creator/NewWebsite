@@ -116,16 +116,15 @@ async function run() {
   }
   await generateGrid('Scene A: Hero Continuous Loop (8.0s) – 12 Key Frames', sceneAFrames, 'scene-a-grid.png', browser);
 
-  // 2. Scene B: Beat 1 to 5 (12 frames each)
+  // 2. Scene B: Beat 1 to 4 (12 frames each)
   const beatNames = [
     'Beat 1: Apt (Pieces fit into block)',
     'Beat 2: Product Engineering (Spark grows to block)',
-    'Beat 3: Modernization (Old block to new block)',
-    'Beat 4: Delivery (Route line draws once)',
-    'Beat 5: Testing (Parallel lanes with checks merge)',
+    'Beat 3: Delivery (Route line draws once)',
+    'Beat 4: Testing (Parallel lanes with checks merge)',
   ];
 
-  for (let b = 0; b < 5; b++) {
+  for (let b = 0; b < 4; b++) {
     const beatFrames = [];
     for (let i = 0; i < 12; i++) {
       const p = i / 11;

@@ -20,17 +20,26 @@ const initialSvgs = beats.map((_, idx) => renderBeat(idx, 0.65).svg);
         <span>How We Engineer</span>
       </span>
       <h2 class="text-3xl sm:text-4xl font-black text-[#003074] tracking-tight">
-        Precision in Five Beats
+        Precision in Four Beats
       </h2>
+      <!-- 4-Beat Indicator Dots -->
+      <div class="flex items-center justify-center gap-2 pt-2" aria-hidden="true">
+        {beats.map((_, idx) => (
+          <span
+            class="motion-story-dot w-2.5 h-2.5 rounded-full bg-[#d4e8f7] transition-colors duration-200"
+            data-dot-index={idx}
+          />
+        ))}
+      </div>
     </div>
 
-    <div class="space-y-16 sm:space-y-24">
+    <div class="space-y-8">
       {beats.map((beat, idx) => {
         const words = beat.caption.split(' ');
         const isEven = idx % 2 === 0;
         return (
           <article
-            class="motion-beat-row grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+            class="motion-beat-row min-h-[85svh] py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
             data-beat-index={idx}
           >
             {/* Stage (400x300 pure SVG on solid white) */}
@@ -51,7 +60,7 @@ const initialSvgs = beats.map((_, idx) => renderBeat(idx, 0.65).svg);
             >
               <div class="flex items-center gap-3">
                 <span class="px-2.5 py-1 rounded-lg bg-[#eef7fd] border border-[#d4e8f7] text-xs font-mono font-bold text-[#0070a8]">
-                  0{idx + 1} / 05
+                  0{idx + 1} / 0{beats.length}
                 </span>
                 <span class="text-xs font-black uppercase tracking-widest text-[#0070a8]">
                   {beat.title}
@@ -60,14 +69,17 @@ const initialSvgs = beats.map((_, idx) => renderBeat(idx, 0.65).svg);
 
               <p class="kinetic-caption text-2xl sm:text-3xl font-bold text-[#003074] leading-snug">
                 {words.map((word, wIdx) => (
-                  <span class="inline-block overflow-hidden align-bottom mr-[0.26em] py-0.5">
-                    <span
-                      class="kinetic-word inline-block"
-                      style={`--word-delay: ${wIdx * 40}ms;`}
-                    >
-                      {word}
+                  <>
+                    <span class="inline-block overflow-hidden align-bottom py-0.5">
+                      <span
+                        class="kinetic-word inline-block"
+                        style={`--word-delay: ${wIdx * 40}ms;`}
+                      >
+                        {word}
+                      </span>
                     </span>
-                  </span>
+                    {wIdx < words.length - 1 ? ' ' : ''}
+                  </>
                 ))}
               </p>
             </div>

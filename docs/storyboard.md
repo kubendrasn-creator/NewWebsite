@@ -88,18 +88,17 @@ Identical to Start Frame ($t = 0.00\text{s}$), ensuring a mathematically seamles
 
 ---
 
-## 4. Scene B: 5 Core Competency Beats
+## 4. Scene B: 4 Core Competency Beats
 
 ### Overview & Scroll-to-Time Mapping
-The 5 beats are driven by pure scene functions $f(t)$ in the brand film (24.00 s sequence) and map directly to scroll progress $p \in [0, 1]$ in the interactive story:
+The 4 beats are driven by pure scene functions $f(t)$ in the brand film (24.00 s sequence) and map directly to scroll progress $p \in [0, 1]$ in the interactive story (`4 x 85svh`, with Application Modernization promoted to the dedicated interactive `ModernizationSpotlight` before/after comparison):
 
 | Beat | Competency | Film Timecode | Scroll Progress ($p$) | Morph / Kinetic Motif |
 | :---: | :--- | :--- | :--- | :--- |
-| **Beat 1** | **Apt** | 1.80s – 5.80s | $0.00 - 0.20$ | Mismatched slanted pieces fit into one block |
-| **Beat 2** | **Product Engineering** | 5.55s – 9.95s | $0.20 - 0.40$ | Spark grows into an engineered block |
-| **Beat 3** | **Modernization** | 9.70s – 14.10s | $0.40 - 0.60$ | Fragmented old block morphs into clean new block (flat brand-blue core) |
-| **Beat 4** | **Delivery** | 13.85s – 18.25s | $0.60 - 0.80$ | Static route line draws once between "US" and "Bengaluru, India" |
-| **Beat 5** | **Testing** | 18.00s – 22.40s | $0.80 - 1.00$ | Parallel lanes ("Manual" & "Automated") with check marks merge to passing line |
+| **Beat 1** | **Apt** | 1.80s – 6.80s | $0.00 - 0.25$ | Mismatched slanted pieces fit into one block |
+| **Beat 2** | **Product Engineering** | 6.55s – 11.80s | $0.25 - 0.50$ | Spark grows into an engineered block |
+| **Beat 3** | **Delivery** | 11.55s – 16.80s | $0.50 - 0.75$ | Static route line draws once between "US" and "Bengaluru, India" |
+| **Beat 4** | **Testing** | 16.55s – 21.80s | $0.75 - 1.00$ | Parallel lanes ("Manual" & "Automated") with check marks merge to passing line |
 
 *(Note: Logo intro 0.00s–1.80s and logo outro 22.40s–24.00s appear exclusively in the standalone brand film, not in the web scroll story).*
 

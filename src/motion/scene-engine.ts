@@ -88,7 +88,26 @@ export function renderSceneA(timeSec: number): SceneState {
   };
 }
 
-// ─── 2. SCENE B: 5 BEATS ────────────────────────────────────────────────────
+// ─── 2. SCENE B: 4 BEATS (Apt, Product Engineering, Delivery, Testing) ───────
+
+export function renderModernizationFrame(progress: number): string {
+  const p = Math.max(0, Math.min(1, progress));
+  const tE = p < 0.45 ? quartInOut(p / 0.45) : (p <= 0.85 ? 1 : 1 - expoOut((p - 0.85) / 0.15));
+  const gap = (1 - tE) * 24;
+  const shellW = 112;
+  const shellH = 96;
+
+  const svgContent = `
+  <polygon points="${slantRect(144, 104, shellW, shellH)}" fill="${tE > 0.6 ? TOKENS.blueInk : TOKENS.lightTint}" stroke="${TOKENS.blueInk}" stroke-width="2"/>
+  <polygon points="${slantRect(168, 128, 64, 48)}" fill="${TOKENS.blue}"/>
+  ${gap > 2 ? `<line x1="${(144 + gap).toFixed(1)}" y1="104" x2="${(144 + gap).toFixed(1)}" y2="200" stroke="${TOKENS.white}" stroke-width="2"/>` : ''}
+`;
+
+  return `<svg viewBox="0 0 400 300" width="400" height="300" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; font-family:'Plus Jakarta Sans', system-ui, sans-serif;">
+  <rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+  ${svgContent}
+</svg>`;
+}
 
 export function renderBeat(beatIdx: number, progress: number): SceneState {
   const p = Math.max(0, Math.min(1, progress));
@@ -143,31 +162,12 @@ export function renderBeat(beatIdx: number, progress: number): SceneState {
     }
 
     case 2: {
-      // Beat 3: Application Modernization (Fragmented old block -> clean new block with flat brand-blue core)
-      const tE = p < 0.45 ? quartInOut(p / 0.45) : (p <= 0.85 ? 1 : 1 - expoOut((p - 0.85) / 0.15));
-      leadAmp = tE;
-      secAmp = tE * 0.55;
-
-      const gap = (1 - leadAmp) * 24;
-      const shellW = 112;
-      const shellH = 96;
-
-      svgContent = `
-  <polygon points="${slantRect(144, 104, shellW, shellH)}" fill="${leadAmp > 0.6 ? TOKENS.blueInk : TOKENS.lightTint}" stroke="${TOKENS.blueInk}" stroke-width="2"/>
-  <polygon points="${slantRect(168, 128, 64, 48)}" fill="${TOKENS.blue}"/>
-  ${gap > 2 ? `<line x1="${(144 + gap).toFixed(1)}" y1="104" x2="${(144 + gap).toFixed(1)}" y2="200" stroke="${TOKENS.white}" stroke-width="2"/>` : ''}
-`;
-      break;
-    }
-
-    case 3: {
-      // Beat 4: Delivery (Static route drawn once between "US" and "Bengaluru, India" with one marker traveling)
+      // Beat 3: Delivery (Static route drawn once between "US" and "Bengaluru, India" with one marker traveling)
       const tE = p < 0.55 ? expoOut(p / 0.55) : 1;
       leadAmp = tE;
       secAmp = 0.5;
 
       const mx = 80 + (320 - 80) * tE;
-      // Parabolic arc for traveling marker
       const arcHeight = Math.sin(tE * Math.PI) * 45;
       const my = 152 - arcHeight;
 
@@ -183,9 +183,9 @@ export function renderBeat(beatIdx: number, progress: number): SceneState {
       break;
     }
 
-    case 4:
+    case 3:
     default: {
-      // Beat 5: Testing (Two parallel lanes "Manual" and "Automated" with check marks merging)
+      // Beat 4: Testing (Two parallel lanes "Manual" and "Automated" with check marks merging)
       const tE = p < 0.5 ? expoOut(p / 0.5) : (p <= 0.85 ? 1 : 1 - quartInOut((p - 0.85) / 0.15));
       leadAmp = tE;
       secAmp = tE * 0.5;
@@ -265,10 +265,10 @@ export function renderBrandFilmFrame(timeSec: number): string {
 </svg>`;
   }
 
-  // Active Beat calculation
+  // Active Beat calculation (4 beats over 20.0s = 5.0s each)
   const beatTime = t - 1.8;
-  const beatIdx = Math.min(4, Math.floor(beatTime / 4.0));
-  const beatProgress = (beatTime % 4.0) / 4.0;
+  const beatIdx = Math.min(3, Math.floor(beatTime / 5.0));
+  const beatProgress = (beatTime % 5.0) / 5.0;
 
   const state = renderBeat(beatIdx, beatProgress);
   stageSvg = state.svg;

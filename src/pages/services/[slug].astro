@@ -12,6 +12,7 @@ import ServiceSaaS from '../../components/illustrations/ServiceSaaS.astro';
 import ServiceModernization from '../../components/illustrations/ServiceModernization.astro';
 import ServiceTesting from '../../components/illustrations/ServiceTesting.astro';
 import ServiceAnalytics from '../../components/illustrations/ServiceAnalytics.astro';
+import ModernizationSpotlight from '../../components/ModernizationSpotlight.astro';
 import CTABand from '../../components/CTABand.astro';
 
 export function getStaticPaths() {
@@ -140,7 +141,7 @@ const breadcrumbSchema = {
             {service.slug === 'product-engineering' && <ServiceEngineering />}
             {service.slug === 'application-development' && <ServiceCustomApp />}
             {service.slug === 'saas' && <ServiceSaaS />}
-            {service.slug === 'application-modernization' && <ServiceModernization />}
+            {service.slug === 'application-modernization' && <ModernizationSpotlight isStatic={true} />}
             {service.slug === 'testing' && <ServiceTesting />}
             {service.slug === 'business-analytics' && <ServiceAnalytics />}
           </div>
@@ -197,6 +198,9 @@ const breadcrumbSchema = {
 
     </div>
   </section>
+
+  <!-- Interactive Before/After Modernization Comparison on Modernization page -->
+  {service.slug === 'application-modernization' && <ModernizationSpotlight />}
 
   <!-- "Next Service" Morphing Panel (View Transition to next page hero) -->
   <section class="py-16 sm:py-24 bg-white border-b border-[#d4e8f7]">

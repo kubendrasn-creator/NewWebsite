@@ -1,11 +1,16 @@
 ---
 // src/pages/index.astro
-// Home: Hero (Scene A), Marquee, Pillars, Motion 5-Beat Scroll Story, CTA Band
+// Home Order: Hero; Modernization Spotlight; Apt/Agile/Assured; Scene B (4 beats);
+// Services Bento; SDLC Stepper; Engagement Plans + Fit Finder; Statement + Values; CTA Band.
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import Marquee from '../components/Marquee.astro';
+import ModernizationSpotlight from '../components/ModernizationSpotlight.astro';
 import PillarsScrollStory from '../components/PillarsScrollStory.astro';
 import MotionScrollStory from '../components/MotionScrollStory.astro';
+import ServicesBento from '../components/ServicesBento.astro';
+import SdlcStepper from '../components/SdlcStepper.astro';
+import EngagementFitSection from '../components/EngagementFitSection.astro';
+import StatementValuesSection from '../components/StatementValuesSection.astro';
 import CTABand from '../components/CTABand.astro';
 ---
 
@@ -16,15 +21,27 @@ import CTABand from '../components/CTABand.astro';
   <!-- 1. Hero with Scene A 8s Pure SVG Loop -->
   <Hero />
 
-  <!-- 2. Infinite Service Marquee -->
-  <Marquee />
+  <!-- 2. Modernization Spotlight (Before/After Comparison) -->
+  <ModernizationSpotlight />
 
-  <!-- 3. Pillars Bento Grid: Apt, Agile, Assured -->
+  <!-- 3. Apt / Agile / Assured -->
   <PillarsScrollStory />
 
-  <!-- 4. Motion Film Layer: 5-Beat Scroll Story with Kinetic Type -->
+  <!-- 4. Scene B Scroll Story (4 Beats) -->
   <MotionScrollStory />
 
-  <!-- 5. Action CTA Band -->
+  <!-- 5. Services Bento -->
+  <ServicesBento />
+
+  <!-- 6. SDLC Stepper -->
+  <SdlcStepper />
+
+  <!-- 7. Engagement Plans + Fit Finder -->
+  <EngagementFitSection />
+
+  <!-- 8. Statement + Values -->
+  <StatementValuesSection />
+
+  <!-- 9. Action CTA Band -->
   <CTABand />
 </Base>

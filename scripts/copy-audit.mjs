@@ -1,6 +1,6 @@
 // scripts/copy-audit.mjs
 // Audit visible text in dist/ against CONTENT.md derived site.ts and uiMicrocopy.
-// Ensures no invented facts, no stats/counters, no forbidden claims.
+// Ensures no invented facts, no stats/counters, and enforces all forbidden token & conditional rules.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,7 +14,6 @@ if (!fs.existsSync(DIST_DIR)) {
   process.exit(1);
 }
 
-// Flatten all strings from site.ts
 function extractStrings(obj) {
   let list = [];
   for (const key of Object.keys(obj)) {
@@ -41,7 +40,7 @@ const allAllowedStrings = new Set([
 
 console.log(`Loaded ${allAllowedStrings.size} allowed source copy phrases.`);
 
-// Forbidden tokens per ROUND 3 requirements
+// Forbidden tokens per ROUND 3 & REMAP specs
 const FORBIDDEN_WORDS = [
   /\bfounded in\b/i,
   /\bsince 20\b/i,
@@ -53,6 +52,21 @@ const FORBIDDEN_WORDS = [
   /\bmeet the team\b/i,
   /\bleadership team\b/i,
   /\bteam members\b/i,
+  /\bHealthcare\b/i,
+  /\.NET\b/i,
+  /\bMAUI\b/i,
+  /\bAzure DevOps\b/i,
+  /\bWe work on Azure DevOps\b/i,
+  /\bpendingOwnerApproval\b/i,
+  /\bHIPAA\b/i,
+  /\bcompliant\b/i,
+  /\bcertified\b/i,
+  /\bmastered\b/i,
+  /\bexpert\b/i,
+  /\bleading\b/i,
+  /\bbest\b/i,
+  /\bhiring\b/i,
+  /\bexpanding\b/i,
 ];
 
 function getAllHtmlFiles(dir) {
@@ -73,18 +87,58 @@ function getAllHtmlFiles(dir) {
 const htmlFiles = getAllHtmlFiles(DIST_DIR);
 let violations = [];
 
+const ALLOWED_AZURE_CONTEXT = 'Windows Azure by Microsoft';
+const ALLOWED_AGILE_CONTEXTS = [
+  'agile methodology for software development',
+  'Apt • Agile • Assured',
+  'Apt <span class="text-[#0070a8]">•</span> Agile',
+  '02. Agile',
+  '>Agile<',
+  'Agile',
+];
+
 for (const file of htmlFiles) {
+  const relPath = path.relative(DIST_DIR, file);
   const content = fs.readFileSync(file, 'utf-8');
 
-  // Strip script, style, svg tags
-  const cleanContent = content
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-    .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '');
+  // Strip script, style, svg tags, and HTML tags to inspect visible text
+  const noCode = content
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' ')
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, ' ')
+    .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, ' ');
+
+  const visibleText = noCode
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ');
 
   for (const regex of FORBIDDEN_WORDS) {
-    if (regex.test(cleanContent)) {
-      violations.push(`Forbidden copy pattern ${regex} found in ${path.relative(DIST_DIR, file)}`);
+    if (regex.test(visibleText)) {
+      violations.push(`Forbidden copy pattern ${regex} found in ${relPath}`);
+    }
+  }
+
+  // Conditional check 1: "Azure" appears ONLY inside the verbatim SaaS sentence
+  const azureMatches = [...visibleText.matchAll(/\bAzure\b/gi)];
+  for (const m of azureMatches) {
+    const start = Math.max(0, m.index - 40);
+    const end = Math.min(visibleText.length, m.index + 60);
+    const snippet = visibleText.slice(start, end);
+    if (!snippet.includes(ALLOWED_AZURE_CONTEXT)) {
+      violations.push(`Unauthorized "Azure" usage in ${relPath}: "...${snippet}..."`);
+    }
+  }
+
+  // Conditional check 2: "agile" appears ONLY in the old pillar name ("Agile") or verbatim Efficiency sentence
+  const agileMatches = [...visibleText.matchAll(/\bagile\b/gi)];
+  for (const m of agileMatches) {
+    const start = Math.max(0, m.index - 40);
+    const end = Math.min(visibleText.length, m.index + 60);
+    const snippet = visibleText.slice(start, end);
+    const isEfficiency = snippet.includes('agile methodology for software development');
+    // Capitalized "Agile" as standalone pillar name (e.g. "Apt • Agile • Assured" or "Agile")
+    const isPillar = m[0] === 'Agile';
+    if (!isEfficiency && !isPillar) {
+      violations.push(`Unauthorized "agile" usage in ${relPath}: "...${snippet}..."`);
     }
   }
 }
@@ -94,5 +148,5 @@ if (violations.length > 0) {
   violations.forEach((v) => console.error(` - ${v}`));
   process.exit(1);
 } else {
-  console.log(`Copy audit passed: 0 forbidden claims, 0 testimonials, 0 fake stats across ${htmlFiles.length} pages.`);
+  console.log(`Copy audit passed: 0 forbidden claims, 0 unauthorized Azure/agile uses across ${htmlFiles.length} pages.`);
 }

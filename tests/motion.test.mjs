@@ -75,21 +75,22 @@ const sA_mid = renderSceneA(2.0);
 assert(sA_mid.leadAmplitude >= 0.60, 'Scene A lead element amplitude >= 60% during transition');
 assert(sA_mid.secondaryAmplitudes['outer-block'] <= 0.60, 'Scene A secondary shapes amplitude <= 60%');
 
-// Beats lead element and hold checks
-for (let b = 0; b < 5; b++) {
+// Beats lead element and hold checks (4 beats)
+assert(siteContent.motionBeats.length === 4, 'Scene B has exactly 4 beats');
+for (let b = 0; b < 4; b++) {
   // Peak transition amplitude at p=0.4
   const stateTransit = renderBeat(b, 0.4);
   assert(stateTransit.leadAmplitude >= 0.60, `Beat ${b + 1} lead element amplitude >= 60% at peak transition`);
   assert(stateTransit.secondaryAmplitudes['secondary'] <= 0.60, `Beat ${b + 1} secondary amplitude <= 60%`);
 
-  // Hold check at p=0.6 (represents 4.0s beat * 0.4 = 1.6s hold >= 600ms)
+  // Hold check at p=0.6 (represents 5.0s beat * 0.4 = 2.0s hold >= 600ms)
   const stateHold = renderBeat(b, 0.6);
   assert(stateHold.isHolding === true, `Beat ${b + 1} isHolding=true during hold window (hold duration >= 600ms)`);
 }
 
 // ── 4. Verbatim Captions Match ──
 console.log('4. Verbatim Captions AST Match');
-for (let b = 0; b < 5; b++) {
+for (let b = 0; b < 4; b++) {
   const state = renderBeat(b, 0.5);
   const expectedCaption = siteContent.motionBeats[b].caption;
   assert(state.caption === expectedCaption, `Beat ${b + 1} caption matches siteContent.motionBeats[${b}].caption exactly: "${expectedCaption}"`);
@@ -136,7 +137,7 @@ function checkColors(svgStr, name) {
 }
 
 assert(checkColors(renderSceneA(4.0).svg, 'Scene A'), 'Scene A uses exclusively brand tokens and derived light tint');
-for (let b = 0; b < 5; b++) {
+for (let b = 0; b < 4; b++) {
   assert(checkColors(renderBeat(b, 0.6).svg, `Beat ${b + 1}`), `Beat ${b + 1} uses exclusively brand tokens and derived light tint`);
 }
 
@@ -176,7 +177,7 @@ const pctA = (distA / 250) * 100;
 console.log(`Scene A Centroid at hold: (${centroidA.cx.toFixed(1)}, ${centroidA.cy.toFixed(1)}), offset = ${pctA.toFixed(2)}%`);
 assert(distA <= MAX_OFFSET_PX, `Scene A center of mass offset (${pctA.toFixed(2)}%) is within 5% of stage center`);
 
-for (let b = 0; b < 5; b++) {
+for (let b = 0; b < 4; b++) {
   const centroidB = extractCentroid(renderBeat(b, 0.6).svg);
   const distB = Math.sqrt(Math.pow(centroidB.cx - STAGE_CX, 2) + Math.pow(centroidB.cy - STAGE_CY, 2));
   const pctB = (distB / 250) * 100;
