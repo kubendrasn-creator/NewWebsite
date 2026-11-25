@@ -1,13 +1,11 @@
 ---
 // src/pages/index.astro
-// Home: Hero, Marquee, Pillars (pinned scenes), Services Teaser, Delivery Route SVG, CTA Band
+// Home: Hero (Scene A), Marquee, Pillars, Motion 5-Beat Scroll Story, CTA Band
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Marquee from '../components/Marquee.astro';
 import PillarsScrollStory from '../components/PillarsScrollStory.astro';
 import MotionScrollStory from '../components/MotionScrollStory.astro';
-import ServicesTeaser from '../components/ServicesTeaser.astro';
-import DeliverySection from '../components/DeliverySection.astro';
 import CTABand from '../components/CTABand.astro';
 ---
 
@@ -15,24 +13,18 @@ import CTABand from '../components/CTABand.astro';
   title="Apt Infosoft – Engineering Software Built to Last"
   description="Our Vision is to help small and mid-sized enterprises reap the benefits of modern technology and globalization."
 >
-  <!-- 1. Hero with WebGL Shader & Swoosh "i" Signature Graphic -->
+  <!-- 1. Hero with Scene A 8s Pure SVG Loop -->
   <Hero />
 
   <!-- 2. Infinite Service Marquee -->
   <Marquee />
 
-  <!-- 3. Pillars Scroll Story: Apt, Agile, Assured Bento Grid -->
+  <!-- 3. Pillars Bento Grid: Apt, Agile, Assured -->
   <PillarsScrollStory />
 
   <!-- 4. Motion Film Layer: 5-Beat Scroll Story with Kinetic Type -->
   <MotionScrollStory />
 
-  <!-- 5. Services Teaser: 6 Compact Cards Linking to Dedicated Service Pages -->
-  <ServicesTeaser />
-
-  <!-- 5. Delivery Route SVG: Onsite-Offshore Global Model -->
-  <DeliverySection />
-
-  <!-- 6. Action CTA Band -->
+  <!-- 5. Action CTA Band -->
   <CTABand />
 </Base>

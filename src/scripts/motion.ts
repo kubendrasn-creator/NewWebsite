@@ -70,7 +70,7 @@ export function ensureCursorActive() {
   let isMotionPaused = false;
   try {
     isMotionPaused = sessionStorage.getItem('apt_motion_paused') === 'true';
-  } catch (e) {}
+  } catch (e) { }
 
   if (isMotionPaused || !isDesktop) {
     document.documentElement.classList.remove('has-custom-cursor');
@@ -221,7 +221,7 @@ export function destroyPage() {
   }
   while (pageCleanups.length > 0) {
     const fn = pageCleanups.pop();
-    try { fn?.(); } catch (e) {}
+    try { fn?.(); } catch (e) { }
   }
 
   // Reset custom cursor hover state
@@ -251,7 +251,7 @@ export function initPage() {
 
     // ── Desktop (>= 1024px, hover: hover, no reduced-motion) ────────────────
     mm.add('(min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference)', () => {
-      
+
       // 1. Header shrink on scroll
       if (headerEl) {
         ScrollTrigger.create({
@@ -274,7 +274,7 @@ export function initPage() {
       if (heroHeadline) {
         const words = heroHeadline.querySelectorAll<HTMLElement>('.word-inner');
         if (words.length) {
-          gsap.fromTo(words, 
+          gsap.fromTo(words,
             { yPercent: 40, opacity: 0 },
             { yPercent: 0, opacity: 1, duration: 0.45, stagger: 0.04, ease: 'power2.out' }
           );
@@ -368,7 +368,7 @@ export function initPage() {
     // ── Generic Reveals (All Viewports) ─────────────────────────────────────
     ScrollTrigger.batch('.reveal-up', {
       onEnter: (batch) => {
-        gsap.fromTo(batch, 
+        gsap.fromTo(batch,
           { opacity: 0, y: 20 },
           { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.05 }
         );
@@ -441,7 +441,7 @@ export function initPage() {
     let initialPaused = false;
     try {
       initialPaused = sessionStorage.getItem('apt_motion_paused') === 'true';
-    } catch (e) {}
+    } catch (e) { }
     updatePauseButtonUI(initialPaused);
 
     const onTogglePause = () => {
@@ -529,23 +529,29 @@ if (typeof window !== 'undefined') {
       if (isMotionPaused && event?.newDocument?.documentElement) {
         event.newDocument.documentElement.setAttribute('data-motion', 'paused');
       }
-    } catch (e) {}
+    } catch (e) { }
   });
 
   document.addEventListener('astro:after-swap', () => {
     ensureCursorActive();
   });
 
+  let hasInitialLoaded = false;
+
   document.addEventListener('astro:page-load', () => {
     initPage();
     ensureCursorActive();
 
-    // Focus lands on the new page's h1
-    const h1 = document.querySelector('main h1') || document.querySelector('h1');
-    if (h1) {
-      h1.setAttribute('tabindex', '-1');
-      h1.focus({ preventScroll: true });
+    // Focus lands on the new page's h1 on route transitions without leaving tabindex="-1" in DOM
+    if (hasInitialLoaded) {
+      const h1 = (document.querySelector('main h1') || document.querySelector('h1')) as HTMLElement | null;
+      if (h1) {
+        h1.setAttribute('tabindex', '-1');
+        h1.focus({ preventScroll: true });
+        h1.addEventListener('blur', () => h1.removeAttribute('tabindex'), { once: true });
+      }
     }
+    hasInitialLoaded = true;
 
     if (cursorActive && lastPointerX >= 0 && lastPointerY >= 0) {
       qDotX?.(lastPointerX);

@@ -3,7 +3,6 @@
 import Base from '../../layouts/Base.astro';
 import { siteContent } from '../../content/site';
 import ContactForm from '../../components/islands/ContactForm';
-import DualTimeClocks from '../../components/islands/DualTimeClocks';
 import DeliverySection from '../../components/DeliverySection.astro';
 
 const { contact } = siteContent;
@@ -54,12 +53,8 @@ const breadcrumbSchema = {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
-        <!-- Left Column: Live Global Clocks, Direct Phone, Email, & India Address (5 cols) -->
+        <!-- Left Column: Direct Phone, Email, & India Address (5 cols) -->
         <div class="lg:col-span-5 space-y-6">
-          
-          <!-- Live Global Time Synchronization (Visitor Time & Bengaluru Time) -->
-          <DualTimeClocks client:idle />
-
           <!-- US Phone -->
           <div class="p-6 sm:p-8 rounded-3xl border border-[#d4e8f7] bg-[#eef7fd]/40 shadow-sm flex items-center justify-between gap-4">
             <div class="flex items-start gap-4">
