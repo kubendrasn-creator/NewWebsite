@@ -169,9 +169,9 @@ const initialSvgs = beats.map((_, idx) => renderBeat(idx, 0.65).svg);
         }
 
         const rect = row.getBoundingClientRect();
-        // Map viewport traversal from bottom (0.9 * vh) to upper-middle (0.15 * vh) into [0, 1]
-        const startY = vh * 0.9;
-        const endY = vh * 0.15;
+        // Map viewport traversal from bottom (0.92 * vh) to center (0.48 * vh) into [0, 1]
+        const startY = vh * 0.92;
+        const endY = vh * 0.48;
         const centerY = rect.top + rect.height * 0.5;
         const rawP = (startY - centerY) / (startY - endY);
         const p = Math.max(0, Math.min(1, rawP));

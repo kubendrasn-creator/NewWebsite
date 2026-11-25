@@ -162,18 +162,21 @@ export function renderBeat(beatIdx: number, progress: number): SceneState {
     }
 
     case 2: {
-      // Beat 3: Delivery (Static route drawn once between "US" and "Bengaluru, India" with one marker traveling)
-      const tE = p < 0.55 ? expoOut(p / 0.55) : 1;
+      // Beat 3: Delivery (Smooth quadratic bezier route drawn once between "US" and "Bengaluru, India")
+      const tE = p < 0.6 ? expoOut(p / 0.6) : 1;
       leadAmp = tE;
       secAmp = 0.5;
 
-      const mx = 80 + (320 - 80) * tE;
-      const arcHeight = Math.sin(tE * Math.PI) * 45;
-      const my = 152 - arcHeight;
+      // Quadratic Bezier P0=(80,152), P1=(200,72), P2=(320,152)
+      const inv = 1 - tE;
+      const mx = inv * inv * 80 + 2 * inv * tE * 200 + tE * tE * 320;
+      const my = inv * inv * 152 + 2 * inv * tE * 72 + tE * tE * 152;
+      const totalLen = 266;
+      const dashOffset = totalLen * (1 - tE);
 
       svgContent = `
-  <path d="M 80,152 C 160,88 240,88 320,152" fill="none" stroke="${TOKENS.lightTint}" stroke-width="4"/>
-  <path d="M 80,152 C ${(80 + (160 - 80) * tE).toFixed(1)},${(152 - arcHeight).toFixed(1)} ${(160 + (240 - 160) * tE).toFixed(1)},${(152 - arcHeight).toFixed(1)} ${mx.toFixed(1)},${my.toFixed(1)}" fill="none" stroke="${TOKENS.blueInk}" stroke-width="3"/>
+  <path d="M 80,152 Q 200,72 320,152" fill="none" stroke="${TOKENS.lightTint}" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 80,152 Q 200,72 320,152" fill="none" stroke="${TOKENS.blueInk}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${totalLen}" stroke-dashoffset="${dashOffset.toFixed(1)}"/>
   <circle cx="80" cy="152" r="12" fill="${TOKENS.navy}"/>
   <text x="80" y="184" text-anchor="middle" font-size="12" font-weight="700" fill="${TOKENS.navy}">US</text>
   <circle cx="320" cy="152" r="12" fill="${tE >= 0.98 ? TOKENS.blue : TOKENS.lightTint}" stroke="${TOKENS.blueInk}" stroke-width="2"/>

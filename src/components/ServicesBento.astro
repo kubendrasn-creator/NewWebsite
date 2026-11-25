@@ -1,7 +1,7 @@
 ---
 // src/components/ServicesBento.astro
-// Services Bento Grid: Application Modernization (04) is 2x2, Application Development (02) is 2x1 wide
-// with its 3 verbatim platform items as plain text, others standard 1x1. Original numerals 01-06 preserved.
+// Clean Services Bento Grid without jumbled numbering.
+// Application Modernization is 2x2, Application Development is 2x1 wide with 3 platform items, others 1x1.
 import { siteContent } from '../content/site';
 import { url } from '../utils/url';
 
@@ -40,22 +40,18 @@ const analytics = services.find((s) => s.slug === 'business-analytics')!;
       </a>
     </div>
 
-    <!-- Bento Grid: 4 columns from 1024px (lg) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
-      <!-- 04: Application Modernization (Large 2x2) -->
+    <!-- Balanced 4-Column Bento Grid from 1024px (lg) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Application Modernization (Featured 2x2) -->
       <a
         href={url(`/services/${mod.slug}`)}
         data-astro-prefetch="hover"
-        data-service-numeral={mod.number}
         class="bento-tile-modernization lg:col-span-2 lg:row-span-2 group p-8 rounded-3xl bg-white border border-[#d4e8f7] hover:border-[#0088cc] shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
       >
         <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-black text-[#0088cc]">{mod.number}</span>
-            <span class="px-2.5 py-1 rounded-full bg-[#eef7fd] border border-[#d4e8f7] text-[11px] font-bold uppercase tracking-wider text-[#0070a8]">
-              {mod.shortTitle}
-            </span>
-          </div>
+          <span class="inline-block px-2.5 py-1 rounded-full bg-[#eef7fd] border border-[#d4e8f7] text-[11px] font-bold uppercase tracking-wider text-[#0070a8]">
+            {mod.shortTitle}
+          </span>
           <h3 class="text-2xl sm:text-3xl font-black text-[#003074] group-hover:text-[#0088cc] transition-colors">
             {mod.title}
           </h3>
@@ -73,15 +69,13 @@ const analytics = services.find((s) => s.slug === 'business-analytics')!;
         </div>
       </a>
 
-      <!-- 01: Product Engineering (1x1) -->
+      <!-- Product Engineering (1x1) -->
       <a
         href={url(`/services/${prodEng.slug}`)}
         data-astro-prefetch="hover"
-        data-service-numeral={prodEng.number}
         class="bento-tile-standard group p-6 rounded-3xl bg-white border border-[#d4e8f7] hover:border-[#0088cc] shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
       >
-        <div class="space-y-3">
-          <span class="text-xs font-mono font-black text-[#0088cc]">{prodEng.number}</span>
+        <div class="space-y-2.5">
           <h3 class="text-lg font-black text-[#003074] group-hover:text-[#0088cc] transition-colors">
             {prodEng.title}
           </h3>
@@ -95,15 +89,13 @@ const analytics = services.find((s) => s.slug === 'business-analytics')!;
         </div>
       </a>
 
-      <!-- 03: Cloud SaaS (1x1) -->
+      <!-- Cloud SaaS (1x1) -->
       <a
         href={url(`/services/${saas.slug}`)}
         data-astro-prefetch="hover"
-        data-service-numeral={saas.number}
         class="bento-tile-standard group p-6 rounded-3xl bg-white border border-[#d4e8f7] hover:border-[#0088cc] shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
       >
-        <div class="space-y-3">
-          <span class="text-xs font-mono font-black text-[#0088cc]">{saas.number}</span>
+        <div class="space-y-2.5">
           <h3 class="text-lg font-black text-[#003074] group-hover:text-[#0088cc] transition-colors">
             {saas.title}
           </h3>
@@ -117,15 +109,13 @@ const analytics = services.find((s) => s.slug === 'business-analytics')!;
         </div>
       </a>
 
-      <!-- 02: Custom Application Development (Wide 2x1 with 3 verbatim platform items as plain text) -->
+      <!-- Custom Application Development (Wide 2x1 with 3 verbatim platform items as plain text) -->
       <a
         href={url(`/services/${appDev.slug}`)}
         data-astro-prefetch="hover"
-        data-service-numeral={appDev.number}
         class="bento-tile-appdev md:col-span-2 lg:col-span-2 group p-7 rounded-3xl bg-white border border-[#d4e8f7] hover:border-[#0088cc] shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
       >
-        <div class="space-y-3">
-          <span class="text-xs font-mono font-black text-[#0088cc]">{appDev.number}</span>
+        <div class="space-y-2.5">
           <h3 class="text-xl font-black text-[#003074] group-hover:text-[#0088cc] transition-colors">
             {appDev.title}
           </h3>
@@ -144,15 +134,13 @@ const analytics = services.find((s) => s.slug === 'business-analytics')!;
         </div>
       </a>
 
-      <!-- 05: Testing Services (1x1) -->
+      <!-- Testing Services (Wide 2x1) -->
       <a
         href={url(`/services/${testing.slug}`)}
         data-astro-prefetch="hover"
-        data-service-numeral={testing.number}
         class="bento-tile-standard md:col-span-1 lg:col-span-2 group p-6 rounded-3xl bg-white border border-[#d4e8f7] hover:border-[#0088cc] shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
       >
-        <div class="space-y-3">
-          <span class="text-xs font-mono font-black text-[#0088cc]">{testing.number}</span>
+        <div class="space-y-2.5">
           <h3 class="text-lg font-black text-[#003074] group-hover:text-[#0088cc] transition-colors">
             {testing.title}
           </h3>
@@ -166,15 +154,13 @@ const analytics = services.find((s) => s.slug === 'business-analytics')!;
         </div>
       </a>
 
-      <!-- 06: Business Reporting and Analytics (1x1) -->
+      <!-- Business Reporting and Analytics (Wide 2x1) -->
       <a
         href={url(`/services/${analytics.slug}`)}
         data-astro-prefetch="hover"
-        data-service-numeral={analytics.number}
         class="bento-tile-standard md:col-span-1 lg:col-span-2 group p-6 rounded-3xl bg-white border border-[#d4e8f7] hover:border-[#0088cc] shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
       >
-        <div class="space-y-3">
-          <span class="text-xs font-mono font-black text-[#0088cc]">{analytics.number}</span>
+        <div class="space-y-2.5">
           <h3 class="text-lg font-black text-[#003074] group-hover:text-[#0088cc] transition-colors">
             {analytics.title}
           </h3>

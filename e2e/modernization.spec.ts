@@ -74,7 +74,7 @@ test.describe('Modernization Remap & Motion Story Verification', () => {
     }
   });
 
-  test('Services Bento layout and original numerals at 1024, 1280, 1440', async ({ page }) => {
+  test('Services Bento layout at 1024, 1280, 1440', async ({ page }) => {
     for (const width of [1024, 1280, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto('./');
@@ -82,9 +82,6 @@ test.describe('Modernization Remap & Motion Story Verification', () => {
       const modTile = page.locator('.bento-tile-modernization');
       const appDevTile = page.locator('.bento-tile-appdev');
       const standardTile = page.locator('.bento-tile-standard').first();
-
-      await expect(modTile).toHaveAttribute('data-service-numeral', '04');
-      await expect(appDevTile).toHaveAttribute('data-service-numeral', '02');
 
       const modBox = await modTile.boundingBox();
       const appDevBox = await appDevTile.boundingBox();

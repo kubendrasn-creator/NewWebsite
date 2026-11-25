@@ -1,6 +1,6 @@
 ---
 // src/components/EngagementFitSection.astro
-// Engagement Plans (Time & Material, Fixed Price) + Interactive Fit Finder
+// Clean Engagement Models section (Time & Material, Fixed Price) from siteContent.whyApt.
 import { siteContent } from '../content/site';
 import { url } from '../utils/url';
 
@@ -13,7 +13,7 @@ const models = flexibility.models || [];
   class="py-20 sm:py-28 bg-[#eef7fd]/40 border-b border-[#d4e8f7]"
   aria-labelledby="engagement-heading"
 >
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
     <div class="max-w-3xl space-y-3">
       <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#0070a8] text-xs font-bold uppercase tracking-wider border border-[#d4e8f7]">
         <span>{flexibility.title}</span>
@@ -26,53 +26,27 @@ const models = flexibility.models || [];
       </p>
     </div>
 
-    <!-- Fit Finder Controls -->
-    <div class="p-6 rounded-2xl bg-white border border-[#d4e8f7] shadow-sm space-y-4">
-      <p class="text-xs font-black uppercase tracking-widest text-[#0070a8]">
-        Fit Finder
-      </p>
-      <div class="flex flex-wrap gap-3" role="group" aria-label="Select engagement preference">
-        <button
-          type="button"
-          class="fit-finder-btn px-4 py-2.5 rounded-xl text-sm font-bold bg-[#0070a8] text-white border border-[#0070a8] transition-colors"
-          data-fit-target="time-and-material"
-          aria-pressed="true"
-        >
-          Evolving Scope &amp; Blended Talent
-        </button>
-        <button
-          type="button"
-          class="fit-finder-btn px-4 py-2.5 rounded-xl text-sm font-bold bg-[#eef7fd] text-[#003074] border border-[#d4e8f7] hover:border-[#0088cc] transition-colors"
-          data-fit-target="fixed-price"
-          aria-pressed="false"
-        >
-          Clear Requirements &amp; Milestones
-        </button>
-      </div>
-    </div>
-
     <!-- Engagement Plan Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {models.map((model, idx) => (
+      {models.map((model) => (
         <article
           id={`plan-${model.id}`}
-          data-plan-id={model.id}
-          class={`engagement-plan-card p-8 rounded-3xl bg-white border-2 transition-all space-y-4 ${
-            idx === 0 ? 'border-[#0088cc] shadow-md' : 'border-[#d4e8f7] shadow-sm'
-          }`}
+          class="p-8 rounded-3xl bg-white border border-[#d4e8f7] hover:border-[#0088cc] shadow-sm transition-colors flex flex-col justify-between space-y-5"
         >
-          <div class="flex items-center justify-between">
+          <div class="space-y-3">
             <h3 class="text-2xl font-black text-[#003074]">{model.name}</h3>
-            <span class="plan-badge px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#eef7fd] text-[#0070a8] border border-[#d4e8f7]">
-              0{idx + 1}
-            </span>
+            <p class="text-sm font-bold text-[#0070a8]">
+              {model.shortDescription}
+            </p>
+            <p class="text-sm sm:text-base text-[#003074]/85 leading-relaxed">
+              {model.fullDescription}
+            </p>
           </div>
-          <p class="text-sm sm:text-base text-[#003074]/85 leading-relaxed">
-            {model.fullDescription}
-          </p>
-          <div class="pt-2">
+
+          <div class="pt-4 border-t border-[#eef7fd]">
             <a
               href={url('/contact')}
+              data-astro-prefetch="hover"
               class="inline-flex items-center gap-2 text-sm font-bold text-[#0070a8] hover:text-[#003074]"
             >
               <span>Contact Us</span>
@@ -84,43 +58,3 @@ const models = flexibility.models || [];
     </div>
   </div>
 </section>
-
-<script>
-  function initFitFinder() {
-    const btns = document.querySelectorAll<HTMLButtonElement>('.fit-finder-btn');
-    const cards = document.querySelectorAll<HTMLElement>('.engagement-plan-card');
-    if (!btns.length || !cards.length) return;
-
-    btns.forEach((btn) => {
-      if (btn.dataset.bound === 'true') return;
-      btn.dataset.bound = 'true';
-
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.fitTarget;
-        btns.forEach((b) => {
-          const active = b === btn;
-          b.setAttribute('aria-pressed', active ? 'true' : 'false');
-          b.classList.toggle('bg-[#0070a8]', active);
-          b.classList.toggle('text-white', active);
-          b.classList.toggle('border-[#0070a8]', active);
-          b.classList.toggle('bg-[#eef7fd]', !active);
-          b.classList.toggle('text-[#003074]', !active);
-          b.classList.toggle('border-[#d4e8f7]', !active);
-        });
-
-        cards.forEach((card) => {
-          const match = card.dataset.planId === target;
-          card.classList.toggle('border-[#0088cc]', match);
-          card.classList.toggle('shadow-md', match);
-          card.classList.toggle('border-[#d4e8f7]', !match);
-          card.classList.toggle('shadow-sm', !match);
-        });
-      });
-    });
-  }
-
-  document.addEventListener('astro:page-load', initFitFinder);
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initFitFinder();
-  }
-</script>
