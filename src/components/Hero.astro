@@ -1,109 +1,155 @@
 ---
 // src/components/Hero.astro
-// WebGL aurora mesh canvas + CSS animated fallback + kinetic per-word masked reveal
-// + Signature HeroSwoosh graphic + clamp(3.5rem, 8.5vw, 8.5rem) typography.
+// Light-mode Hero with Scene A (8s pure SVG loop from scene-engine) beside subhead/CTAs
+// + kinetic per-word masked reveal headline.
 import { siteContent } from '../content/site';
-import HeroSwoosh from './illustrations/HeroSwoosh.astro';
+import { renderSceneA } from '../motion/scene-engine';
 import { url } from '../utils/url';
 
 const { hero } = siteContent;
+const initialSceneA = renderSceneA(4.0).svg;
 ---
 
-<section id="top" class="relative min-h-[94vh] flex flex-col items-center justify-start pt-52 sm:pt-60 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden" style="padding-top: max(210px, calc(var(--header-h, 120px) + 6rem));">
-  
-  <!-- Fallback CSS Animated Mesh Gradient (@property driven) -->
-  <div class="absolute inset-0 bg-gradient-to-br from-[#ffffff] via-[#eef7fd] to-[#f5fafe] -z-20 pointer-events-none" />
+<section
+  id="top"
+  class="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-[#ffffff] via-[#eef7fd] to-[#f5fafe]"
+  style="padding-top: max(140px, calc(var(--header-h, 80px) + 3.5rem));"
+>
+  <div class="max-w-7xl mx-auto w-full relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
-  <!-- Lazy-loaded WebGL Shader Canvas (DPR capped at 1.5, 0.75x scaled, paused when offscreen) -->
-  <canvas
-    id="hero-webgl-canvas"
-    class="absolute inset-0 w-full h-full -z-10 pointer-events-none transition-opacity duration-700 opacity-0"
-    aria-hidden="true"
-  />
+      <!-- Left Column: Badge, Headline, Subhead, CTAs (7 cols) -->
+      <div class="lg:col-span-7 text-center lg:text-left space-y-7">
 
-  <!-- Signature Traced Forward-Slanted Swoosh Vector in Background -->
-  <div class="absolute right-[-10%] sm:right-[2%] top-[10%] w-[80vw] sm:w-[48vw] max-w-[620px] aspect-square -z-10 pointer-events-none">
-    <HeroSwoosh />
-  </div>
+        <!-- Top Innovation Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#d4e8f7] text-[#0070a8] text-xs font-bold uppercase tracking-wider shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-[#0088cc]" />
+          <span>{hero.badge}</span>
+        </div>
 
-  <div class="max-w-5xl mx-auto text-center relative z-10 space-y-8">
-    
-    <!-- Top Innovation Badge -->
-    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#eef7fd] border border-[#d4e8f7] text-[#0070a8] text-xs font-bold uppercase tracking-wider shadow-sm">
-      <span class="w-2 h-2 rounded-full bg-[#0088cc] animate-pulse" />
-      <span>{hero.badge}</span>
-    </div>
+        <!-- Kinetic Per-Word Masked Reveal Headline -->
+        <h1 class="hero-kinetic-headline hero-headline text-[#003074] tracking-tight leading-[0.94] text-balance">
+          <span class="inline-block overflow-hidden py-1">
+            <span class="word-inner inline-block">No</span>
+          </span>{' '}
+          <span class="inline-block overflow-hidden py-1">
+            <span class="word-inner inline-block">two</span>
+          </span>{' '}
+          <span class="inline-block overflow-hidden py-1">
+            <span class="word-inner inline-block">businesses</span>
+          </span>{' '}
+          <span class="inline-block overflow-hidden py-1">
+            <span class="word-inner inline-block italic text-[#0088cc]">are alike.</span>
+          </span>
+        </h1>
 
-    <!-- Kinetic Per-Word Masked Reveal Headline -->
-    <h1 class="hero-kinetic-headline hero-headline text-[#003074] tracking-tight leading-[0.94] text-balance">
-      <span class="inline-block overflow-hidden py-1">
-        <span class="word-inner inline-block">No</span>
-      </span>{' '}
-      <span class="inline-block overflow-hidden py-1">
-        <span class="word-inner inline-block">two</span>
-      </span>{' '}
-      <span class="inline-block overflow-hidden py-1">
-        <span class="word-inner inline-block">businesses</span>
-      </span>{' '}
-      <span class="inline-block overflow-hidden py-1">
-        <span class="word-inner inline-block italic text-[#0088cc]">are alike.</span>
-      </span>
-    </h1>
+        <!-- Subhead (Strict facts from CONTENT.md, sits beside Scene A stage) -->
+        <p class="max-w-2xl mx-auto lg:mx-0 text-lg sm:text-xl text-[#003074]/90 leading-relaxed font-normal text-pretty">
+          {hero.subhead}
+        </p>
 
-    <!-- Subhead (Strict facts from CONTENT.md) -->
-    <p class="max-w-3xl mx-auto text-lg sm:text-xl text-[#003074]/90 leading-relaxed font-normal text-pretty">
-      {hero.subhead}
-    </p>
+        <!-- CTAs: Two Magnetic Buttons linking to real routes -->
+        <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-5">
+          <a
+            href={url(hero.primaryHref)}
+            data-astro-prefetch="hover"
+            class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-white bg-[#0070a8] hover:bg-[#003074] shadow-lg shadow-blue-900/15 transition-all duration-200"
+          >
+            <span>{hero.primaryCTA}</span>
+            <span class="ml-2" aria-hidden="true">→</span>
+          </a>
 
-    <!-- CTAs: Two Magnetic Buttons linking to real routes -->
-    <div class="pt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-      <a
-        href={url(hero.primaryHref)}
-        data-astro-prefetch="hover"
-        class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-white bg-[#0070a8] hover:bg-[#003074] shadow-lg shadow-blue-900/15 transition-all duration-200"
-      >
-        <span>{hero.primaryCTA}</span>
-        <span class="ml-2" aria-hidden="true">→</span>
-      </a>
+          <a
+            href={url(hero.secondaryHref)}
+            data-astro-prefetch="hover"
+            class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-[#003074] bg-white border-2 border-[#d4e8f7] hover:border-[#0088cc] hover:text-[#0088cc] hover:bg-[#eef7fd]/50 transition-all duration-200"
+          >
+            <span>{hero.secondaryCTA}</span>
+          </a>
+        </div>
+      </div>
 
-      <a
-        href={url(hero.secondaryHref)}
-        data-astro-prefetch="hover"
-        class="magnetic-btn inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-[#003074] bg-white border-2 border-[#d4e8f7] hover:border-[#0088cc] hover:text-[#0088cc] hover:bg-[#eef7fd]/50 transition-all duration-200"
-      >
-        <span>{hero.secondaryCTA}</span>
-      </a>
+      <!-- Right Column: Scene A Pure 8s Hero Loop Stage (5 cols) -->
+      <div class="lg:col-span-5">
+        <div class="bg-white border border-[#d4e8f7] rounded-3xl p-4 sm:p-6 shadow-xl shadow-blue-900/5">
+          <div
+            id="hero-scene-a-stage"
+            class="w-full aspect-[4/3] flex items-center justify-center overflow-hidden rounded-2xl bg-white"
+            aria-hidden="true"
+            set:html={initialSceneA}
+          />
+        </div>
+      </div>
+
     </div>
 
     <!-- Scroll Cue -->
-    <div class="pt-10 flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+    <div class="pt-12 flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
       <span class="text-xs font-bold uppercase tracking-widest text-[#003074]">
         {hero.scrollCue}
       </span>
       <div class="w-5 h-9 rounded-full border-2 border-[#003074]/40 flex items-start justify-center p-1">
-        <div class="w-1.5 h-2 rounded-full bg-[#0088cc] animate-bounce" />
+        <div class="w-1.5 h-2 rounded-full bg-[#0088cc]" />
       </div>
     </div>
-
   </div>
 </section>
 
 <script>
-  // WebGL shader initialization for desktop hero
-  function setupShader() {
-    if (typeof window !== 'undefined' && window.innerWidth >= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const canvas = document.getElementById('hero-webgl-canvas') as HTMLCanvasElement;
-      if (!canvas) return;
+  import { renderSceneA } from '../motion/scene-engine';
 
-      import('../scripts/hero-webgl').then(({ initHeroShader }) => {
-        const cleanup = initHeroShader(canvas);
-        if (cleanup) {
-          canvas.classList.remove('opacity-0');
-          canvas.classList.add('opacity-100');
-        }
-      }).catch(() => {});
+  let cleanupSceneA: (() => void) | null = null;
+
+  function initHeroSceneA() {
+    if (cleanupSceneA) {
+      cleanupSceneA();
+      cleanupSceneA = null;
     }
+
+    const stage = document.getElementById('hero-scene-a-stage');
+    if (!stage) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isPaused = () =>
+      prefersReduced || document.documentElement.getAttribute('data-motion') === 'paused';
+
+    if (isPaused()) {
+      stage.innerHTML = renderSceneA(4.0).svg;
+      return;
+    }
+
+    let rafId: number | null = null;
+    let startTime = performance.now();
+    let lastFrameTime = 0;
+
+    function tick(now: number) {
+      if (isPaused()) {
+        stage!.innerHTML = renderSceneA(4.0).svg;
+        rafId = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      // Cap DOM SVG updates at ~30fps for crisp smoothness & low CPU
+      if (now - lastFrameTime >= 33) {
+        lastFrameTime = now;
+        const elapsedSec = ((now - startTime) / 1000) % 8.0;
+        stage!.innerHTML = renderSceneA(elapsedSec).svg;
+      }
+      rafId = window.requestAnimationFrame(tick);
+    }
+
+    rafId = window.requestAnimationFrame(tick);
+
+    cleanupSceneA = () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
   }
 
-  document.addEventListener('astro:page-load', setupShader);
+  document.addEventListener('astro:page-load', initHeroSceneA);
+  document.addEventListener('astro:before-swap', () => {
+    if (cleanupSceneA) {
+      cleanupSceneA();
+      cleanupSceneA = null;
+    }
+  });
 </script>

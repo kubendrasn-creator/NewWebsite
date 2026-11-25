@@ -30,7 +30,12 @@ export default defineConfig({
     '/Reliability-and-Scalability.html': '/why-apt/',
     '/Efficiency.html': '/why-apt/',
   },
-  integrations: [preact(), sitemap()],
+  integrations: [
+    preact(),
+    sitemap({
+      filter: (page) => !page.includes('/motion-lab'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

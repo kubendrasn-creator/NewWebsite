@@ -3,7 +3,6 @@
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import CommandPalette from '../components/islands/CommandPalette';
 import '../styles/global.css';
 import { url, asset, BASE_URL } from '../utils/url';
 
@@ -157,9 +156,6 @@ const organizationSchema = {
     <!-- Polite Live Region for Route Change Announcements & Copy Feedback -->
     <div id="a11y-route-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
     <div id="a11y-toast" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
-    <!-- Command Palette (Ctrl/Cmd+K or search button) -->
-    <CommandPalette client:idle />
 
     <!-- Persistent Header across transitions -->
     <Header />
